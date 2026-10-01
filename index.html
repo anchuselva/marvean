@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MARVEAN // AI Model Optimization & Autonomous Decision Engine</title>
-  <meta name="description" content="Next-generation 16-bit arcade styled AI Model Optimization and Autonomous Decision Engine. Quantize weights, compress KV-caches, fuse kernels, and route multi-agent decisions at sub-10ms latency.">
+  <title>MARVEAN // AI Market & Competitive Intelligence Platform (marvean.net)</title>
+  <meta name="description" content="Centralized AI Market & Competitive Intelligence Platform for enterprise and commerce. Unified competitor profiles, real-time market signals, industry trend tracking, and evidence-governed strategic research.">
   
   <!-- Preconnect Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23ff3355%22/><text y=%2270%22 x=%2224%22 font-family=%22monospace%22 font-size=%2260%22 fill=%22white%22 font-weight=%22bold%22>M</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%2300e5a3%22/><text y=%2270%22 x=%2220%22 font-family=%22sans-serif%22 font-size=%2262%22 fill=%22%23070b16%22 font-weight=%22900%22>M</text></svg>">
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
@@ -27,116 +27,147 @@
       <a href="#" class="brand-logo" id="logoLink">
         <div class="logo-badge">
           <span>MARVEAN</span>
+          <span class="logo-domain">.NET</span>
         </div>
       </a>
 
       <!-- Navigation Links -->
       <ul class="nav-links" id="navLinks">
-        <li><a href="#hero" class="nav-btn active">TERMINAL</a></li>
-        <li><a href="#architecture" class="nav-btn">ARCHITECTURE</a></li>
-        <li><a href="#simulator" class="nav-btn">SIMULATOR</a></li>
-        <li><a href="#sdk" class="nav-btn">INTEGRATION</a></li>
-        <li><a href="#pricing" class="nav-btn">PRICING</a></li>
+        <li><a href="#hero" class="nav-btn active">OVERVIEW</a></li>
+        <li><a href="#registry" class="nav-btn">REGISTRY</a></li>
+        <li><a href="#intelligence" class="nav-btn">MARKET INTEL</a></li>
+        <li><a href="#signals" class="nav-btn">SIGNALS</a></li>
+        <li><a href="#governance" class="nav-btn">GOVERNANCE</a></li>
+        <li><a href="#workspace" class="nav-btn">WORKSPACE APP</a></li>
+        <li><a href="#pipeline" class="nav-btn">PIPELINE</a></li>
+        <li><a href="#pricing" class="nav-btn">PLANS</a></li>
         <li><a href="#faq" class="nav-btn">FAQ</a></li>
-        <li><a href="#contact" class="nav-btn">UPLINK</a></li>
       </ul>
 
       <!-- Nav Utilities & CTAs -->
       <div class="nav-utilities">
-        <div class="status-pill" title="Telemetry Status">
+        <div class="status-pill" title="Intelligence Ingestion Status">
           <span class="status-led"></span>
-          <span>SYS: READY // <span id="livePingTicker">8ms</span></span>
+          <span>PIPELINE: ACTIVE // <span id="livePingTicker">12ms</span></span>
         </div>
 
-        <!-- 8-Bit Audio Synthesizer Toggle -->
-        <button class="util-btn" id="audioToggleBtn" title="Toggle 8-bit Audio Effects">🔇 AUDIO: OFF</button>
+        <button class="nav-icon-btn" id="crtToggleBtn" title="Toggle Terminal Scanline Shader">
+          <span>CRT: ON</span>
+        </button>
 
-        <!-- CRT Scanlines Toggle -->
-        <button class="util-btn" id="crtToggleBtn" title="Toggle CRT Scanlines">📺 CRT: OFF</button>
+        <button class="nav-icon-btn" id="audioToggleBtn" title="Toggle Synthesizer Feedback Sound">
+          <span>🔇 AUDIO: OFF</span>
+        </button>
 
-        <a href="#simulator" class="launch-btn" id="launchConsoleBtn">RUN BENCHMARK</a>
-
-        <!-- Mobile Menu Hamburger -->
-        <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Menu">☰</button>
+        <a href="#workspace" class="btn-arcade btn-arcade-teal nav-cta" id="topAppBtn">
+          <span>▶ LAUNCH APP</span>
+        </a>
       </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-header">
+      <div class="logo-badge">
+        <span>MARVEAN</span>
+        <span class="logo-domain">.NET</span>
+      </div>
+      <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="#hero" class="mobile-nav-link">OVERVIEW</a></li>
+      <li><a href="#registry" class="mobile-nav-link">COMPETITOR REGISTRY</a></li>
+      <li><a href="#intelligence" class="mobile-nav-link">MARKET INTELLIGENCE</a></li>
+      <li><a href="#signals" class="mobile-nav-link">COMMERCIAL SIGNALS</a></li>
+      <li><a href="#governance" class="mobile-nav-link">RESEARCH GOVERNANCE</a></li>
+      <li><a href="#workspace" class="mobile-nav-link">INTERACTIVE WORKSPACE</a></li>
+      <li><a href="#pipeline" class="mobile-nav-link">TECHNICAL PIPELINE</a></li>
+      <li><a href="#pricing" class="mobile-nav-link">COMMERCIAL PLANS</a></li>
+      <li><a href="#faq" class="mobile-nav-link">FAQ &amp; BRIEFINGS</a></li>
+      <li><a href="#contact" class="mobile-nav-link">REQUEST BRIEFING</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content Wrap -->
   <main>
+
     <!-- ==========================================================================
-         HERO SECTION - Midnight Cyber Space & Arcade Console
+         HERO SECTION: AI MARKET & COMPETITIVE INTELLIGENCE COMMAND CENTER
          ========================================================================== -->
     <section class="hero-section" id="hero">
-      <!-- Retro Stars Background -->
-      <div class="hero-stars"></div>
-      
-      <!-- Crescent Moon (Signature element from image) -->
-      <div class="crescent-moon"></div>
-
-      <!-- Isometric Perspective Grid Floor -->
-      <div class="hero-grid-perspective"></div>
-
-      <div class="container hero-container">
-        <div class="hero-split-grid">
-          
-          <!-- Left Column: Copy, Directives & Arcade Actions -->
+      <div class="container">
+        
+        <div class="hero-grid">
+          <!-- Left Column: Executive Positioning Copy -->
           <div class="hero-copy-col">
-            <!-- System Directive Badge -->
-            <div class="hero-badge-pill">
+            <div class="hero-chip-badge">
               <span class="badge-icon">⚡</span>
-              <span>KERNEL OPTIMIZATION PROTOCOL v4.2 INITIALIZED</span>
+              <span>AI MARKET &amp; COMPETITIVE INTELLIGENCE // MARVEAN.NET</span>
             </div>
 
-            <!-- Hero Headline -->
-            <h1 class="hero-title">
-              MAXIMIZE <span class="highlight-teal">INFERENCE</span>.<br>
-              MINIMIZE <span class="highlight-red">LATENCY</span>.<br>
-              ZERO SACRIFICE.
+            <h1 class="hero-headline">
+              CENTRALIZED MARKET INTEL.<br>
+              <span class="text-teal">REAL-TIME</span> COMPETITIVE SIGNALS.
             </h1>
 
-            <!-- Subheading -->
-            <p class="hero-description">
-              The autonomous AI model compression &amp; real-time decision routing engine. 
-              Quantize 70B+ weights to INT4/FP8, prune sparse KV-caches, and arbitrate 
-              multi-agent workflows with sub-10ms determinism.
+            <p class="hero-subhead">
+              Eliminate distributed research and blind spots. Marvean unifies competitor profiling, market observation tracking, commercial event detection, and evidence-governed strategic insights into a single authoritative enterprise workspace.
             </p>
 
-            <!-- Arcade Action Buttons -->
-            <div class="hero-actions">
-              <a href="#simulator" class="btn-arcade btn-arcade-red" id="ctaDeployBtn">
-                <span>▶ INITIALIZE ENGINE</span>
+            <!-- Real-time Key Metric Badges -->
+            <div class="hero-metrics-strip">
+              <div class="metric-pill">
+                <span class="metric-num text-teal">48</span>
+                <span class="metric-label">Tracked Competitors</span>
+              </div>
+              <div class="metric-pill">
+                <span class="metric-num text-yellow">1,280+</span>
+                <span class="metric-label">Signals / Month</span>
+              </div>
+              <div class="metric-pill">
+                <span class="metric-num text-green">99.2%</span>
+                <span class="metric-label">Audited Evidence</span>
+              </div>
+              <div class="metric-pill">
+                <span class="metric-num text-cyan">&lt; 15m</span>
+                <span class="metric-label">Shift Latency</span>
+              </div>
+            </div>
+
+            <!-- Primary CTAs -->
+            <div class="hero-cta-group">
+              <a href="#workspace" class="btn-arcade btn-arcade-teal" id="heroLaunchAppBtn">
+                <span>⚡ EXPLORE WORKSPACE APP</span>
               </a>
-              <a href="#architecture" class="btn-arcade btn-arcade-teal" id="ctaArchitectureBtn">
-                <span>⚡ EXPLORE MODULES</span>
-              </a>
-              <a href="#pricing" class="btn-arcade btn-arcade-outline" id="ctaPricingBtn">
-                <span>💾 VIEW TIERS</span>
+              <a href="#contact" class="btn-arcade btn-arcade-outline" id="heroBriefingBtn">
+                <span>📋 REQUEST STRATEGY BRIEFING</span>
               </a>
             </div>
 
-            <!-- Real-time Quick Metric Badges Strip -->
-            <div class="hero-telemetry-strip">
-              <div class="telemetry-item">
-                <span class="telemetry-bullet bullet-teal"></span>
-                <span class="telemetry-label">THROUGHPUT:</span>
-                <span class="telemetry-value text-teal">284 TOK/S</span>
+            <!-- Executive Value Bullets -->
+            <div class="hero-telemetry-panel">
+              <div class="telemetry-row">
+                <span class="telemetry-label">// TARGET INDUSTRY:</span>
+                <span class="telemetry-value text-teal">Enterprise &amp; Global Commerce</span>
               </div>
-              <span class="telemetry-sep">//</span>
-              <div class="telemetry-item">
-                <span class="telemetry-bullet bullet-red"></span>
-                <span class="telemetry-label">VRAM SAVINGS:</span>
-                <span class="telemetry-value text-red">-72.4%</span>
+              <div class="telemetry-row">
+                <span class="telemetry-label">// ARCHITECTURE:</span>
+                <span class="telemetry-value">Continuous Ingestion + AI NLP Verification</span>
               </div>
-              <span class="telemetry-sep">//</span>
-              <div class="telemetry-item">
-                <span class="telemetry-bullet bullet-yellow"></span>
-                <span class="telemetry-label">LATENCY:</span>
-                <span class="telemetry-value text-yellow">18.4ms</span>
+              <div class="telemetry-row">
+                <span class="telemetry-label">// DATA GOVERNANCE:</span>
+                <span class="telemetry-value text-yellow">SEC Filings, Patent Registries, Direct Pricing Audits</span>
               </div>
             </div>
           </div>
 
-          <!-- Right Column: Retro Arcade CRT Console Chassis -->
+          <!-- Right Column: Command Center Terminal Chassis -->
           <div class="hero-graphic-col">
             <div class="hero-stage-console">
               <div class="console-bezel-header">
@@ -146,580 +177,835 @@
                   <span class="dot dot-green"></span>
                 </div>
                 <div class="console-title-pill">
-                  MAINFRAME MARVEAN // AUTONOMOUS AI v4.2
+                  COMMAND CENTER // MARVEAN MARKET INTELLIGENCE v4.2
                 </div>
                 <div class="console-diodes">
-                  <span>ACTIVE: SXM5-H100</span>
+                  <span>FEED: GLOBAL COMMERCE</span>
                   <span class="status-led"></span>
                 </div>
               </div>
 
               <div class="hero-art-wrapper">
-                <!-- Autonomous AI Neural Supercore Graphic -->
-                <img src="assets/hero-mainframe.jpg" alt="Autonomous AI Neural Core &amp; Supercomputing Optimization Engine on Isometric Grid" class="hero-art-img">
+                <!-- AI Market & Competitive Intelligence Graphic -->
+                <img src="assets/hero-market-intel.jpg" alt="Marvean Market &amp; Competitive Intelligence Command Center Dashboard" class="hero-art-img" id="heroArtImg">
 
                 <!-- Real-time HUD Telemetry Overlays -->
                 <div class="hero-hud-telemetry">
                   <div class="hud-chip">
-                    <span>THROUGHPUT:</span>
-                    <span class="hud-val">284 TOK/S</span>
-                  </div>
-                  <div class="hud-chip chip-red">
-                    <span>VRAM COMPRESSION:</span>
-                    <span class="hud-val">-72.4%</span>
-                  </div>
-                  <div class="hud-chip chip-yellow">
-                    <span>AVG LATENCY:</span>
-                    <span class="hud-val">18.4ms</span>
+                    <span>SIGNAL INGESTION:</span>
+                    <strong class="text-teal" id="hudThroughput">184 SIGNALS / HR</strong>
                   </div>
                   <div class="hud-chip">
-                    <span>ROUTING ACCURACY:</span>
-                    <span class="hud-val">99.94%</span>
+                    <span>QUADRANT ACCURACY:</span>
+                    <strong class="text-yellow" id="hudConfidence">99.4% VERIFIED</strong>
                   </div>
                 </div>
+
+                <!-- Floating Interactive Alert Tag -->
+                <div class="floating-alert-card">
+                  <div class="alert-header">
+                    <span class="status-led"></span>
+                    <span class="alert-type">CRITICAL PRICING ALERT</span>
+                  </div>
+                  <div class="alert-body">
+                    <strong>Competitor Nexus</strong> dropped Enterprise Tier by 15% in APAC
+                  </div>
+                  <div class="alert-meta">Verified 4 mins ago via SEC Edgar &amp; Web Scrape</div>
+                </div>
               </div>
+
+              <!-- Console Bottom Telemetry Bar -->
+              <div class="console-footer-bar">
+                <div class="console-tab-item active">
+                  <span class="tab-dot"></span> <span>COMPETITIVE RADAR</span>
+                </div>
+                <div class="console-tab-item">
+                  <span class="tab-dot"></span> <span>PRICE TRACKING</span>
+                </div>
+                <div class="console-tab-item">
+                  <span class="tab-dot"></span> <span>PATENT EXPEDITION</span>
+                </div>
+              </div>
+
             </div>
           </div>
-
         </div>
+
       </div>
     </section>
 
-    <!-- ==========================================================================
-         SAWTOOTH / SCALLOPED WAVE DIVIDER (Exact match from reference image)
-         ========================================================================== -->
+    <!-- Sawtooth Divider -->
     <div class="sawtooth-divider" aria-hidden="true"></div>
 
     <!-- ==========================================================================
-         PARCHMENT CONTENT CANVAS (Warm Ivory / Retro Paper Section)
+         LIGHT / PARCHMENT BODY SECTION: CORE CHALLENGES & ARCHITECTURE
          ========================================================================== -->
-    <section class="parchment-body" id="architecture">
+    <section class="parchment-body" id="overview">
       <div class="container">
-        
-        <!-- Section Header -->
-        <div class="section-meta-label">// SYSTEM ARCHITECTURE</div>
-        <h2 class="section-retro-title">THE COMPRESSION & DECISION MATRIX</h2>
-        <p class="section-retro-sub">
-          A four-tier acceleration pipeline designed for large foundation models, vision-language transformers, and autonomous decision systems running on constrained hardware.
-        </p>
-
-        <!-- 4-Module Retro CRT Cards Grid -->
-        <div class="modules-grid">
-          
-          <!-- Module 1: Weight Quantization -->
-          <article class="retro-module-card">
-            <div class="card-chassis-top">
-              <span class="card-sys-id">MODULE // 01</span>
-              <span class="card-badge">LOSSLESS</span>
-            </div>
-            <div class="card-screen-bezel">
-              <div class="card-crt-frame">
-                <img src="assets/quantization-monitor.jpg" alt="Neural Net Weight Quantization and FP32 to INT4 Tensor Compression Matrix" class="card-screen-img">
-                <div class="card-crt-overlay">STATUS: OPTIMAL</div>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">FP8 & INT4 DYNAMIC QUANTIZATION</h3>
-              <p class="card-desc">
-                Converts dense 32-bit float matrix tensors into mixed-precision 4-bit and 8-bit integer kernels. Maintains 99.8% GSM8K and MMLU benchmark fidelity while slashing memory overhead by 73%.
-              </p>
-              <ul class="card-specs-list">
-                <li class="spec-chip spec-red">-73% VRAM FOOTPRINT</li>
-                <li class="spec-chip">AWQ & GPTQ TUNED</li>
-                <li class="spec-chip">ZERO DRIFT</li>
-              </ul>
-              <div class="card-footer-action">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #535c75;">PERPLEXITY: +0.02</span>
-                <a href="#simulator" class="card-btn">BENCHMARK</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Module 2: Autonomous Decision Engine -->
-          <article class="retro-module-card">
-            <div class="card-chassis-top">
-              <span class="card-sys-id">MODULE // 02</span>
-              <span class="card-badge">ARBITRATION</span>
-            </div>
-            <div class="card-screen-bezel">
-              <div class="card-crt-frame">
-                <img src="assets/decision-matrix.jpg" alt="Autonomous AI Decision Engine and Multi-Agent Arbitration Network Graph" class="card-screen-img">
-                <div class="card-crt-overlay">ARBITRATOR: ACTIVE</div>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">AUTONOMOUS DECISION ENGINE</h3>
-              <p class="card-desc">
-                Hierarchical multi-branch arbitration matrix that routes user queries across speculative small models, rules engines, or frontier LLMs based on real-time confidence scores and compute cost budgets.
-              </p>
-              <ul class="card-specs-list">
-                <li class="spec-chip spec-red">0.4ms DISPATCH</li>
-                <li class="spec-chip">MULTI-PATH ROUTING</li>
-                <li class="spec-chip">GUARDED LOGIC</li>
-              </ul>
-              <div class="card-footer-action">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #535c75;">COST CUT: 68%</span>
-                <a href="#simulator" class="card-btn">SIMULATE FLOW</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Module 3: Hardware-Aware Kernel Fusion -->
-          <article class="retro-module-card">
-            <div class="card-chassis-top">
-              <span class="card-sys-id">MODULE // 03</span>
-              <span class="card-badge">TURBO</span>
-            </div>
-            <div class="card-screen-bezel">
-              <div class="card-crt-frame">
-                <img src="assets/kernel-speed.jpg" alt="NVIDIA H200 Tensor Core GPU Architecture and FlashAttention-3 Kernel Fusion" class="card-screen-img">
-                <div class="card-crt-overlay">SPEEDUP: 3.8X</div>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">HARDWARE-AWARE KERNEL FUSION</h3>
-              <p class="card-desc">
-                Fuses LayerNorm, GeLU, and FlashAttention operations into unified GPU micro-kernels. Eliminates memory bandwidth roundtrips and unlocks maximum tensor core utilization on NVIDIA, Apple Silicon, and WebGPU.
-              </p>
-              <ul class="card-specs-list">
-                <li class="spec-chip spec-red">3.8x INFERENCE SPEED</li>
-                <li class="spec-chip">FLASHINFER-3</li>
-                <li class="spec-chip">TRITON COMPILED</li>
-              </ul>
-              <div class="card-footer-action">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #535c75;">BANDWIDTH: 94% EFF</span>
-                <a href="#simulator" class="card-btn">VIEW STATS</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Module 4: KV-Cache Compaction -->
-          <article class="retro-module-card">
-            <div class="card-chassis-top">
-              <span class="card-sys-id">MODULE // 04</span>
-              <span class="card-badge">DENSITY</span>
-            </div>
-            <div class="card-screen-bezel">
-              <div class="card-crt-frame">
-                <img src="assets/kv-cache.jpg" alt="3D Transformer KV-Cache Memory Compaction and Sparse Attention Matrix Map" class="card-screen-img">
-                <div class="card-crt-overlay">COMPACT: 1:3 RATIO</div>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">KV-CACHE ATTENTION COMPACTION</h3>
-              <p class="card-desc">
-                Dynamically purges stale key-value tokens in multi-turn dialogues while keeping critical semantic anchor points intact. Enables 128k context windows to run comfortably within edge device RAM constraints.
-              </p>
-              <ul class="card-specs-list">
-                <li class="spec-chip spec-red">4x CONTEXT DENSITY</li>
-                <li class="spec-chip">DYNAMIC SPARSITY</li>
-                <li class="spec-chip">ZERO LEAKAGE</li>
-              </ul>
-              <div class="card-footer-action">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #535c75;">CONTEXT: 128K TOKENS</span>
-                <a href="#simulator" class="card-btn">ANALYZE CACHE</a>
-              </div>
-            </div>
-          </article>
-
-        </div>
 
         <!-- ==========================================================================
-             INTERACTIVE SIMULATOR CONSOLE (Playable Benchmarking Module)
+             SECTION: THE CORE BUSINESS PROBLEM & SOLUTION
              ========================================================================== -->
-        <div class="simulator-panel" id="simulator">
-          <div class="sim-header">
-            <div class="sim-title">
-              <span>🕹️</span>
-              <span>LIVE MODEL OPTIMIZER & LATENCY CALCULATOR</span>
-            </div>
-            <div class="status-pill">
-              <span class="status-led"></span>
-              <span>SIMULATION ENGINE: ONLINE</span>
-            </div>
-          </div>
-
-          <div class="sim-layout">
-            <!-- Controls Form -->
-            <div class="sim-controls">
-              <div class="control-group">
-                <label for="simModelSelect">// TARGET MODEL ARCHITECTURE</label>
-                <select id="simModelSelect" class="retro-select">
-                  <option value="llama-70b">Meta Llama 3 70B (Base Dense)</option>
-                  <option value="mistral-large">Mistral Large 2 (123B Parameters)</option>
-                  <option value="deepseek-v2">DeepSeek V2.5 MoE (236B Total)</option>
-                  <option value="qwen-72b">Alibaba Qwen 2.5 72B (General)</option>
-                  <option value="custom-vit">Custom Vision-LLM Transformer</option>
-                </select>
-              </div>
-
-              <div class="control-group">
-                <label for="simHardwareSelect">// DEPLOYMENT HARDWARE TARGET</label>
-                <select id="simHardwareSelect" class="retro-select">
-                  <option value="h100">NVIDIA H100 SXM5 (80GB VRAM)</option>
-                  <option value="l40s">NVIDIA L40S (48GB Ada)</option>
-                  <option value="m3-max">Apple M3 Max (128GB Unified)</option>
-                  <option value="webgpu">Edge WebGPU Browser Client</option>
-                  <option value="inferentia">AWS Inferentia 2 (Neuron Core)</option>
-                </select>
-              </div>
-
-              <div class="control-group">
-                <label>// ACTIVE OPTIMIZATION PASSES</label>
-                <div class="checkbox-cluster">
-                  <label class="retro-checkbox-label">
-                    <input type="checkbox" id="chkQuant" checked>
-                    <span>INT4/FP8 Lossless Quantization</span>
-                  </label>
-                  <label class="retro-checkbox-label">
-                    <input type="checkbox" id="chkFusion" checked>
-                    <span>FlashAttention & Kernel Fusion</span>
-                  </label>
-                  <label class="retro-checkbox-label">
-                    <input type="checkbox" id="chkKVCache" checked>
-                    <span>KV-Cache Sparsity Compaction</span>
-                  </label>
-                  <label class="retro-checkbox-label">
-                    <input type="checkbox" id="chkDecEngine" checked>
-                    <span>Autonomous Speculative Decision Routing</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <!-- Real-time Output Readouts -->
-            <div class="sim-results">
-              <div class="metrics-row">
-                <div class="metric-box">
-                  <div class="metric-name">INFERENCE LATENCY</div>
-                  <div class="metric-value" id="resLatency">18.4 ms</div>
-                  <div class="metric-delta">Target: Sub-20ms</div>
-                </div>
-                <div class="metric-box">
-                  <div class="metric-name">VRAM FOOTPRINT</div>
-                  <div class="metric-value" id="resVram">39 GB</div>
-                  <div class="metric-delta">Fits on single GPU</div>
-                </div>
-                <div class="metric-box">
-                  <div class="metric-name">TOKEN THROUGHPUT</div>
-                  <div class="metric-value" id="resTok">284 tok/s</div>
-                  <div class="metric-delta">+597% Speedup</div>
-                </div>
-                <div class="metric-box">
-                  <div class="metric-name">EST. INFRA COST</div>
-                  <div class="metric-value" id="resCost">$1,180/mo</div>
-                  <div class="metric-delta">Saved: -$3,620/mo</div>
-                </div>
-              </div>
-
-              <!-- Animated Visual Bars -->
-              <div class="progress-bar-container">
-                <div class="bar-meta">
-                  <span>LATENCY COMPRESSION EFFICIENCY</span>
-                  <span id="latencyReductionText">-87% LATENCY CUT</span>
-                </div>
-                <div class="retro-bar-track">
-                  <div class="retro-bar-fill bar-red" id="latencyBarFill" style="width: 87%;"></div>
-                </div>
-              </div>
-
-              <div class="progress-bar-container">
-                <div class="bar-meta">
-                  <span>VRAM DENSITY MULTIPLIER</span>
-                  <span id="vramReductionText">-72% VRAM SAVED</span>
-                </div>
-                <div class="retro-bar-track">
-                  <div class="retro-bar-fill" id="vramBarFill" style="width: 72%;"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ==========================================================================
-             DEVELOPER SDK & SILICON COMPILATION SECTION
-             ========================================================================== -->
-        <section class="sdk-section" id="sdk">
-          <div class="section-meta-label">// DEVELOPER SDK &amp; SILICON LAUNCHPAD</div>
-          <h2 class="section-retro-title">INTEGRATE IN 3 LINES. COMPILE TO ANY SILICON.</h2>
+        <div class="challenge-overview-block">
+          <div class="section-meta-label">// 01 // CORE BUSINESS PROBLEM &amp; OBJECTIVE</div>
+          <h2 class="section-retro-title">WHY TRADITIONAL COMPETITIVE RESEARCH FAILS</h2>
           <p class="section-retro-sub">
-            From single-line Python inference pipelines to bare-metal C++ and Rust Triton kernels. Drop MARVEAN into vLLM, Hugging Face, or deploy as a sovereign air-gapped container.
+            Organizations gather market and competitor information from disconnected sources, leaving executive teams with stale data, slow response times, and zero historical auditability.
           </p>
 
-          <!-- Interactive Code Terminal & Live Simulator Grid -->
-          <div class="sdk-terminal-grid">
-            
-            <!-- Left: Retro Code Editor Frame -->
-            <div class="sdk-editor-chassis">
-              <div class="editor-titlebar">
-                <div class="editor-tabs" id="sdkCodeTabs">
-                  <button class="editor-tab active" data-tab="python">
-                    <span class="tab-icon">🐍</span> PYTHON SDK
-                  </button>
-                  <button class="editor-tab" data-tab="cli">
-                    <span class="tab-icon">⌨</span> BASH CLI
-                  </button>
-                  <button class="editor-tab" data-tab="rust">
-                    <span class="tab-icon">🦀</span> RUST / C++
-                  </button>
-                  <button class="editor-tab" data-tab="docker">
-                    <span class="tab-icon">🐳</span> DOCKER
-                  </button>
-                </div>
-                <div class="editor-actions">
-                  <button class="copy-code-btn" id="copyCodeBtn" title="Copy code to clipboard">
-                    <span class="copy-icon">📋</span> <span id="copyBtnText">COPY CODE</span>
-                  </button>
-                </div>
+          <div class="problem-solution-grid">
+            <!-- Pain 1 -->
+            <div class="problem-card">
+              <div class="problem-icon-header">
+                <span class="problem-badge">PROBLEM 01</span>
+                <span class="problem-tag text-red">DISTRIBUTED DATA</span>
               </div>
+              <h3>Fragmented Competitor Sources</h3>
+              <p>Competitor intelligence is scattered across quarterly earnings calls, dynamic pricing pages, press releases, patent offices, and scattered sales notes with no unifying registry.</p>
+            </div>
 
-              <div class="editor-code-body">
-                <div class="code-line-numbers" id="codeLineNumbers">
-                  <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span>
-                </div>
-                <pre class="code-pre"><code id="sdkCodeDisplay" class="code-content"></code></pre>
+            <!-- Pain 2 -->
+            <div class="problem-card">
+              <div class="problem-icon-header">
+                <span class="problem-badge">PROBLEM 02</span>
+                <span class="problem-tag text-yellow">MANUAL LABOR</span>
               </div>
+              <h3>Repetitive Manual Research</h3>
+              <p>Senior analysts spend up to 60% of their work week manually compiling spreadsheets and bookmarking articles rather than synthesizing actionable strategic advantage.</p>
+            </div>
 
-              <div class="editor-status-footer">
-                <div class="editor-lang-indicator">
-                  <span class="lang-dot"></span> <span id="sdkLangName">PYTHON 3.11+</span>
-                </div>
-                <div class="editor-perf-note">
-                  ⚡ FIRST TOKEN: &lt; 9.8ms // LOSSLESS BENCHMARK
-                </div>
+            <!-- Pain 3 -->
+            <div class="problem-card">
+              <div class="problem-icon-header">
+                <span class="problem-badge">PROBLEM 03</span>
+                <span class="problem-tag text-red">DELAYED SIGNALS</span>
+              </div>
+              <h3>Slow Access to Market Shifts</h3>
+              <p>By the time commercial moves like pricing changes, discounting battles, or stealth product betas are detected, deals have already been lost in the field.</p>
+            </div>
+
+            <!-- Pain 4 -->
+            <div class="problem-card">
+              <div class="problem-icon-header">
+                <span class="problem-badge">PROBLEM 04</span>
+                <span class="problem-tag text-yellow">ZERO AUDIT TRAIL</span>
+              </div>
+              <h3>Lost Historical Context</h3>
+              <p>Teams lack a chronological timeline of competitors' historical pricing changes, abandoned feature pivots, and past executive appointments.</p>
+            </div>
+
+            <!-- Pain 5 -->
+            <div class="problem-card">
+              <div class="problem-icon-header">
+                <span class="problem-badge">PROBLEM 05</span>
+                <span class="problem-tag text-red">UNVERIFIED INTEL</span>
+              </div>
+              <h3>Rumors vs. Audited Evidence</h3>
+              <p>Anecdotal hearsay from field sales leads to flawed counter-strategies. Marvean enforces verified evidence chains with verifiable provenance.</p>
+            </div>
+
+            <!-- Pain 6 -->
+            <div class="problem-card">
+              <div class="problem-icon-header">
+                <span class="problem-badge">PROBLEM 06</span>
+                <span class="problem-tag text-yellow">SILOED TEAMS</span>
+              </div>
+              <h3>Cross-Functional Disconnect</h3>
+              <p>Strategy, Sales Intelligence, Marketing, and Commerce leaders operate on contradictory data. Marvean establishes a single verified source of truth.</p>
+            </div>
+          </div>
+
+          <!-- Value Proposition Statement Strip -->
+          <div class="value-prop-banner">
+            <div class="value-prop-title">// MARVEAN VALUE PROPOSITION</div>
+            <div class="value-prop-items">
+              <div class="val-item">✔ Centralizes Market Intelligence</div>
+              <div class="val-item">✔ Improves Competitor Visibility</div>
+              <div class="val-item">✔ Organizes Research Workflows</div>
+              <div class="val-item">✔ Maintains Historical Intel Records</div>
+              <div class="val-item">✔ Powers Structured Strategic Analysis</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================================================
+             SECTION: THE 3 CORE FUNCTIONAL PILLARS (WITH GRAPHICS)
+             ========================================================================== -->
+        <div class="platform-modules-block">
+          
+          <!-- Pillar 1: Competitor Registry -->
+          <div class="module-card-wide" id="registry">
+            <div class="module-text-side">
+              <div class="module-kicker">// FUNCTIONAL SPECIFICATION 3.1</div>
+              <h3 class="module-heading">COMPETITOR REGISTRY &amp; PROFILES</h3>
+              <p class="module-desc">
+                Maintain comprehensive, dynamic dossiers on every rival in your commercial ecosystem. Track company profiles, products and service tiers, market positioning scorecards, competitor status (Tier 1 Direct, Tier 2 Challenger, Emerging), and chronological executive leadership shifts.
+              </p>
+              
+              <ul class="module-features-list">
+                <li><strong>Structured Company Profiles:</strong> Headcount, annual revenue, core capabilities, and commercial positioning.</li>
+                <li><strong>Product &amp; Service Taxonomy:</strong> Detailed breakdown of rival feature suites, licensing tiers, and pricing models.</li>
+                <li><strong>Market Position Records:</strong> Quantified leadership quadrant scoring based on execution capability and vision.</li>
+                <li><strong>Historical Change Audit:</strong> Trace every strategic pivot, website messaging overhaul, and executive departure.</li>
+              </ul>
+
+              <div class="module-action-row">
+                <a href="#workspace" class="btn-arcade btn-arcade-teal" data-tab-target="registry">
+                  <span>EXPLORE REGISTRY IN APP</span>
+                </a>
               </div>
             </div>
 
-            <!-- Right: Interactive Compiler Diagnostic Terminal -->
-            <div class="sdk-compiler-chassis">
-              <div class="compiler-header">
-                <div class="console-dots">
-                  <span class="dot dot-red"></span>
-                  <span class="dot dot-yellow"></span>
-                  <span class="dot dot-green"></span>
-                </div>
-                <div class="compiler-title">
-                  LIVE-COMPILER-v4.2 // DIAGNOSTICS
-                </div>
-                <div class="compiler-badge" id="compilerBadgeStatus">STATUS: IDLE</div>
+            <div class="module-media-side">
+              <div class="media-frame">
+                <img src="assets/competitor-registry.jpg" alt="Marvean Competitor Registry and Company Profile Management View" class="module-img">
+                <div class="media-tag">FIGURE 01: MARVEAN COMPETITOR REGISTRY INTERFACE</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pillar 2: Market Intelligence & Commercial Signals -->
+          <div class="module-card-wide reverse" id="intelligence">
+            <div class="module-text-side">
+              <div class="module-kicker">// FUNCTIONAL SPECIFICATION 3.2 &amp; 3.3</div>
+              <h3 class="module-heading">MARKET INTELLIGENCE &amp; COMMERCIAL SIGNALS</h3>
+              <p class="module-desc">
+                Continuous surveillance across high-velocity market events. Ingest real-time product launches, pricing changes, patent applications, regulatory approvals, and strategic partnerships categorized with impact levels and confidence scoring.
+              </p>
+              
+              <ul class="module-features-list">
+                <li><strong>Commercial Events Stream:</strong> Automated detection of rival feature launches, pricing revisions, and discounting.</li>
+                <li><strong>Industry Trend Observations:</strong> Multi-segment tracking across Enterprise Cloud, Digital Commerce, and AI.</li>
+                <li><strong>Confidence Scoring &amp; Classification:</strong> AI-assigned confidence ratings (95%+ verified) with analyst assignment tags.</li>
+                <li><strong>Dynamic Impact Filtering:</strong> Triage by Critical, Major, or Minor business impact to prioritize response workflows.</li>
+              </ul>
+
+              <div class="module-action-row">
+                <a href="#workspace" class="btn-arcade btn-arcade-red" data-tab-target="signals">
+                  <span>VIEW LIVE SIGNALS FEED</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="module-media-side">
+              <div class="media-frame">
+                <img src="assets/market-signals-feed.jpg" alt="Marvean Commercial Signals Live Feed and Market Intelligence Workspace" class="module-img">
+                <div class="media-tag">FIGURE 02: LIVE COMMERCIAL SIGNALS WORKSPACE</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pillar 3: Research Governance & Strategic Insights -->
+          <div class="module-card-wide" id="governance">
+            <div class="module-text-side">
+              <div class="module-kicker">// FUNCTIONAL SPECIFICATION 3.4 &amp; 3.5</div>
+              <h3 class="module-heading">RESEARCH GOVERNANCE &amp; STRATEGIC INSIGHTS</h3>
+              <p class="module-desc">
+                Enterprise research requires institutional rigor. Marvean links every competitive claim to an audited evidence chain, manages analyst ownership, tracks peer review statuses, and delivers board-ready strategic insight briefings.
+              </p>
+              
+              <ul class="module-features-list">
+                <li><strong>Audited Evidence Chains:</strong> Full provenance tracing back to SEC filings, patent offices, and public pricing endpoints.</li>
+                <li><strong>Peer Review Workflow:</strong> Collaborative approval stages (Submission &rarr; Review &rarr; Critique &rarr; Approval).</li>
+                <li><strong>Analyst Task Allocation:</strong> Clear ownership assignment for market analysts and strategy specialists.</li>
+                <li><strong>Executive Briefing Exports:</strong> Instant export to executive-formatted PDF, PowerPoint decks, and structured JSON.</li>
+              </ul>
+
+              <div class="module-action-row">
+                <a href="#workspace" class="btn-arcade btn-arcade-teal" data-tab-target="governance">
+                  <span>INSPECT GOVERNANCE ENGINE</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="module-media-side">
+              <div class="media-frame">
+                <img src="assets/research-governance.jpg" alt="Marvean Research Governance Dashboard and Evidence Verification Workflow" class="module-img">
+                <div class="media-tag">FIGURE 03: RESEARCH GOVERNANCE &amp; EVIDENCE VERIFICATION</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==========================================================================
+             SECTION: INTERACTIVE WEB APPLICATION / INTELLIGENCE CONSOLE
+             ========================================================================== -->
+        <section class="workspace-section" id="workspace">
+          <div class="section-meta-label">// 02 // WEB APPLICATION WORKSPACE PREVIEW</div>
+          <h2 class="section-retro-title">INTERACTIVE INTELLIGENCE CONSOLE</h2>
+          <p class="section-retro-sub">
+            Test the live frontend application interface. Switch between the Competitor Registry, Commercial Signals Feed, Research Governance, and Strategic Insights.
+          </p>
+
+          <div class="workspace-app-chassis">
+            
+            <!-- App Navigation Bar -->
+            <div class="app-topbar">
+              <div class="app-brand">
+                <span class="app-status-badge">LIVE WORKSPACE</span>
+                <span class="app-title">MARVEAN // ENTERPRISE CONSOLE</span>
               </div>
 
-              <div class="compiler-console-box" id="compilerConsoleLog">
-                <div class="compiler-line">&gt; MARVEAN STATIC COMPILER READY.</div>
-                <div class="compiler-line">&gt; TARGET: NVIDIA-HOPPER // AWQ-INT4 + FLASHATTN-3</div>
-                <div class="compiler-line text-dim">&gt; Click [TEST COMPILATION PASS] to trigger kernel simulation...</div>
-              </div>
-
-              <div class="compiler-actions-footer">
-                <button class="btn-arcade btn-arcade-teal" id="runCompilerTestBtn">
-                  <span>▶ TEST COMPILATION PASS</span>
+              <!-- Workspace Navigation Tabs -->
+              <div class="app-tabs" id="appWorkspaceTabs">
+                <button class="app-tab active" data-app-tab="registry">
+                  <span>🏢 COMPETITOR REGISTRY</span>
                 </button>
-                <div class="compiler-stats-pill">
-                  <span class="status-led"></span>
-                  <span id="compilerTimeTicker">ELAPSED: 0.00s</span>
+                <button class="app-tab" data-app-tab="signals">
+                  <span>📡 COMMERCIAL SIGNALS</span>
+                </button>
+                <button class="app-tab" data-app-tab="governance">
+                  <span>🛡 RESEARCH GOVERNANCE</span>
+                </button>
+                <button class="app-tab" data-app-tab="insights">
+                  <span>📊 STRATEGIC INSIGHTS</span>
+                </button>
+              </div>
+
+              <!-- Active User Profile Mock -->
+              <div class="app-user-pill">
+                <span class="user-avatar">👤</span>
+                <span class="user-name">Sarah Chen // Lead Analyst</span>
+              </div>
+            </div>
+
+            <!-- Global Workspace Search & Filter Toolbar -->
+            <div class="app-toolbar">
+              <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="appSearchInput" placeholder="Search competitors, product launches, pricing shifts, or evidence sources..." class="app-search-field">
+              </div>
+
+              <div class="toolbar-filters">
+                <select id="industryFilterSelect" class="app-select">
+                  <option value="all">Industry: All Segments</option>
+                  <option value="cloud">Enterprise Cloud &amp; Infrastructure</option>
+                  <option value="commerce">E-Commerce &amp; Retail Tech</option>
+                  <option value="analytics">AI Analytics &amp; Decision BI</option>
+                  <option value="fintech">Fintech &amp; Payments</option>
+                </select>
+
+                <select id="tierFilterSelect" class="app-select">
+                  <option value="all">Competitor Tier: All</option>
+                  <option value="tier-1">Tier 1: Direct Rivals</option>
+                  <option value="tier-2">Tier 2: Challengers</option>
+                  <option value="emerging">Emerging Disrupters</option>
+                </select>
+
+                <button class="btn-arcade btn-arcade-small" id="resetFiltersBtn">
+                  <span>RESET</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- ================================================================
+                 APP TAB 1: COMPETITOR REGISTRY
+                 ================================================================ -->
+            <div class="app-tab-panel active" id="tabPanelRegistry">
+              <div class="panel-header-row">
+                <div class="panel-meta-title">
+                  <strong>COMPETITOR REGISTRY:</strong> Showing <span id="competitorCountBadge">5</span> tracked enterprise organizations
                 </div>
+                <div class="panel-actions">
+                  <button class="btn-arcade btn-arcade-small btn-arcade-teal" id="addCompetitorBtn">
+                    <span>+ ADD COMPETITOR</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="competitor-cards-grid" id="competitorCardsContainer">
+                <!-- Dynamically populated or rendered via JS -->
+              </div>
+            </div>
+
+            <!-- ================================================================
+                 APP TAB 2: COMMERCIAL SIGNALS FEED
+                 ================================================================ -->
+            <div class="app-tab-panel" id="tabPanelSignals">
+              <div class="panel-header-row">
+                <div class="panel-meta-title">
+                  <strong>COMMERCIAL SIGNALS:</strong> Real-time automated event monitoring across market ecosystem
+                </div>
+                <div class="signals-filter-pills">
+                  <button class="signal-filter-pill active" data-event-type="all">All Events</button>
+                  <button class="signal-filter-pill" data-event-type="pricing">Pricing Shift</button>
+                  <button class="signal-filter-pill" data-event-type="launch">Product Launch</button>
+                  <button class="signal-filter-pill" data-event-type="patent">Patent Filing</button>
+                  <button class="signal-filter-pill" data-event-type="leadership">Leadership Move</button>
+                </div>
+              </div>
+
+              <div class="signals-feed-stream" id="signalsFeedContainer">
+                <!-- Dynamically populated via JS -->
+              </div>
+            </div>
+
+            <!-- ================================================================
+                 APP TAB 3: RESEARCH GOVERNANCE & EVIDENCE
+                 ================================================================ -->
+            <div class="app-tab-panel" id="tabPanelGovernance">
+              <div class="governance-grid">
+                
+                <!-- Left: Active Insight Projects -->
+                <div class="governance-card">
+                  <div class="card-head-bar">
+                    <h4>// ACTIVE STRATEGIC INSIGHT PROJECTS</h4>
+                    <span class="badge-mini text-teal">3 IN REVIEW</span>
+                  </div>
+                  <div class="governance-table-wrap">
+                    <table class="retro-table">
+                      <thead>
+                        <tr>
+                          <th>PROJECT NAME</th>
+                          <th>LEAD ANALYST</th>
+                          <th>EVIDENCE</th>
+                          <th>PEER REVIEW</th>
+                          <th>ACTIONS</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><strong>Project Titan</strong>: Cloud Pricing War</td>
+                          <td>Sarah Chen</td>
+                          <td><span class="status-chip verified">✔ 8 Sources</span></td>
+                          <td><span class="status-chip in-review">In Review</span></td>
+                          <td><button class="btn-text-action" onclick="inspectEvidence('Project Titan')">Inspect</button></td>
+                        </tr>
+                        <tr>
+                          <td><strong>Project Nexus</strong>: Q3 Commerce Radar</td>
+                          <td>Alex Carter</td>
+                          <td><span class="status-chip verified">✔ 12 Sources</span></td>
+                          <td><span class="status-chip approved">Approved</span></td>
+                          <td><button class="btn-text-action" onclick="inspectEvidence('Project Nexus')">Inspect</button></td>
+                        </tr>
+                        <tr>
+                          <td><strong>Project InnoSys</strong>: AI Patent Defense</td>
+                          <td>David Smith</td>
+                          <td><span class="status-chip pending">⏳ 4 Sources</span></td>
+                          <td><span class="status-chip revision">Revision</span></td>
+                          <td><button class="btn-text-action" onclick="inspectEvidence('Project InnoSys')">Inspect</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Right: Evidence Verification Pipeline -->
+                <div class="governance-card">
+                  <div class="card-head-bar">
+                    <h4>// EVIDENCE VERIFICATION CHAIN</h4>
+                    <span class="badge-mini text-green">AUDITED PROVENANCE</span>
+                  </div>
+                  <div class="evidence-pipeline-steps">
+                    <div class="pipeline-step completed">
+                      <div class="step-num">01</div>
+                      <div class="step-content">
+                        <h5>Source Ingestion</h5>
+                        <p>SEC 10-K, USPTO, press release, and direct pricing scraper payloads received.</p>
+                      </div>
+                      <span class="step-status">VERIFIED</span>
+                    </div>
+
+                    <div class="pipeline-step completed">
+                      <div class="step-num">02</div>
+                      <div class="step-content">
+                        <h5>Authenticity &amp; Integrity Hash</h5>
+                        <p>Cryptographic timestamping and original source snapshot preserved in cold vault.</p>
+                      </div>
+                      <span class="step-status">VERIFIED</span>
+                    </div>
+
+                    <div class="pipeline-step in-progress">
+                      <div class="step-num">03</div>
+                      <div class="step-content">
+                        <h5>Regulatory &amp; Entity Mapping</h5>
+                        <p>Entity linked to Competitor Registry ID #NX-8842 and historical product family.</p>
+                      </div>
+                      <span class="step-status">IN PROGRESS</span>
+                    </div>
+
+                    <div class="pipeline-step pending">
+                      <div class="step-num">04</div>
+                      <div class="step-content">
+                        <h5>Executive Briefing Approval</h5>
+                        <p>Final sign-off by Principal Strategy Director prior to board deck publication.</p>
+                      </div>
+                      <span class="step-status">QUEUED</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ================================================================
+                 APP TAB 4: STRATEGIC INSIGHTS DASHBOARD
+                 ================================================================ -->
+            <div class="app-tab-panel" id="tabPanelInsights">
+              <div class="insights-summary-grid">
+                
+                <div class="insight-briefing-card primary">
+                  <div class="insight-meta">
+                    <span class="badge-mini text-red">CRITICAL EXECUTIVE SYNTHESIS</span>
+                    <span>Q3 2026 COMMERCIAL OUTLOOK</span>
+                  </div>
+                  <h3>Nexus Analytics Accelerating Enterprise Land Grab with Aggressive 15% APAC Discount</h3>
+                  <p>
+                    Verified through regulatory pricing filings and field quote records, primary rival Nexus Analytics has initiated an unannounced enterprise discounting offensive across Singapore and Tokyo. Key targets include mid-tier commerce platforms.
+                  </p>
+                  <div class="recommended-countermove">
+                    <strong>RECOMMENDED STRATEGIC COUNTER-MOVE:</strong>
+                    <span>Activate competitive displacement battlecard #BC-04. Leverage superior research governance and audited compliance features to defend premium pricing margins.</span>
+                  </div>
+                  <div class="insight-footer">
+                    <span>Evidence Confidence: <strong>98.7%</strong></span>
+                    <button class="btn-arcade btn-arcade-small btn-arcade-teal" id="exportBriefingBtn">
+                      <span>EXPORT BRIEFING (PDF)</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="insight-briefing-card">
+                  <div class="insight-meta">
+                    <span class="badge-mini text-yellow">TREND IDENTIFICATION</span>
+                    <span>COMMERCE SEGMENT OBSERVATION</span>
+                  </div>
+                  <h3>Convergence of Autonomous Agents into B2B Re-order Workflows</h3>
+                  <p>
+                    3 of 5 top competitors have registered patents regarding autonomous replenishment triggers. Expect major product announcements before Q4 commercial renewal cycles.
+                  </p>
+                  <div class="recommended-countermove">
+                    <strong>STRATEGIC IMPLICATION:</strong>
+                    <span>Product and Strategy teams must prioritize agentic workflow integrations in upcoming Q4 roadmap reviews.</span>
+                  </div>
+                  <div class="insight-footer">
+                    <span>Evidence Sources: <strong>6 USPTO Filings</strong></span>
+                    <button class="btn-arcade btn-arcade-small" onclick="viewTrendDetails()">
+                      <span>VIEW AUDIT LOG</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Console Status Bar -->
+            <div class="app-statusbar">
+              <div class="statusbar-left">
+                <span class="status-led"></span>
+                <span>SYSTEM HEALTH: NOMINAL</span>
+                <span class="status-sep">|</span>
+                <span>REGISTRY DATABASE: CONNECTED (SQL)</span>
+                <span class="status-sep">|</span>
+                <span>LAST DATA REFRESH: JUST NOW</span>
+              </div>
+              <div class="statusbar-right">
+                <span>MARVEAN ENTERPRISE INTELLIGENCE ENGINE v4.2</span>
               </div>
             </div>
 
           </div>
+        </section>
 
-          <!-- Bottom: 4 Supported Silicon Accelerator Cards -->
-          <div class="silicon-grid-header">
-            <h3 class="silicon-heading">// CERTIFIED SILICON ACCELERATORS</h3>
-            <span class="silicon-subheading">ZERO VENDOR LOCK-IN. HARDWARE-AWARE TRITON &amp; CUDA GENERATION.</span>
-          </div>
+        <!-- ==========================================================================
+             SECTION: TECHNICAL ARCHITECTURE & DATA INGESTION PIPELINE
+             ========================================================================== -->
+        <section class="pipeline-section" id="pipeline">
+          <div class="section-meta-label">// 03 // TECHNICAL ARCHITECTURE &amp; DATA INGESTION</div>
+          <h2 class="section-retro-title">HOW MARVEAN INGESTS, PARSES &amp; GOVERNS INTELLIGENCE</h2>
+          <p class="section-retro-sub">
+            A high-fidelity continuous intelligence architecture engineered for enterprise reliability, zero hallucination, and rigorous evidence provenance.
+          </p>
 
-          <div class="silicon-cards-grid">
+          <div class="pipeline-architecture-grid">
             
-            <!-- Silicon Card 1: NVIDIA Hopper & Blackwell -->
-            <div class="silicon-card">
-              <div class="silicon-chip-icon">
-                <div class="chip-die">
-                  <span class="die-label">NV-H100</span>
-                </div>
+            <!-- Stage 1 -->
+            <div class="pipeline-card">
+              <div class="pipeline-card-header">
+                <span class="stage-tag">STAGE 01</span>
+                <span class="stage-name text-teal">Continuous Ingestion</span>
               </div>
-              <div class="silicon-card-body">
-                <div class="silicon-badge badge-green">TENSOR CORES</div>
-                <h4 class="silicon-name">NVIDIA HOPPER &amp; BLACKWELL</h4>
-                <p class="silicon-arch">H100 / H200 / B200 / L40S / RTX 4090</p>
-                <ul class="silicon-features">
-                  <li>✔ CUDA 12.4 + FlashAttention-3</li>
-                  <li>✔ FP8 Transformer Engine Fusion</li>
-                  <li>✔ 99.8% GSM8K benchmark parity</li>
-                </ul>
-                <div class="silicon-metric">
-                  <span class="metric-highlight">3.8X</span> SPEEDUP MULTIPLIER
-                </div>
+              <h4>Multi-Source Surveillance</h4>
+              <p>Continuous monitoring of SEC Edgar filings, patent registries (USPTO/EPO), commerce pricing APIs, executive career boards, and verified news feeds.</p>
+              <div class="pipeline-tech-pills">
+                <span>SEC EDGAR</span>
+                <span>USPTO</span>
+                <span>PRICING MONITORS</span>
+                <span>LEADERSHIP FEEDS</span>
               </div>
             </div>
 
-            <!-- Silicon Card 2: Apple Silicon -->
-            <div class="silicon-card">
-              <div class="silicon-chip-icon">
-                <div class="chip-die chip-die-apple">
-                  <span class="die-label">M3-MAX</span>
-                </div>
+            <!-- Stage 2 -->
+            <div class="pipeline-card">
+              <div class="pipeline-card-header">
+                <span class="stage-tag">STAGE 02</span>
+                <span class="stage-name text-yellow">AI NLP Extraction</span>
               </div>
-              <div class="silicon-card-body">
-                <div class="silicon-badge badge-yellow">UNIFIED MEMORY</div>
-                <h4 class="silicon-name">APPLE SILICON (M-SERIES)</h4>
-                <p class="silicon-arch">M2 / M3 / M4 Pro &amp; Max (MPS Graph)</p>
-                <ul class="silicon-features">
-                  <li>✔ Zero-copy unified memory buffers</li>
-                  <li>✔ 128k context on 64GB Mac studio</li>
-                  <li>✔ Metal 3 shader matrix pipeline</li>
-                </ul>
-                <div class="silicon-metric">
-                  <span class="metric-highlight">3.2X</span> LATENCY CUT
-                </div>
+              <h4>Entity &amp; Event Parsing</h4>
+              <p>Natural language models extract structured data: rival company entities, pricing model changes, feature announcements, and strategic executive shifts.</p>
+              <div class="pipeline-tech-pills">
+                <span>ENTITY LINKING</span>
+                <span>EVENT CLASSIFIER</span>
+                <span>TAXONOMY MAPPING</span>
               </div>
             </div>
 
-            <!-- Silicon Card 3: AMD Instinct -->
-            <div class="silicon-card">
-              <div class="silicon-chip-icon">
-                <div class="chip-die chip-die-amd">
-                  <span class="die-label">MI300X</span>
-                </div>
+            <!-- Stage 3 -->
+            <div class="pipeline-card">
+              <div class="pipeline-card-header">
+                <span class="stage-tag">STAGE 03</span>
+                <span class="stage-name text-green">Evidence Governance</span>
               </div>
-              <div class="silicon-card-body">
-                <div class="silicon-badge badge-red">ROCm MATRIX</div>
-                <h4 class="silicon-name">AMD INSTINCT &amp; RYZEN AI</h4>
-                <p class="silicon-arch">MI300X / MI250 / Phoenix NPU</p>
-                <ul class="silicon-features">
-                  <li>✔ ROCm 6.2 Composable Kernels</li>
-                  <li>✔ 192GB HBM3 memory optimization</li>
-                  <li>✔ Native vLLM &amp; SGLang parity</li>
-                </ul>
-                <div class="silicon-metric">
-                  <span class="metric-highlight">3.4X</span> DENSITY SCALE
-                </div>
+              <h4>Verification &amp; Confidence</h4>
+              <p>Cross-references multiple independent sources to generate confidence ratings (95%+), preventing unverified rumors from contaminating strategic decks.</p>
+              <div class="pipeline-tech-pills">
+                <span>CONFIDENCE SCORE</span>
+                <span>PROVENANCE AUDIT</span>
+                <span>PEER REVIEW GATE</span>
               </div>
             </div>
 
-            <!-- Silicon Card 4: Edge & WebGPU -->
-            <div class="silicon-card">
-              <div class="silicon-chip-icon">
-                <div class="chip-die chip-die-edge">
-                  <span class="die-label">WEBGPU</span>
-                </div>
+            <!-- Stage 4 -->
+            <div class="pipeline-card">
+              <div class="pipeline-card-header">
+                <span class="stage-tag">STAGE 04</span>
+                <span class="stage-name text-cyan">Actionable Delivery</span>
               </div>
-              <div class="silicon-card-body">
-                <div class="silicon-badge badge-teal">BROWSER / EDGE</div>
-                <h4 class="silicon-name">EDGE NEURAL &amp; WEBGPU</h4>
-                <p class="silicon-arch">WebAssembly SIMD + WebGPU Shaders</p>
-                <ul class="silicon-features">
-                  <li>✔ Client-side in-browser inference</li>
-                  <li>✔ Zero cloud egress or API charges</li>
-                  <li>✔ Qualcomm Snapdragon &amp; Intel NPU</li>
-                </ul>
-                <div class="silicon-metric">
-                  <span class="metric-highlight">5.1X</span> EDGE EFFICIENCY
-                </div>
+              <h4>Intelligence Workflows</h4>
+              <p>Feeds structured intelligence into the Marvean Web App, push alerts, exportable board briefings, and programmatic enterprise APIs.</p>
+              <div class="pipeline-tech-pills">
+                <span>LARAVEL CLIENT</span>
+                <span>REST API</span>
+                <span>WEBHOOKS</span>
+                <span>BOARD EXPORTS</span>
               </div>
             </div>
 
+          </div>
+
+          <!-- Developer & Systems Integration Showcase -->
+          <div class="integration-code-chassis">
+            <div class="code-titlebar">
+              <div class="editor-tabs" id="integrationCodeTabs">
+                <button class="editor-tab active" data-tab="php">
+                  <span class="tab-icon">🐘</span> PHP / LARAVEL CLIENT
+                </button>
+                <button class="editor-tab" data-tab="api">
+                  <span class="tab-icon">⚡</span> REST API / CURL
+                </button>
+                <button class="editor-tab" data-tab="python">
+                  <span class="tab-icon">🐍</span> PYTHON ANALYST SDK
+                </button>
+                <button class="editor-tab" data-tab="webhook">
+                  <span class="tab-icon">🪝</span> WEBHOOK PAYLOAD
+                </button>
+              </div>
+
+              <div class="code-actions">
+                <button class="copy-code-btn" id="copyCodeBtn" title="Copy code snippet">
+                  <span class="copy-icon">📋</span> <span id="copyBtnText">COPY CODE</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="code-body-grid">
+              <div class="code-pre-wrap">
+                <pre class="code-pre"><code id="integrationCodeDisplay" class="code-content"></code></pre>
+              </div>
+              <div class="code-explanation-pane">
+                <div class="explanation-header">
+                  <span class="status-led"></span>
+                  <span id="explanationTitle">PHP / Laravel Enterprise Integration</span>
+                </div>
+                <p id="explanationDesc">
+                  Seamlessly query Marvean Competitor Registries and Commercial Signals from within your Laravel enterprise controllers, jobs, and scheduled commands.
+                </p>
+                <div class="integration-spec-list">
+                  <div><strong>Protocol:</strong> HTTPS REST / JSON API</div>
+                  <div><strong>Auth:</strong> Bearer API Token (v1.0)</div>
+                  <div><strong>SLA:</strong> 99.99% Enterprise Uptime</div>
+                  <div><strong>Rate Limit:</strong> 10,000 req/min</div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </section>
 
         <!-- ==========================================================================
-             PRICING SECTION - Arcade Cartridge Chassis
+             SECTION: TARGET USERS & ENTERPRISE USE CASES
+             ========================================================================== -->
+        <div class="use-cases-block">
+          <div class="section-meta-label">// 04 // TARGET AUDIENCE &amp; COMMERCIAL USE CASES</div>
+          <h2 class="section-retro-title">ENGINEERED FOR MODERN ENTERPRISE LEADERS</h2>
+          <p class="section-retro-sub">
+            Built specifically to empower cross-functional teams with verified, structured competitive intelligence.
+          </p>
+
+          <div class="use-cases-grid">
+            
+            <div class="use-case-card">
+              <div class="use-case-role">
+                <span class="role-icon">🎯</span>
+                <h4>STRATEGY &amp; CORPORATE DEV</h4>
+              </div>
+              <p>M&amp;A target evaluation, new market entry feasibility analysis, competitor defense roadmaps, and quarterly board intelligence briefings.</p>
+              <div class="use-case-badge">Outcome: Faster Strategic Clarity</div>
+            </div>
+
+            <div class="use-case-card">
+              <div class="use-case-role">
+                <span class="role-icon">📊</span>
+                <h4>MARKET RESEARCHERS &amp; ANALYSTS</h4>
+              </div>
+              <p>Eliminate repetitive daily manual collection. Maintain an authoritative competitor registry with verified evidence and continuous updates.</p>
+              <div class="use-case-badge">Outcome: 65% Research Time Saved</div>
+            </div>
+
+            <div class="use-case-card">
+              <div class="use-case-role">
+                <span class="role-icon">💼</span>
+                <h4>COMMERCE &amp; SALES LEADERSHIP</h4>
+              </div>
+              <p>Equip field teams with real-time battlecards, counter-positioning tactics, discounting alerts, and win-loss pricing defenses.</p>
+              <div class="use-case-badge">Outcome: Win-Rate Preservation</div>
+            </div>
+
+            <div class="use-case-card">
+              <div class="use-case-role">
+                <span class="role-icon">🚀</span>
+                <h4>PRODUCT &amp; MARKETING TEAMS</h4>
+              </div>
+              <p>Track competitor feature betas, pricing model revisions, packaging shifts, and messaging changes before market launch.</p>
+              <div class="use-case-badge">Outcome: Proactive Counter-Launches</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ==========================================================================
+             SECTION: COMMERCIAL MODEL & SUBSCRIPTION TIERS
              ========================================================================== -->
         <section class="pricing-section" id="pricing">
-          <div style="text-align: center; margin-bottom: 2rem;">
-            <div class="section-meta-label">// COMMERCIAL TIERS</div>
-            <h2 class="section-retro-title">CHOOSE YOUR COMPUTE CARTRIDGE</h2>
-            <p class="section-retro-sub" style="margin-left: auto; margin-right: auto;">
-              Transparent, deterministic pricing. No hidden token surges. Deploy on our managed edge cluster or compile directly into your private sovereign VPC.
-            </p>
+          <div class="section-meta-label">// 05 // COMMERCIAL PLANS &amp; ENTERPRISE LICENSING</div>
+          <h2 class="section-retro-title">TRANSPARENT INTELLIGENCE DATABASE PLANS</h2>
+          <p class="section-retro-sub">
+            Scale from focused analyst research seats to comprehensive enterprise competitive intelligence modules.
+          </p>
 
-            <!-- Billing Toggle -->
-            <div class="pricing-billing-toggle">
-              <span>MONTHLY CYCLE</span>
-              <label class="toggle-switch-retro">
-                <input type="checkbox" id="billingToggle">
-                <span class="slider-retro"></span>
-              </label>
-              <span>ANNUAL CYCLE</span>
-              <span class="discount-badge">SAVE 20%</span>
-            </div>
+          <!-- Billing Period Switcher -->
+          <div class="pricing-toggle-wrap">
+            <span class="pricing-toggle-label active" id="labelMonthly">MONTHLY BILLING</span>
+            <button class="pricing-switch" id="pricingSwitch" aria-label="Toggle annual billing discount">
+              <span class="switch-handle"></span>
+            </button>
+            <span class="pricing-toggle-label" id="labelAnnual">
+              ANNUAL BILLING <span class="discount-pill">SAVE 20%</span>
+            </span>
           </div>
 
+          <!-- Pricing Cards Grid -->
           <div class="pricing-grid">
             
-            <!-- Tier 1: Indie Cartridge -->
-            <div class="pricing-cartridge">
-              <div class="cartridge-header">
-                <div class="cartridge-tier-id">ROM-CARTRIDGE // 01</div>
-                <h3 class="cartridge-title">DEV KIT</h3>
-                <p class="cartridge-desc">Essential quantization and kernel optimization for developers & indie AI hackers.</p>
+            <!-- Tier 1 -->
+            <div class="pricing-card">
+              <div class="card-badge-top">RESEARCH SEAT</div>
+              <div class="pricing-header">
+                <h3>Analyst Seat</h3>
+                <p>For individual market researchers and strategic business analysts.</p>
               </div>
-              <div class="cartridge-price-box">
-                <span class="price-currency">$</span>
-                <span class="price-amount" id="starterPrice">49</span>
-                <span class="price-period">/ month</span>
+
+              <div class="pricing-cost">
+                <span class="currency">$</span>
+                <span class="price-val" data-monthly="180" data-annual="144">180</span>
+                <span class="period">/ seat / mo</span>
               </div>
-              <ul class="cartridge-features">
-                <li><span class="pixel-check">✔</span> Up to 5 Concurrent Models</li>
-                <li><span class="pixel-check">✔</span> INT8 & INT4 Quantization Pass</li>
-                <li><span class="pixel-check">✔</span> Standard Triton Kernels</li>
-                <li><span class="pixel-check">✔</span> 5 Million Tokens / Month Included</li>
-                <li><span class="pixel-check">✔</span> Community Discord Uplink</li>
+
+              <div class="card-divider"></div>
+
+              <ul class="pricing-features">
+                <li>✔ Up to 15 Competitor Profiles</li>
+                <li>✔ Live Commercial Signals Feed</li>
+                <li>✔ Standard Industry Observations</li>
+                <li>✔ Search &amp; Filter Tools</li>
+                <li>✔ 1-Year Historical Context</li>
+                <li class="disabled">✖ Custom Evidence Governance</li>
+                <li class="disabled">✖ Enterprise REST API &amp; Webhooks</li>
               </ul>
-              <div class="cartridge-cta">
-                <a href="#contact" class="btn-cartridge">LOAD CARTRIDGE</a>
+
+              <div class="pricing-action">
+                <a href="#contact" class="btn-arcade btn-arcade-small">
+                  <span>SELECT PLAN</span>
+                </a>
               </div>
             </div>
 
-            <!-- Tier 2: Turbo Mainframe (Featured / Popular) -->
-            <div class="pricing-cartridge popular">
-              <div class="popular-banner">★ MOST POPULAR IN PRODUCTION ★</div>
-              <div class="cartridge-header">
-                <div class="cartridge-tier-id">ROM-CARTRIDGE // 02</div>
-                <h3 class="cartridge-title">TURBO MAINFRAME</h3>
-                <p class="cartridge-desc">Full autonomous decision arbitration and extreme kernel fusion for scaling startups.</p>
+            <!-- Tier 2: Recommended -->
+            <div class="pricing-card featured">
+              <div class="card-badge-top hot-badge">MOST POPULAR</div>
+              <div class="pricing-header">
+                <h3>Intelligence Database</h3>
+                <p>Complete competitive intelligence platform for strategy &amp; commerce teams.</p>
               </div>
-              <div class="cartridge-price-box">
-                <span class="price-currency">$</span>
-                <span class="price-amount" id="turboPrice">249</span>
-                <span class="price-period">/ month</span>
+
+              <div class="pricing-cost">
+                <span class="currency">$</span>
+                <span class="price-val" data-monthly="790" data-annual="632">790</span>
+                <span class="period">/ workspace / mo</span>
               </div>
-              <ul class="cartridge-features">
-                <li><span class="pixel-check">✔</span> Unlimited Model Quantizations</li>
-                <li><span class="pixel-check">✔</span> Autonomous Multi-Agent Decision Router</li>
-                <li><span class="pixel-check">✔</span> Custom CUDA & FlashAttention-3 Kernels</li>
-                <li><span class="pixel-check">✔</span> 50 Million Tokens / Month Included</li>
-                <li><span class="pixel-check">✔</span> 99.95% Latency SLA Guarantee</li>
-                <li><span class="pixel-check">✔</span> Dedicated Slack / Telegram Uplink</li>
+
+              <div class="card-divider"></div>
+
+              <ul class="pricing-features">
+                <li>✔ Up to 60 Tracked Competitors</li>
+                <li>✔ 10 Dedicated Analyst Seats</li>
+                <li>✔ Real-Time Pricing Shift Alerts</li>
+                <li>✔ Patent &amp; Regulatory Tracking</li>
+                <li>✔ 5-Year Historical Intel Vault</li>
+                <li>✔ Evidence Provenance Auditing</li>
+                <li>✔ Executive Briefing Exports (PDF)</li>
+                <li class="disabled">✖ Air-Gapped Sovereign Deployment</li>
               </ul>
-              <div class="cartridge-cta">
-                <a href="#contact" class="btn-cartridge">LOAD TURBO CARTRIDGE</a>
+
+              <div class="pricing-action">
+                <a href="#contact" class="btn-arcade btn-arcade-teal">
+                  <span>⚡ GET DATABASE ACCESS</span>
+                </a>
               </div>
             </div>
 
-            <!-- Tier 3: Quantum Cluster -->
-            <div class="pricing-cartridge">
-              <div class="cartridge-header">
-                <div class="cartridge-tier-id">ROM-CARTRIDGE // 03</div>
-                <h3 class="cartridge-title">QUANTUM CLUSTER</h3>
-                <p class="cartridge-desc">Air-gapped on-premise compilation, dedicated silicon tuning, and custom SLA.</p>
+            <!-- Tier 3: Enterprise Research Module -->
+            <div class="pricing-card">
+              <div class="card-badge-top">FULL ENTERPRISE</div>
+              <div class="pricing-header">
+                <h3>Enterprise Research Module</h3>
+                <p>Advanced research governance, custom source scrapers, and team workflows.</p>
               </div>
-              <div class="cartridge-price-box">
-                <span class="price-currency">$</span>
-                <span class="price-amount" id="enterprisePrice">999</span>
-                <span class="price-period">/ month</span>
+
+              <div class="pricing-cost">
+                <span class="currency">$</span>
+                <span class="price-val" data-monthly="1950" data-annual="1560">1,950</span>
+                <span class="period">/ enterprise / mo</span>
               </div>
-              <ul class="cartridge-features">
-                <li><span class="pixel-check">✔</span> Air-Gapped Sovereign Deployment</li>
-                <li><span class="pixel-check">✔</span> Custom Silicon Tuning (TPU, Groq, Cerebras)</li>
-                <li><span class="pixel-check">✔</span> Zero Data Egress or Telemetry Leakage</li>
-                <li><span class="pixel-check">✔</span> Unlimited Token Throughput</li>
-                <li><span class="pixel-check">✔</span> 24/7 Dedicated AI War Room Engineers</li>
-                <li><span class="pixel-check">✔</span> Custom Compliance (HIPAA, SOC2, FedRAMP)</li>
+
+              <div class="card-divider"></div>
+
+              <ul class="pricing-features">
+                <li>✔ Unlimited Competitor Profiles</li>
+                <li>✔ Unlimited Team Seats</li>
+                <li>✔ Custom Source Ingestion Scrapers</li>
+                <li>✔ Peer Review Governance Workflows</li>
+                <li>✔ REST API, Webhooks &amp; Laravel SDK</li>
+                <li>✔ Dedicated Intelligence Specialist</li>
+                <li>✔ Custom SLA &amp; Security Audits</li>
+                <li>✔ Sovereign VPC Option Available</li>
               </ul>
-              <div class="cartridge-cta">
-                <a href="#contact" class="btn-cartridge">CONTACT FLIGHT DECK</a>
+
+              <div class="pricing-action">
+                <a href="#contact" class="btn-arcade btn-arcade-red">
+                  <span>CONTACT ENTERPRISE</span>
+                </a>
               </div>
             </div>
 
@@ -727,197 +1013,182 @@
         </section>
 
         <!-- ==========================================================================
-             FAQ SECTION - Diagnostic Knowledge Base
+             SECTION: FREQUENTLY ASKED QUESTIONS (FAQ)
              ========================================================================== -->
         <section class="faq-section" id="faq">
-          <div style="text-align: center; margin-bottom: 2.75rem;">
-            <div class="section-meta-label">// DIAGNOSTIC ARCHIVE</div>
-            <h2 class="section-retro-title">FREQUENTLY ASKED QUESTIONS</h2>
-            <p class="section-retro-sub" style="margin-left: auto; margin-right: auto;">
-              Technical specifications, kernel compilation pipelines, runtime compatibility, and autonomous arbitration answers.
-            </p>
-          </div>
+          <div class="section-meta-label">// 06 // KNOWLEDGE BASE &amp; GOVERNANCE FAQ</div>
+          <h2 class="section-retro-title">FREQUENTLY ASKED QUESTIONS</h2>
+          <p class="section-retro-sub">
+            Detailed insights on intelligence sources, data verification, historical records, and platform integration.
+          </p>
 
           <div class="faq-accordion-container">
-            <!-- FAQ Item 1 -->
+            
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
-                <span class="faq-question-text">01 // How does MARVEAN achieve lossless INT4/FP8 quantization?</span>
+                <span class="faq-question-text">01 // What sources does Marvean ingest to generate competitive intelligence?</span>
                 <span class="faq-toggle-icon">[+]</span>
               </button>
               <div class="faq-answer-panel">
                 <div class="faq-answer-content">
                   <p>
-                    We deploy <strong>Activation-aware Weight Quantization (AWQ)</strong> integrated with channel-salience outlier preservation. Instead of blindly compressing all tensor columns, the engine profiles actual activation variances: the most sensitive 1% of tensor channels remain in high-precision FP16/FP8 while the bulk 99% are quantized into dense INT4 kernels. This guarantees that complex reasoning benchmarks (GSM8K, MATH, and MMLU) suffer less than <strong>+0.02 perplexity drift</strong> while saving 73% of your cluster's VRAM.
+                    Marvean monitors a multi-layered matrix of authoritative public and commercial data sources: regulatory registries (SEC Edgar 10-K, 10-Q, 8-K filings), patent offices (USPTO, EPO, WIPO), automated public pricing and packaging scrapers, corporate career boards for stealth hiring spikes, verified press wires, and customer review aggregates. Every data record links directly to verifiable raw evidence.
                   </p>
                 </div>
               </div>
             </div>
 
-            <!-- FAQ Item 2 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
-                <span class="faq-question-text">02 // What is the Autonomous Decision Engine and how does it route queries?</span>
+                <span class="faq-question-text">02 // How does Marvean prevent hallucinations and unverified rumors?</span>
                 <span class="faq-toggle-icon">[+]</span>
               </button>
               <div class="faq-answer-panel">
                 <div class="faq-answer-content">
                   <p>
-                    The Autonomous Decision Engine is a deterministic sub-millisecond arbitration layer (&lt; 0.4ms overhead). Incoming queries are triaged based on semantic complexity and confidence scoring. Simple queries are handled directly by agile 3B–8B parameter SLMs, while high-entropy or multi-step logic challenges are dynamically routed to 70B+ frontier models. This eliminates redundant token generation and cuts enterprise cloud spend by up to <strong>68%</strong>.
+                    Unlike generic AI chatbots that guess, Marvean uses a deterministic <strong>Research Governance &amp; Evidence Chain</strong>. Intelligence is only elevated to high-confidence status when backed by primary documentary evidence (such as a regulatory filing or live verified quote). Furthermore, internal strategy teams can subject insights to peer review workflows before publishing to leadership.
                   </p>
                 </div>
               </div>
             </div>
 
-            <!-- FAQ Item 3 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
-                <span class="faq-question-text">03 // Can I compile and deploy on air-gapped or on-prem sovereign clusters?</span>
+                <span class="faq-question-text">03 // Can we track historical pricing changes and past competitor pivots?</span>
                 <span class="faq-toggle-icon">[+]</span>
               </button>
               <div class="faq-answer-panel">
                 <div class="faq-answer-content">
                   <p>
-                    Yes. The <strong>Quantum Cluster</strong> tier compiles static Triton and CUDA binaries (`.so` / C++ shared objects) designed for 100% self-hosted deployment. No telemetry, user data, or model weights ever leave your private VPC or on-prem datacenter. It complies with FedRAMP, HIPAA, and SOC2 Type II air-gapped security mandates.
+                    Yes. Marvean maintains complete historical intelligence archives. You can rewind a competitor's timeline to inspect their packaging revisions, pricing shifts, abandoned feature experiments, and executive changes over the past 1 to 5 years, providing crucial context for future strategy.
                   </p>
                 </div>
               </div>
             </div>
 
-            <!-- FAQ Item 4 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
-                <span class="faq-question-text">04 // How does KV-Cache Compaction support 128k context on single GPUs?</span>
+                <span class="faq-question-text">04 // How will the frontend integrate with our upcoming PHP/Laravel backend?</span>
                 <span class="faq-toggle-icon">[+]</span>
               </button>
               <div class="faq-answer-panel">
                 <div class="faq-answer-content">
                   <p>
-                    Standard attention matrices store large key-value caches that cause OOM (Out Of Memory) faults during multi-turn chats. MARVEAN dynamically detects transient conversational tokens and prunes sparse attention heads while pinning vital semantic anchors. This achieves a <strong>4x memory compaction ratio</strong>, allowing 128k token contexts to execute comfortably on single-GPU hardware like the NVIDIA L40S or Apple Silicon M3 Max.
+                    The frontend application is structured with modular JavaScript components and RESTful API endpoints in mind. The upcoming PHP/Laravel backend will serve JSON resources for Competitor Profiles, Market Observations, Commercial Events, and Research Evidence, ensuring seamless full-stack alignment.
                   </p>
                 </div>
               </div>
             </div>
 
-            <!-- FAQ Item 5 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
-                <span class="faq-question-text">05 // Which model architectures and frameworks are supported?</span>
+                <span class="faq-question-text">05 // Is our proprietary internal strategy research kept confidential?</span>
                 <span class="faq-toggle-icon">[+]</span>
               </button>
               <div class="faq-answer-panel">
                 <div class="faq-answer-content">
                   <p>
-                    We provide out-of-the-box support for Meta Llama 3/3.1, Mistral/Mixtral, DeepSeek V2/V2.5 (MoE), Qwen 2.5, Gemma 2, and Vision-Language transformers. We ingest PyTorch checkpoints, SafeTensors, GGUF, and ONNX formats, and compile execution graphs for vLLM, TensorRT-LLM, SGLang, and edge WebGPU runtimes.
+                    Absolutely. Enterprise research workspaces, internal comments, peer reviews, and custom analyst notes are encrypted in transit (TLS 1.3) and at rest (AES-256). Enterprise tiers offer sovereign VPC deployment options with zero external data egress.
                   </p>
                 </div>
               </div>
             </div>
 
-            <!-- FAQ Item 6 -->
-            <div class="faq-item">
-              <button class="faq-trigger" aria-expanded="false">
-                <span class="faq-question-text">06 // How does billing work and are there token surge penalties?</span>
-                <span class="faq-toggle-icon">[+]</span>
-              </button>
-              <div class="faq-answer-panel">
-                <div class="faq-answer-content">
-                  <p>
-                    All plans are deterministic flat-rate cartridge tiers billed monthly or annually. There are zero surprise surge multipliers or dynamic price inflation during traffic spikes. Annual cycles include an automatic <strong>20% discount</strong> across all tiers.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
         <!-- ==========================================================================
-             CONTACT SECTION - Vintage Mainframe Console Comms
+             SECTION: BRIEFING REQUEST & CONTACT UPLINK
              ========================================================================== -->
         <section class="contact-section" id="contact">
-          <div class="section-meta-label">// ENCRYPTED UPLINK</div>
-          <h2 class="section-retro-title">SIGNAL TRANSMISSION TO FLIGHT DECK</h2>
+          <div class="section-meta-label">// 07 // EXECUTIVE UPLINK &amp; BRIEFINGS</div>
+          <h2 class="section-retro-title">REQUEST AN ENTERPRISE STRATEGY BRIEFING</h2>
           <p class="section-retro-sub">
-            Transmit your model specifications, latency requirements, or cluster footprint. Our core optimization engineers will analyze your tensor weights within 4 hours.
+            Connect with our competitive intelligence architects to configure your custom competitor registry and surveillance parameters.
           </p>
 
           <div class="comms-console">
             <div class="comms-header-bar">
               <div class="comms-header-title">
-                TERMINAL-COMMS // MARVEAN PROTOCOL: SECURE
+                TERMINAL-COMMS // MARVEAN.NET SECURE UPLINK
               </div>
               <div class="status-pill">
                 <span class="status-led"></span>
-                <span>CARRIER SIGNAL: LOCKED</span>
+                <span>UPLINK STATUS: READY</span>
               </div>
             </div>
 
-            <div class="comms-grid">
-              <!-- Contact Form -->
-              <div class="comms-form-wrapper">
-                <form class="comms-form" id="commsTerminalForm">
-                  <div class="comms-field">
-                    <label for="callsignInput">// OPERATOR CALLSIGN (YOUR NAME)</label>
-                    <input type="text" id="callsignInput" class="comms-input" placeholder="e.g. Neo Carter / Lead ML Eng" required>
+            <div class="comms-body-grid">
+              
+              <!-- Form Panel -->
+              <div class="comms-form-pane">
+                <form class="retro-form" id="contactForm">
+                  <div class="form-group">
+                    <label for="contactName">// EXECUTIVE NAME:</label>
+                    <input type="text" id="contactName" name="name" required placeholder="e.g., Sarah Chen, Head of Market Strategy" class="retro-input">
                   </div>
 
-                  <div class="comms-field">
-                    <label for="frequencyInput">// COMMS FREQUENCY (EMAIL ADDRESS)</label>
-                    <input type="email" id="frequencyInput" class="comms-input" placeholder="operator@synthcorp.io" required>
+                  <div class="form-group">
+                    <label for="contactEmail">// CORPORATE EMAIL (marvean.net domain / enterprise):</label>
+                    <input type="email" id="contactEmail" name="email" required placeholder="e.g., s.chen@enterprise.com" class="retro-input">
                   </div>
 
-                  <div class="comms-field">
-                    <label for="targetArchInput">// TARGET MODEL & HARDWARE INFRASTRUCTURE</label>
-                    <input type="text" id="targetArchInput" class="comms-input" placeholder="e.g. Llama-3-70B on 8x L40S, goal &lt; 25ms" required>
+                  <div class="form-group">
+                    <label for="contactIndustry">// PRIMARY INDUSTRY SECTOR:</label>
+                    <select id="contactIndustry" name="industry" class="retro-input">
+                      <option value="enterprise-commerce">Enterprise / Global Commerce</option>
+                      <option value="cloud-saas">Enterprise Cloud &amp; B2B SaaS</option>
+                      <option value="retail-consumer">Retail Tech &amp; E-Commerce</option>
+                      <option value="fintech">Fintech &amp; Financial Services</option>
+                      <option value="other">Other Commercial Sector</option>
+                    </select>
                   </div>
 
-                  <div class="comms-field">
-                    <label for="directiveInput">// MISSION DIRECTIVE & PARAMETERS (MESSAGE)</label>
-                    <textarea id="directiveInput" class="comms-textarea" placeholder="Detail your token throughput goals, quantization constraints, or decision routing rules..."></textarea>
+                  <div class="form-group">
+                    <label for="contactMessage">// SURVEILLANCE REQUIREMENTS &amp; KEY COMPETITORS:</label>
+                    <textarea id="contactMessage" name="message" rows="4" required placeholder="Specify primary competitors to track, key commercial categories, and research governance requirements..." class="retro-input"></textarea>
                   </div>
 
-                  <button type="submit" class="btn-arcade btn-arcade-red" id="submitPacketBtn">
-                    <span>⚡ DISPATCH PACKET</span>
+                  <button type="submit" class="btn-arcade btn-arcade-teal" id="submitPacketBtn">
+                    <span>⚡ TRANSMIT INTELLIGENCE REQUEST</span>
                   </button>
                 </form>
               </div>
 
-              <!-- Terminal Telemetry Log Readout & Direct Channels -->
+              <!-- Terminal Telemetry Readout & Direct Channels -->
               <div class="comms-info-pane">
                 <div>
-                  <div style="font-family: var(--font-display); font-size: 0.72rem; color: #a4bde8; margin-bottom: 0.5rem;">
-                    // TERMINAL CONSOLE LOGS
-                  </div>
+                  <div class="terminal-log-label">// UPLINK CONSOLE TELEMETRY</div>
                   <div class="terminal-telemetry-box" id="terminalLogBox">
-                    <div class="terminal-line">&gt; MARVEAN TELEMETRY INITIALIZED...</div>
-                    <div class="terminal-line">&gt; ENCRYPTED SOCKET: PORT 8842 [LISTENING]</div>
-                    <div class="terminal-line">&gt; READY TO RECEIVE COMPRESSION PAYLOAD</div>
-                    <div class="terminal-line">&gt; READY FOR MISSION PARAMETERS<span class="terminal-cursor"></span></div>
+                    <div class="terminal-line">&gt; MARVEAN INTELLIGENCE ROUTER READY...</div>
+                    <div class="terminal-line">&gt; DOMAIN: MARVEAN.NET // ENCRYPTED SESSION ACTIVE</div>
+                    <div class="terminal-line">&gt; SURVEILLANCE ENGINE: 48 COMPETITORS INDEXED</div>
+                    <div class="terminal-line">&gt; AWAITING STRATEGY PARAMETERS<span class="terminal-cursor"></span></div>
                   </div>
                 </div>
 
                 <div class="direct-channels">
-                  <a href="mailto:ops@marvean.ai" class="channel-card">
+                  <a href="mailto:ops@marvean.net" class="channel-card">
                     <div class="channel-icon">✉</div>
                     <div class="channel-text">
-                      <h4>DIRECT OPERATOR INBOX</h4>
-                      <p>ops@marvean.ai // PGP Key 0x88F4A1</p>
+                      <h4>DIRECT STRATEGY INBOX</h4>
+                      <p>ops@marvean.net // Enterprise Advisory</p>
                     </div>
                   </a>
 
-                  <a href="#" class="channel-card">
-                    <div class="channel-icon">👾</div>
+                  <a href="https://marvean.net" target="_blank" rel="noopener noreferrer" class="channel-card">
+                    <div class="channel-icon">🌐</div>
                     <div class="channel-text">
-                      <h4>COMMUNITY DISCORD TERMINAL</h4>
-                      <p>discord.gg/marvean // 4,800+ ML Engs</p>
+                      <h4>OFFICIAL PLATFORM DOMAIN</h4>
+                      <p>marvean.net // AI Market Intelligence</p>
                     </div>
                   </a>
 
-                  <a href="#" class="channel-card">
+                  <a href="https://github.com/anchuselva/marvean" target="_blank" rel="noopener noreferrer" class="channel-card">
                     <div class="channel-icon">⌨</div>
                     <div class="channel-text">
-                      <h4>GITHUB KERNEL REPOSITORY</h4>
-                      <p>github.com/marvean/marvean-engine // Apache 2.0</p>
+                      <h4>GITHUB CODEBASE</h4>
+                      <p>github.com/anchuselva/marvean // Frontend</p>
                     </div>
                   </a>
                 </div>
@@ -930,15 +1201,13 @@
       </div>
     </section>
 
-    <!-- ==========================================================================
-         SAWTOOTH / SCALLOPED INVERTED DIVIDER TO FOOTER
-         ========================================================================== -->
+    <!-- Bottom Sawtooth -->
     <div class="sawtooth-divider-bottom" aria-hidden="true"></div>
 
   </main>
 
   <!-- ==========================================================================
-       FOOTER - Mainframe Deep Navy Terminal
+       FOOTER
        ========================================================================== -->
   <footer class="site-footer">
     <div class="container">
@@ -948,66 +1217,71 @@
         <div class="footer-brand-pane">
           <div class="logo-badge" style="display: inline-flex;">
             <span>MARVEAN</span>
+            <span class="logo-domain">.NET</span>
           </div>
           <p>
-            Autonomous AI Model Optimization, KV-Cache Sparsity Compression, and Deterministic Decision Routing Engine. 
-            Engineered for high-throughput, low-wattage AI systems.
+            Centralized AI Market &amp; Competitive Intelligence Platform for enterprise and commerce.
+            Unifying competitor profiling, continuous market signals, industry trends, and evidence-governed strategic research.
           </p>
+          <div class="footer-meta-tags">
+            <span class="tag-pill">DOMAIN: marvean.net</span>
+            <span class="tag-pill">NICHE: AI Competitive Intelligence</span>
+            <span class="tag-pill">INDUSTRY: Enterprise / Commerce</span>
+          </div>
         </div>
 
-        <!-- Column 1: Engine -->
+        <!-- Col 1 -->
         <div class="footer-col">
-          <h4>// ARCHITECTURE</h4>
+          <h4>// WORKSPACE APP</h4>
           <ul class="footer-links">
-            <li><a href="#architecture">FP8 & INT4 Quantization</a></li>
-            <li><a href="#architecture">Autonomous Decision Tree</a></li>
-            <li><a href="#architecture">Triton Kernel Fusion</a></li>
-            <li><a href="#architecture">KV-Cache Compactor</a></li>
-            <li><a href="#simulator">Live Benchmark Tool</a></li>
+            <li><a href="#workspace" data-tab-target="registry">Competitor Registry</a></li>
+            <li><a href="#workspace" data-tab-target="signals">Commercial Signals Feed</a></li>
+            <li><a href="#workspace" data-tab-target="governance">Research Governance</a></li>
+            <li><a href="#workspace" data-tab-target="insights">Strategic Insights</a></li>
+            <li><a href="#pipeline">Data Ingestion Pipeline</a></li>
           </ul>
         </div>
 
-        <!-- Column 2: Ecosystem -->
+        <!-- Col 2 -->
         <div class="footer-col">
-          <h4>// ECOSYSTEM</h4>
+          <h4>// CORE PILLARS</h4>
           <ul class="footer-links">
-            <li><a href="#sdk">Developer SDK &amp; Silicon</a></li>
-            <li><a href="#sdk">Triton Kernel Generator</a></li>
-            <li><a href="#">WebGPU Browser Runtime</a></li>
-            <li><a href="#">HuggingFace Checkpoints</a></li>
-            <li><a href="#">Documentation & Whitepaper</a></li>
+            <li><a href="#registry">Company Profiles &amp; Scorecards</a></li>
+            <li><a href="#intelligence">Market Observations &amp; Trends</a></li>
+            <li><a href="#signals">Competitive Event Detection</a></li>
+            <li><a href="#governance">Audited Evidence Chains</a></li>
+            <li><a href="#pricing">Commercial Database Plans</a></li>
           </ul>
         </div>
 
-        <!-- Column 3: Mainframe Ops -->
+        <!-- Col 3 -->
         <div class="footer-col">
-          <h4>// MAINFRAME</h4>
+          <h4>// COMPLIANCE &amp; GOVERNANCE</h4>
           <ul class="footer-links">
-            <li><a href="#faq">Diagnostic FAQ</a></li>
-            <li><a href="#pricing">Cartridge Pricing</a></li>
-            <li><a href="#contact">Encrypted Comms</a></li>
-            <li><a href="#">Enterprise SLA Status</a></li>
-            <li><a href="#">Security & Zero Egress</a></li>
+            <li><a href="#contact">Executive Briefings</a></li>
+            <li><a href="#">Evidence Provenance Standard</a></li>
+            <li><a href="#">Enterprise Security &amp; Encryption</a></li>
+            <li><a href="#">SOC2 &amp; Air-Gapped Deployment</a></li>
             <li><a href="#">Privacy Protocol</a></li>
           </ul>
         </div>
 
       </div>
 
-      <!-- Live Heartbeat & Bottom Ticker -->
+      <!-- Bottom Bar -->
       <div class="footer-bottom-bar">
         <div>
-          <span>&copy; 2026 MARVEAN ENGINE. ALL RIGHTS RESERVED.</span>
+          <span>&copy; 2026 MARVEAN (marvean.net). ALL RIGHTS RESERVED. AI MARKET &amp; COMPETITIVE INTELLIGENCE.</span>
         </div>
 
         <div class="footer-ticker">
           <div class="ticker-item">
-            <span>UPTIME:</span>
-            <span class="ticker-val">99.994%</span>
+            <span>PLATFORM:</span>
+            <span class="ticker-val">marvean.net</span>
           </div>
           <div class="ticker-item">
-            <span>GLOBAL OPTIMIZED TOKENS:</span>
-            <span class="ticker-val" id="globalTokCounter">18,492,040</span>
+            <span>INDEXED SIGNALS:</span>
+            <span class="ticker-val" id="globalTokCounter">148,290</span>
           </div>
           <div class="ticker-item">
             <span class="status-led"></span>
@@ -1017,6 +1291,28 @@
       </div>
     </div>
   </footer>
+
+  <!-- ==========================================================================
+       MODAL: COMPETITOR PROFILE DETAIL DRAWER
+       ========================================================================== -->
+  <div class="modal-backdrop" id="competitorModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-badge" id="modalTierBadge">TIER 1 DIRECT RIVAL</span>
+          <h3 id="modalCompanyName">Nexus Analytics</h3>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBodyContent">
+        <!-- Dynamically rendered via JS -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-arcade btn-arcade-small" id="modalCloseActionBtn">CLOSE DOSSIER</button>
+        <button class="btn-arcade btn-arcade-small btn-arcade-teal" onclick="alert('Exporting verified intelligence dossier PDF for ' + document.getElementById('modalCompanyName').textContent)">EXPORT FULL DOSSIER</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Script logic -->
   <script src="script.js"></script>
