@@ -220,6 +220,25 @@ const competitorData = [
       { date: '2026 Q1', event: 'Vector search patent publication under WIPO registry' },
       { date: '2025 Q3', event: 'Signed multi-year enterprise contract with major European retailer' }
     ]
+  },
+  {
+    id: 'OR-7734',
+    name: 'OmniRetail Cognitive',
+    hq: 'Chicago, IL',
+    tier: 'emerging',
+    tierLabel: 'Emerging Threat',
+    segment: 'commerce',
+    score: '7.4/10',
+    marketShare: '8.8%',
+    products: 'Dynamic Pricing Engine, Shelf-Vision AI, Unified Commerce API',
+    pricing: 'Usage Tier + $1,400 Platform Fee',
+    leadership: 'Julian Thorne, Head of Market AI',
+    evidenceCount: 9,
+    recentMove: 'Secured Tier-1 retail partnership across 1,200 store chains with autonomous price matching.',
+    history: [
+      { date: '2026 Q2', event: 'Published dynamic pricing algorithm benchmark against legacy retail systems' },
+      { date: '2025 Q4', event: 'Raised $24M Series A funding led by Commerce Capital' }
+    ]
   }
 ];
 
@@ -395,45 +414,52 @@ function renderCompetitorCards(data) {
     return;
   }
 
-  container.innerHTML = data.map(item => `
+  container.innerHTML = data.map(item => {
+    const scoreVal = item.score.split('/')[0];
+    return `
     <div class="competitor-card" onclick="openCompetitorDossier('${item.id}')">
       <div class="competitor-head">
-        <div>
+        <div class="competitor-head-info">
           <span class="competitor-tier-pill ${item.tier}">${item.tierLabel}</span>
           <h4 class="competitor-name">${item.name}</h4>
           <span class="competitor-hq">${item.hq} // ID: ${item.id}</span>
         </div>
         <div class="competitor-score" title="Market Leadership Score">
-          ${item.score}
+          <span class="score-val">${scoreVal}</span>
+          <span class="score-max">/10</span>
         </div>
       </div>
 
       <div class="competitor-metrics-grid">
         <div class="c-metric-item">
-          <span>MARKET SHARE:</span>
+          <span>MARKET SHARE</span>
           <strong>${item.marketShare}</strong>
         </div>
         <div class="c-metric-item">
-          <span>EVIDENCE SOURCES:</span>
+          <span>EVIDENCE SOURCES</span>
           <strong class="text-teal">${item.evidenceCount} Audited</strong>
         </div>
-        <div class="c-metric-item" style="grid-column: 1 / -1;">
-          <span>PRICING MODEL:</span>
+        <div class="c-metric-item full-width">
+          <span>PRICING MODEL</span>
           <strong class="text-yellow">${item.pricing}</strong>
         </div>
       </div>
 
       <div class="c-move-box">
-        <strong>LATEST STRATEGIC MOVE:</strong><br>
-        ${item.recentMove}
+        <div class="c-move-label">
+          <span class="pulse-dot"></span>
+          <span>LATEST STRATEGIC MOVE</span>
+        </div>
+        <div class="c-move-text">${item.recentMove}</div>
       </div>
 
       <div class="competitor-footer-actions">
-        <span>Click card to inspect full dossier</span>
-        <span class="text-teal">DOSSIER &rarr;</span>
+        <span class="footer-hint">Click card to inspect dossier</span>
+        <span class="dossier-link">DOSSIER <span class="arrow">&rarr;</span></span>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderSignalsFeed(data) {
