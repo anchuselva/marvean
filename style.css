@@ -300,6 +300,82 @@ body.crt-active::before {
   box-shadow: 2px 2px 0px #000;
 }
 
+/* Mobile Drawer Navigation */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  max-width: 85vw;
+  height: 100vh;
+  background: var(--space-dark);
+  border-right: 3px solid var(--space-border);
+  box-shadow: 10px 0 35px rgba(0, 0, 0, 0.85);
+  z-index: 2500;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-105%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.mobile-drawer.open {
+  transform: translateX(0);
+}
+
+.mobile-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 2px solid var(--space-border);
+  margin-bottom: 1rem;
+}
+
+.mobile-close-btn {
+  background: transparent;
+  border: 1.5px solid var(--space-border);
+  color: #fff;
+  font-size: 1.4rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mobile-close-btn:hover {
+  background: var(--arcade-red);
+  border-color: #000;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 0.6rem 0.85rem;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+
+.mobile-nav-link:hover {
+  background: #142040;
+  color: var(--arcade-teal);
+  border-color: var(--arcade-teal);
+}
+
 /* ==========================================================================
    Hero Section - Midnight Cyber Space & Arcade Console (Split Deck)
    ========================================================================== */
@@ -371,12 +447,117 @@ body.crt-active::before {
   width: 100%;
 }
 
+.hero-grid,
 .hero-split-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.95fr;
+  grid-template-columns: 1.12fr 0.98fr;
   align-items: center;
-  gap: clamp(1.75rem, 3.5vw, 3.25rem);
+  gap: clamp(1.75rem, 3vw, 2.75rem);
+  width: 100%;
 }
+
+.hero-headline {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.35rem, 2.7vw, 2.25rem);
+  line-height: 1.35;
+  color: #ffffff;
+  text-shadow: 3px 3px 0px #000, 0 0 20px rgba(0, 229, 163, 0.25);
+  margin-bottom: 1.15rem;
+  letter-spacing: -0.5px;
+}
+
+.hero-subhead {
+  font-size: clamp(0.92rem, 1.25vw, 1.05rem);
+  color: #b7c7e6;
+  max-width: 620px;
+  margin: 0 0 1.65rem 0;
+  line-height: 1.55;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.hero-telemetry-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  background: rgba(13, 21, 42, 0.75);
+  border: 1.5px solid var(--space-border);
+  padding: 0.75rem 1rem;
+  box-shadow: var(--shadow-pixel-xs);
+}
+
+.telemetry-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #a4bde8;
+  flex-wrap: wrap;
+}
+
+.telemetry-label {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.telemetry-value {
+  color: #e2e8f0;
+}
+
+.btn-arcade-outline {
+  background: transparent;
+  color: #fff;
+  border: 2px solid var(--space-border);
+  box-shadow: var(--shadow-pixel-xs);
+}
+
+.btn-arcade-outline:hover {
+  border-color: var(--arcade-yellow);
+  color: var(--arcade-yellow);
+  box-shadow: var(--shadow-pixel-sm);
+}
+
+.nav-cta {
+  font-size: 0.65rem;
+  padding: 0.45rem 0.75rem;
+}
+
+.nav-icon-btn {
+  background: var(--space-card);
+  border: 2px solid var(--space-border);
+  color: #adbcdb;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px #000;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.nav-icon-btn:hover {
+  border-color: var(--arcade-yellow);
+  color: var(--arcade-yellow);
+}
+
+.nav-icon-btn.active-toggle {
+  background: var(--arcade-yellow);
+  color: #000;
+  border-color: #000;
+}
+
+.text-cyan { color: #38bdf8; font-weight: 700; }
+.text-green { color: #4ade80; font-weight: 700; }
+.text-yellow { color: var(--arcade-yellow); font-weight: 700; }
+.text-red { color: var(--arcade-red); font-weight: 700; }
+
 
 .hero-copy-col {
   text-align: left;
