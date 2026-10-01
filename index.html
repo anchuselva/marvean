@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MARVEAN // AI Model Optimization & Autonomous Decision Engine</title>
+  <meta name="description" content="Next-generation 16-bit arcade styled AI Model Optimization and Autonomous Decision Engine. Quantize weights, compress KV-caches, fuse kernels, and route multi-agent decisions at sub-10ms latency.">
+  
+  <!-- Preconnect Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23ff3355%22/><text y=%2270%22 x=%2224%22 font-family=%22monospace%22 font-size=%2260%22 fill=%22white%22 font-weight=%22bold%22>M</text></svg>">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       TOP NAVIGATION BAR
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo" id="logoLink">
+        <div class="logo-badge">
+          <span>MARVEAN</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero" class="nav-btn active">TERMINAL</a></li>
+        <li><a href="#architecture" class="nav-btn">ARCHITECTURE</a></li>
+        <li><a href="#simulator" class="nav-btn">SIMULATOR</a></li>
+        <li><a href="#sdk" class="nav-btn">INTEGRATION</a></li>
+        <li><a href="#pricing" class="nav-btn">PRICING</a></li>
+        <li><a href="#faq" class="nav-btn">FAQ</a></li>
+        <li><a href="#contact" class="nav-btn">UPLINK</a></li>
+      </ul>
+
+      <!-- Nav Utilities & CTAs -->
+      <div class="nav-utilities">
+        <div class="status-pill" title="Telemetry Status">
+          <span class="status-led"></span>
+          <span>SYS: READY // <span id="livePingTicker">8ms</span></span>
+        </div>
+
+        <!-- 8-Bit Audio Synthesizer Toggle -->
+        <button class="util-btn" id="audioToggleBtn" title="Toggle 8-bit Audio Effects">🔇 AUDIO: OFF</button>
+
+        <!-- CRT Scanlines Toggle -->
+        <button class="util-btn" id="crtToggleBtn" title="Toggle CRT Scanlines">📺 CRT: OFF</button>
+
+        <a href="#simulator" class="launch-btn" id="launchConsoleBtn">RUN BENCHMARK</a>
+
+        <!-- Mobile Menu Hamburger -->
+        <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==========================================================================
+         HERO SECTION - Midnight Cyber Space & Arcade Console
+         ========================================================================== -->
+    <section class="hero-section" id="hero">
+      <!-- Retro Stars Background -->
+      <div class="hero-stars"></div>
+      
+      <!-- Crescent Moon (Signature element from image) -->
+      <div class="crescent-moon"></div>
+
+      <!-- Isometric Perspective Grid Floor -->
+      <div class="hero-grid-perspective"></div>
+
+      <div class="container hero-container">
+        <div class="hero-split-grid">
+          
+          <!-- Left Column: Copy, Directives & Arcade Actions -->
+          <div class="hero-copy-col">
+            <!-- System Directive Badge -->
+            <div class="hero-badge-pill">
+              <span class="badge-icon">⚡</span>
+              <span>KERNEL OPTIMIZATION PROTOCOL v4.2 INITIALIZED</span>
+            </div>
+
+            <!-- Hero Headline -->
+            <h1 class="hero-title">
+              MAXIMIZE <span class="highlight-teal">INFERENCE</span>.<br>
+              MINIMIZE <span class="highlight-red">LATENCY</span>.<br>
+              ZERO SACRIFICE.
+            </h1>
+
+            <!-- Subheading -->
+            <p class="hero-description">
+              The autonomous AI model compression &amp; real-time decision routing engine. 
+              Quantize 70B+ weights to INT4/FP8, prune sparse KV-caches, and arbitrate 
+              multi-agent workflows with sub-10ms determinism.
+            </p>
+
+            <!-- Arcade Action Buttons -->
+            <div class="hero-actions">
+              <a href="#simulator" class="btn-arcade btn-arcade-red" id="ctaDeployBtn">
+                <span>▶ INITIALIZE ENGINE</span>
+              </a>
+              <a href="#architecture" class="btn-arcade btn-arcade-teal" id="ctaArchitectureBtn">
+                <span>⚡ EXPLORE MODULES</span>
+              </a>
+              <a href="#pricing" class="btn-arcade btn-arcade-outline" id="ctaPricingBtn">
+                <span>💾 VIEW TIERS</span>
+              </a>
+            </div>
+
+            <!-- Real-time Quick Metric Badges Strip -->
+            <div class="hero-telemetry-strip">
+              <div class="telemetry-item">
+                <span class="telemetry-bullet bullet-teal"></span>
+                <span class="telemetry-label">THROUGHPUT:</span>
+                <span class="telemetry-value text-teal">284 TOK/S</span>
+              </div>
+              <span class="telemetry-sep">//</span>
+              <div class="telemetry-item">
+                <span class="telemetry-bullet bullet-red"></span>
+                <span class="telemetry-label">VRAM SAVINGS:</span>
+                <span class="telemetry-value text-red">-72.4%</span>
+              </div>
+              <span class="telemetry-sep">//</span>
+              <div class="telemetry-item">
+                <span class="telemetry-bullet bullet-yellow"></span>
+                <span class="telemetry-label">LATENCY:</span>
+                <span class="telemetry-value text-yellow">18.4ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Retro Arcade CRT Console Chassis -->
+          <div class="hero-graphic-col">
+            <div class="hero-stage-console">
+              <div class="console-bezel-header">
+                <div class="console-dots">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <div class="console-title-pill">
+                  MAINFRAME MARVEAN // AUTONOMOUS AI v4.2
+                </div>
+                <div class="console-diodes">
+                  <span>ACTIVE: SXM5-H100</span>
+                  <span class="status-led"></span>
+                </div>
+              </div>
+
+              <div class="hero-art-wrapper">
+                <!-- Autonomous AI Neural Supercore Graphic -->
+                <img src="assets/hero-mainframe.jpg" alt="Autonomous AI Neural Core &amp; Supercomputing Optimization Engine on Isometric Grid" class="hero-art-img">
+
+                <!-- Real-time HUD Telemetry Overlays -->
+                <div class="hero-hud-telemetry">
+                  <div class="hud-chip">
+                    <span>THROUGHPUT:</span>
+                    <span class="hud-val">284 TOK/S</span>
+                  </div>
+                  <div class="hud-chip chip-red">
+                    <span>VRAM COMPRESSION:</span>
+                    <span class="hud-val">-72.4%</span>
+                  </div>
+                  <div class="hud-chip chip-yellow">
+                    <span>AVG LATENCY:</span>
+                    <span class="hud-val">18.4ms</span>
+                  </div>
+                  <div class="hud-chip">
+                    <span>ROUTING ACCURACY:</span>
+                    <span class="hud-val">99.94%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SAWTOOTH / SCALLOPED WAVE DIVIDER (Exact match from reference image)
+         ========================================================================== -->
+    <div class="sawtooth-divider" aria-hidden="true"></div>
+
+    <!-- ==========================================================================
+         PARCHMENT CONTENT CANVAS (Warm Ivory / Retro Paper Section)
+         ========================================================================== -->
+    <section class="parchment-body" id="architecture">
+      <div class="container">
+        
+        <!-- Section Header -->
+        <div class="section-meta-label">// SYSTEM ARCHITECTURE</div>
+        <h2 class="section-retro-title">THE COMPRESSION & DECISION MATRIX</h2>
+        <p class="section-retro-sub">
+          A four-tier acceleration pipeline designed for large foundation models, vision-language transformers, and autonomous decision systems running on constrained hardware.
+        </p>
+
+        <!-- 4-Module Retro CRT Cards Grid -->
+        <div class="modules-grid">
+          
+          <!-- Module 1: Weight Quantization -->
+          <article class="retro-module-card">
+            <div class="card-chassis-top">
+              <span class="card-sys-id">MODULE // 01</span>
+              <span class="card-badge">LOSSLESS</span>
+            </div>
+            <div class="card-screen-bezel">
+              <div class="card-crt-frame">
+                <img src="assets/quantization-monitor.jpg" alt="Neural Net Weight Quantization and FP32 to INT4 Tensor Compression Matrix" class="card-screen-img">
+                <div class="card-crt-overlay">STATUS: OPTIMAL</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">FP8 & INT4 DYNAMIC QUANTIZATION</h3>
+              <p class="card-desc">
+                Converts dense 32-bit float matrix tensors into mixed-precision 4-bit and 8-bit integer kernels. Maintains 99.8% GSM8K and MMLU benchmark fidelity while slashing memory overhead by 73%.
+              </p>
+              <ul class="card-specs-list">
+                <li class="spec-chip spec-red">-73% VRAM FOOTPRINT</li>
+                <li class="spec-chip">AWQ & GPTQ TUNED</li>
+                <li class="spec-chip">ZERO DRIFT</li>
+              </ul>
+              <div class="card-footer-action">
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #535c75;">PERPLEXITY: +0.02</span>
+                <a href="#simulator" class="card-btn">BENCHMARK</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Module 2: Autonomous Decision Engine -->
+          <article class="retro-module-card">
+            <div class="card-chassis-top">
+              <span class="card-sys-id">MODULE // 02</span>
+              <span class="card-badge">ARBITRATION</span>
+            </div>
+            <div class="card-screen-bezel">
+              <div class="card-crt-frame">
+                <img src="assets/decision-matrix.jpg" alt="Autonomous AI Decision Engine and Multi-Agent Arbitration Network Graph" class="card-screen-img">
+                <div class="card-crt-overlay">ARBITRATOR: ACTIVE</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">AUTONOMOUS DECISION ENGINE</h3>
+              <p class="card-desc">
+                Hierarchical multi-branch arbitration matrix that routes user queries across speculative small models, rules engines, or frontier LLMs based on real-time confidence scores and compute cost budgets.
+              </p>
+              <ul class="card-specs-list">
+                <li class="spec-chip spec-red">0.4ms DISPATCH</li>
+                <li class="spec-chip">MULTI-PATH ROUTING</li>
+                <li class="spec-chip">GUARDED LOGIC</li>
+              </ul>
+              <div class="card-footer-action">
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #535c75;">COST CUT: 68%</span>
+                <a href="#simulator" class="card-btn">SIMULATE FLOW</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Module 3: Hardware-Aware Kernel Fusion -->
+          <article class="retro-module-card">
+            <div class="card-chassis-top">
+              <span class="card-sys-id">MODULE // 03</span>
+              <span class="card-badge">TURBO</span>
+            </div>
+            <div class="card-screen-bezel">
+              <div class="card-crt-frame">
+                <img src="assets/kernel-speed.jpg" alt="NVIDIA H200 Tensor Core GPU Architecture and FlashAttention-3 Kernel Fusion" class="card-screen-img">
+                <div class="card-crt-overlay">SPEEDUP: 3.8X</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">HARDWARE-AWARE KERNEL FUSION</h3>
+              <p class="card-desc">
+                Fuses LayerNorm, GeLU, and FlashAttention operations into unified GPU micro-kernels. Eliminates memory bandwidth roundtrips and unlocks maximum tensor core utilization on NVIDIA, Apple Silicon, and WebGPU.
+              </p>
+              <ul class="card-specs-list">
+                <li class="spec-chip spec-red">3.8x INFERENCE SPEED</li>
+                <li class="spec-chip">FLASHINFER-3</li>
+                <li class="spec-chip">TRITON COMPILED</li>
+              </ul>
+              <div class="card-footer-action">
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #535c75;">BANDWIDTH: 94% EFF</span>
+                <a href="#simulator" class="card-btn">VIEW STATS</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Module 4: KV-Cache Compaction -->
+          <article class="retro-module-card">
+            <div class="card-chassis-top">
+              <span class="card-sys-id">MODULE // 04</span>
+              <span class="card-badge">DENSITY</span>
+            </div>
+            <div class="card-screen-bezel">
+              <div class="card-crt-frame">
+                <img src="assets/kv-cache.jpg" alt="3D Transformer KV-Cache Memory Compaction and Sparse Attention Matrix Map" class="card-screen-img">
+                <div class="card-crt-overlay">COMPACT: 1:3 RATIO</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">KV-CACHE ATTENTION COMPACTION</h3>
+              <p class="card-desc">
+                Dynamically purges stale key-value tokens in multi-turn dialogues while keeping critical semantic anchor points intact. Enables 128k context windows to run comfortably within edge device RAM constraints.
+              </p>
+              <ul class="card-specs-list">
+                <li class="spec-chip spec-red">4x CONTEXT DENSITY</li>
+                <li class="spec-chip">DYNAMIC SPARSITY</li>
+                <li class="spec-chip">ZERO LEAKAGE</li>
+              </ul>
+              <div class="card-footer-action">
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #535c75;">CONTEXT: 128K TOKENS</span>
+                <a href="#simulator" class="card-btn">ANALYZE CACHE</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- ==========================================================================
+             INTERACTIVE SIMULATOR CONSOLE (Playable Benchmarking Module)
+             ========================================================================== -->
+        <div class="simulator-panel" id="simulator">
+          <div class="sim-header">
+            <div class="sim-title">
+              <span>🕹️</span>
+              <span>LIVE MODEL OPTIMIZER & LATENCY CALCULATOR</span>
+            </div>
+            <div class="status-pill">
+              <span class="status-led"></span>
+              <span>SIMULATION ENGINE: ONLINE</span>
+            </div>
+          </div>
+
+          <div class="sim-layout">
+            <!-- Controls Form -->
+            <div class="sim-controls">
+              <div class="control-group">
+                <label for="simModelSelect">// TARGET MODEL ARCHITECTURE</label>
+                <select id="simModelSelect" class="retro-select">
+                  <option value="llama-70b">Meta Llama 3 70B (Base Dense)</option>
+                  <option value="mistral-large">Mistral Large 2 (123B Parameters)</option>
+                  <option value="deepseek-v2">DeepSeek V2.5 MoE (236B Total)</option>
+                  <option value="qwen-72b">Alibaba Qwen 2.5 72B (General)</option>
+                  <option value="custom-vit">Custom Vision-LLM Transformer</option>
+                </select>
+              </div>
+
+              <div class="control-group">
+                <label for="simHardwareSelect">// DEPLOYMENT HARDWARE TARGET</label>
+                <select id="simHardwareSelect" class="retro-select">
+                  <option value="h100">NVIDIA H100 SXM5 (80GB VRAM)</option>
+                  <option value="l40s">NVIDIA L40S (48GB Ada)</option>
+                  <option value="m3-max">Apple M3 Max (128GB Unified)</option>
+                  <option value="webgpu">Edge WebGPU Browser Client</option>
+                  <option value="inferentia">AWS Inferentia 2 (Neuron Core)</option>
+                </select>
+              </div>
+
+              <div class="control-group">
+                <label>// ACTIVE OPTIMIZATION PASSES</label>
+                <div class="checkbox-cluster">
+                  <label class="retro-checkbox-label">
+                    <input type="checkbox" id="chkQuant" checked>
+                    <span>INT4/FP8 Lossless Quantization</span>
+                  </label>
+                  <label class="retro-checkbox-label">
+                    <input type="checkbox" id="chkFusion" checked>
+                    <span>FlashAttention & Kernel Fusion</span>
+                  </label>
+                  <label class="retro-checkbox-label">
+                    <input type="checkbox" id="chkKVCache" checked>
+                    <span>KV-Cache Sparsity Compaction</span>
+                  </label>
+                  <label class="retro-checkbox-label">
+                    <input type="checkbox" id="chkDecEngine" checked>
+                    <span>Autonomous Speculative Decision Routing</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Real-time Output Readouts -->
+            <div class="sim-results">
+              <div class="metrics-row">
+                <div class="metric-box">
+                  <div class="metric-name">INFERENCE LATENCY</div>
+                  <div class="metric-value" id="resLatency">18.4 ms</div>
+                  <div class="metric-delta">Target: Sub-20ms</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-name">VRAM FOOTPRINT</div>
+                  <div class="metric-value" id="resVram">39 GB</div>
+                  <div class="metric-delta">Fits on single GPU</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-name">TOKEN THROUGHPUT</div>
+                  <div class="metric-value" id="resTok">284 tok/s</div>
+                  <div class="metric-delta">+597% Speedup</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-name">EST. INFRA COST</div>
+                  <div class="metric-value" id="resCost">$1,180/mo</div>
+                  <div class="metric-delta">Saved: -$3,620/mo</div>
+                </div>
+              </div>
+
+              <!-- Animated Visual Bars -->
+              <div class="progress-bar-container">
+                <div class="bar-meta">
+                  <span>LATENCY COMPRESSION EFFICIENCY</span>
+                  <span id="latencyReductionText">-87% LATENCY CUT</span>
+                </div>
+                <div class="retro-bar-track">
+                  <div class="retro-bar-fill bar-red" id="latencyBarFill" style="width: 87%;"></div>
+                </div>
+              </div>
+
+              <div class="progress-bar-container">
+                <div class="bar-meta">
+                  <span>VRAM DENSITY MULTIPLIER</span>
+                  <span id="vramReductionText">-72% VRAM SAVED</span>
+                </div>
+                <div class="retro-bar-track">
+                  <div class="retro-bar-fill" id="vramBarFill" style="width: 72%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================================================
+             DEVELOPER SDK & SILICON COMPILATION SECTION
+             ========================================================================== -->
+        <section class="sdk-section" id="sdk">
+          <div class="section-meta-label">// DEVELOPER SDK &amp; SILICON LAUNCHPAD</div>
+          <h2 class="section-retro-title">INTEGRATE IN 3 LINES. COMPILE TO ANY SILICON.</h2>
+          <p class="section-retro-sub">
+            From single-line Python inference pipelines to bare-metal C++ and Rust Triton kernels. Drop MARVEAN into vLLM, Hugging Face, or deploy as a sovereign air-gapped container.
+          </p>
+
+          <!-- Interactive Code Terminal & Live Simulator Grid -->
+          <div class="sdk-terminal-grid">
+            
+            <!-- Left: Retro Code Editor Frame -->
+            <div class="sdk-editor-chassis">
+              <div class="editor-titlebar">
+                <div class="editor-tabs" id="sdkCodeTabs">
+                  <button class="editor-tab active" data-tab="python">
+                    <span class="tab-icon">🐍</span> PYTHON SDK
+                  </button>
+                  <button class="editor-tab" data-tab="cli">
+                    <span class="tab-icon">⌨</span> BASH CLI
+                  </button>
+                  <button class="editor-tab" data-tab="rust">
+                    <span class="tab-icon">🦀</span> RUST / C++
+                  </button>
+                  <button class="editor-tab" data-tab="docker">
+                    <span class="tab-icon">🐳</span> DOCKER
+                  </button>
+                </div>
+                <div class="editor-actions">
+                  <button class="copy-code-btn" id="copyCodeBtn" title="Copy code to clipboard">
+                    <span class="copy-icon">📋</span> <span id="copyBtnText">COPY CODE</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="editor-code-body">
+                <div class="code-line-numbers" id="codeLineNumbers">
+                  <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span>
+                </div>
+                <pre class="code-pre"><code id="sdkCodeDisplay" class="code-content"></code></pre>
+              </div>
+
+              <div class="editor-status-footer">
+                <div class="editor-lang-indicator">
+                  <span class="lang-dot"></span> <span id="sdkLangName">PYTHON 3.11+</span>
+                </div>
+                <div class="editor-perf-note">
+                  ⚡ FIRST TOKEN: &lt; 9.8ms // LOSSLESS BENCHMARK
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Compiler Diagnostic Terminal -->
+            <div class="sdk-compiler-chassis">
+              <div class="compiler-header">
+                <div class="console-dots">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <div class="compiler-title">
+                  LIVE-COMPILER-v4.2 // DIAGNOSTICS
+                </div>
+                <div class="compiler-badge" id="compilerBadgeStatus">STATUS: IDLE</div>
+              </div>
+
+              <div class="compiler-console-box" id="compilerConsoleLog">
+                <div class="compiler-line">&gt; MARVEAN STATIC COMPILER READY.</div>
+                <div class="compiler-line">&gt; TARGET: NVIDIA-HOPPER // AWQ-INT4 + FLASHATTN-3</div>
+                <div class="compiler-line text-dim">&gt; Click [TEST COMPILATION PASS] to trigger kernel simulation...</div>
+              </div>
+
+              <div class="compiler-actions-footer">
+                <button class="btn-arcade btn-arcade-teal" id="runCompilerTestBtn">
+                  <span>▶ TEST COMPILATION PASS</span>
+                </button>
+                <div class="compiler-stats-pill">
+                  <span class="status-led"></span>
+                  <span id="compilerTimeTicker">ELAPSED: 0.00s</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom: 4 Supported Silicon Accelerator Cards -->
+          <div class="silicon-grid-header">
+            <h3 class="silicon-heading">// CERTIFIED SILICON ACCELERATORS</h3>
+            <span class="silicon-subheading">ZERO VENDOR LOCK-IN. HARDWARE-AWARE TRITON &amp; CUDA GENERATION.</span>
+          </div>
+
+          <div class="silicon-cards-grid">
+            
+            <!-- Silicon Card 1: NVIDIA Hopper & Blackwell -->
+            <div class="silicon-card">
+              <div class="silicon-chip-icon">
+                <div class="chip-die">
+                  <span class="die-label">NV-H100</span>
+                </div>
+              </div>
+              <div class="silicon-card-body">
+                <div class="silicon-badge badge-green">TENSOR CORES</div>
+                <h4 class="silicon-name">NVIDIA HOPPER &amp; BLACKWELL</h4>
+                <p class="silicon-arch">H100 / H200 / B200 / L40S / RTX 4090</p>
+                <ul class="silicon-features">
+                  <li>✔ CUDA 12.4 + FlashAttention-3</li>
+                  <li>✔ FP8 Transformer Engine Fusion</li>
+                  <li>✔ 99.8% GSM8K benchmark parity</li>
+                </ul>
+                <div class="silicon-metric">
+                  <span class="metric-highlight">3.8X</span> SPEEDUP MULTIPLIER
+                </div>
+              </div>
+            </div>
+
+            <!-- Silicon Card 2: Apple Silicon -->
+            <div class="silicon-card">
+              <div class="silicon-chip-icon">
+                <div class="chip-die chip-die-apple">
+                  <span class="die-label">M3-MAX</span>
+                </div>
+              </div>
+              <div class="silicon-card-body">
+                <div class="silicon-badge badge-yellow">UNIFIED MEMORY</div>
+                <h4 class="silicon-name">APPLE SILICON (M-SERIES)</h4>
+                <p class="silicon-arch">M2 / M3 / M4 Pro &amp; Max (MPS Graph)</p>
+                <ul class="silicon-features">
+                  <li>✔ Zero-copy unified memory buffers</li>
+                  <li>✔ 128k context on 64GB Mac studio</li>
+                  <li>✔ Metal 3 shader matrix pipeline</li>
+                </ul>
+                <div class="silicon-metric">
+                  <span class="metric-highlight">3.2X</span> LATENCY CUT
+                </div>
+              </div>
+            </div>
+
+            <!-- Silicon Card 3: AMD Instinct -->
+            <div class="silicon-card">
+              <div class="silicon-chip-icon">
+                <div class="chip-die chip-die-amd">
+                  <span class="die-label">MI300X</span>
+                </div>
+              </div>
+              <div class="silicon-card-body">
+                <div class="silicon-badge badge-red">ROCm MATRIX</div>
+                <h4 class="silicon-name">AMD INSTINCT &amp; RYZEN AI</h4>
+                <p class="silicon-arch">MI300X / MI250 / Phoenix NPU</p>
+                <ul class="silicon-features">
+                  <li>✔ ROCm 6.2 Composable Kernels</li>
+                  <li>✔ 192GB HBM3 memory optimization</li>
+                  <li>✔ Native vLLM &amp; SGLang parity</li>
+                </ul>
+                <div class="silicon-metric">
+                  <span class="metric-highlight">3.4X</span> DENSITY SCALE
+                </div>
+              </div>
+            </div>
+
+            <!-- Silicon Card 4: Edge & WebGPU -->
+            <div class="silicon-card">
+              <div class="silicon-chip-icon">
+                <div class="chip-die chip-die-edge">
+                  <span class="die-label">WEBGPU</span>
+                </div>
+              </div>
+              <div class="silicon-card-body">
+                <div class="silicon-badge badge-teal">BROWSER / EDGE</div>
+                <h4 class="silicon-name">EDGE NEURAL &amp; WEBGPU</h4>
+                <p class="silicon-arch">WebAssembly SIMD + WebGPU Shaders</p>
+                <ul class="silicon-features">
+                  <li>✔ Client-side in-browser inference</li>
+                  <li>✔ Zero cloud egress or API charges</li>
+                  <li>✔ Qualcomm Snapdragon &amp; Intel NPU</li>
+                </ul>
+                <div class="silicon-metric">
+                  <span class="metric-highlight">5.1X</span> EDGE EFFICIENCY
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ==========================================================================
+             PRICING SECTION - Arcade Cartridge Chassis
+             ========================================================================== -->
+        <section class="pricing-section" id="pricing">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="section-meta-label">// COMMERCIAL TIERS</div>
+            <h2 class="section-retro-title">CHOOSE YOUR COMPUTE CARTRIDGE</h2>
+            <p class="section-retro-sub" style="margin-left: auto; margin-right: auto;">
+              Transparent, deterministic pricing. No hidden token surges. Deploy on our managed edge cluster or compile directly into your private sovereign VPC.
+            </p>
+
+            <!-- Billing Toggle -->
+            <div class="pricing-billing-toggle">
+              <span>MONTHLY CYCLE</span>
+              <label class="toggle-switch-retro">
+                <input type="checkbox" id="billingToggle">
+                <span class="slider-retro"></span>
+              </label>
+              <span>ANNUAL CYCLE</span>
+              <span class="discount-badge">SAVE 20%</span>
+            </div>
+          </div>
+
+          <div class="pricing-grid">
+            
+            <!-- Tier 1: Indie Cartridge -->
+            <div class="pricing-cartridge">
+              <div class="cartridge-header">
+                <div class="cartridge-tier-id">ROM-CARTRIDGE // 01</div>
+                <h3 class="cartridge-title">DEV KIT</h3>
+                <p class="cartridge-desc">Essential quantization and kernel optimization for developers & indie AI hackers.</p>
+              </div>
+              <div class="cartridge-price-box">
+                <span class="price-currency">$</span>
+                <span class="price-amount" id="starterPrice">49</span>
+                <span class="price-period">/ month</span>
+              </div>
+              <ul class="cartridge-features">
+                <li><span class="pixel-check">✔</span> Up to 5 Concurrent Models</li>
+                <li><span class="pixel-check">✔</span> INT8 & INT4 Quantization Pass</li>
+                <li><span class="pixel-check">✔</span> Standard Triton Kernels</li>
+                <li><span class="pixel-check">✔</span> 5 Million Tokens / Month Included</li>
+                <li><span class="pixel-check">✔</span> Community Discord Uplink</li>
+              </ul>
+              <div class="cartridge-cta">
+                <a href="#contact" class="btn-cartridge">LOAD CARTRIDGE</a>
+              </div>
+            </div>
+
+            <!-- Tier 2: Turbo Mainframe (Featured / Popular) -->
+            <div class="pricing-cartridge popular">
+              <div class="popular-banner">★ MOST POPULAR IN PRODUCTION ★</div>
+              <div class="cartridge-header">
+                <div class="cartridge-tier-id">ROM-CARTRIDGE // 02</div>
+                <h3 class="cartridge-title">TURBO MAINFRAME</h3>
+                <p class="cartridge-desc">Full autonomous decision arbitration and extreme kernel fusion for scaling startups.</p>
+              </div>
+              <div class="cartridge-price-box">
+                <span class="price-currency">$</span>
+                <span class="price-amount" id="turboPrice">249</span>
+                <span class="price-period">/ month</span>
+              </div>
+              <ul class="cartridge-features">
+                <li><span class="pixel-check">✔</span> Unlimited Model Quantizations</li>
+                <li><span class="pixel-check">✔</span> Autonomous Multi-Agent Decision Router</li>
+                <li><span class="pixel-check">✔</span> Custom CUDA & FlashAttention-3 Kernels</li>
+                <li><span class="pixel-check">✔</span> 50 Million Tokens / Month Included</li>
+                <li><span class="pixel-check">✔</span> 99.95% Latency SLA Guarantee</li>
+                <li><span class="pixel-check">✔</span> Dedicated Slack / Telegram Uplink</li>
+              </ul>
+              <div class="cartridge-cta">
+                <a href="#contact" class="btn-cartridge">LOAD TURBO CARTRIDGE</a>
+              </div>
+            </div>
+
+            <!-- Tier 3: Quantum Cluster -->
+            <div class="pricing-cartridge">
+              <div class="cartridge-header">
+                <div class="cartridge-tier-id">ROM-CARTRIDGE // 03</div>
+                <h3 class="cartridge-title">QUANTUM CLUSTER</h3>
+                <p class="cartridge-desc">Air-gapped on-premise compilation, dedicated silicon tuning, and custom SLA.</p>
+              </div>
+              <div class="cartridge-price-box">
+                <span class="price-currency">$</span>
+                <span class="price-amount" id="enterprisePrice">999</span>
+                <span class="price-period">/ month</span>
+              </div>
+              <ul class="cartridge-features">
+                <li><span class="pixel-check">✔</span> Air-Gapped Sovereign Deployment</li>
+                <li><span class="pixel-check">✔</span> Custom Silicon Tuning (TPU, Groq, Cerebras)</li>
+                <li><span class="pixel-check">✔</span> Zero Data Egress or Telemetry Leakage</li>
+                <li><span class="pixel-check">✔</span> Unlimited Token Throughput</li>
+                <li><span class="pixel-check">✔</span> 24/7 Dedicated AI War Room Engineers</li>
+                <li><span class="pixel-check">✔</span> Custom Compliance (HIPAA, SOC2, FedRAMP)</li>
+              </ul>
+              <div class="cartridge-cta">
+                <a href="#contact" class="btn-cartridge">CONTACT FLIGHT DECK</a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             FAQ SECTION - Diagnostic Knowledge Base
+             ========================================================================== -->
+        <section class="faq-section" id="faq">
+          <div style="text-align: center; margin-bottom: 2.75rem;">
+            <div class="section-meta-label">// DIAGNOSTIC ARCHIVE</div>
+            <h2 class="section-retro-title">FREQUENTLY ASKED QUESTIONS</h2>
+            <p class="section-retro-sub" style="margin-left: auto; margin-right: auto;">
+              Technical specifications, kernel compilation pipelines, runtime compatibility, and autonomous arbitration answers.
+            </p>
+          </div>
+
+          <div class="faq-accordion-container">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span class="faq-question-text">01 // How does MARVEAN achieve lossless INT4/FP8 quantization?</span>
+                <span class="faq-toggle-icon">[+]</span>
+              </button>
+              <div class="faq-answer-panel">
+                <div class="faq-answer-content">
+                  <p>
+                    We deploy <strong>Activation-aware Weight Quantization (AWQ)</strong> integrated with channel-salience outlier preservation. Instead of blindly compressing all tensor columns, the engine profiles actual activation variances: the most sensitive 1% of tensor channels remain in high-precision FP16/FP8 while the bulk 99% are quantized into dense INT4 kernels. This guarantees that complex reasoning benchmarks (GSM8K, MATH, and MMLU) suffer less than <strong>+0.02 perplexity drift</strong> while saving 73% of your cluster's VRAM.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span class="faq-question-text">02 // What is the Autonomous Decision Engine and how does it route queries?</span>
+                <span class="faq-toggle-icon">[+]</span>
+              </button>
+              <div class="faq-answer-panel">
+                <div class="faq-answer-content">
+                  <p>
+                    The Autonomous Decision Engine is a deterministic sub-millisecond arbitration layer (&lt; 0.4ms overhead). Incoming queries are triaged based on semantic complexity and confidence scoring. Simple queries are handled directly by agile 3B–8B parameter SLMs, while high-entropy or multi-step logic challenges are dynamically routed to 70B+ frontier models. This eliminates redundant token generation and cuts enterprise cloud spend by up to <strong>68%</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span class="faq-question-text">03 // Can I compile and deploy on air-gapped or on-prem sovereign clusters?</span>
+                <span class="faq-toggle-icon">[+]</span>
+              </button>
+              <div class="faq-answer-panel">
+                <div class="faq-answer-content">
+                  <p>
+                    Yes. The <strong>Quantum Cluster</strong> tier compiles static Triton and CUDA binaries (`.so` / C++ shared objects) designed for 100% self-hosted deployment. No telemetry, user data, or model weights ever leave your private VPC or on-prem datacenter. It complies with FedRAMP, HIPAA, and SOC2 Type II air-gapped security mandates.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span class="faq-question-text">04 // How does KV-Cache Compaction support 128k context on single GPUs?</span>
+                <span class="faq-toggle-icon">[+]</span>
+              </button>
+              <div class="faq-answer-panel">
+                <div class="faq-answer-content">
+                  <p>
+                    Standard attention matrices store large key-value caches that cause OOM (Out Of Memory) faults during multi-turn chats. MARVEAN dynamically detects transient conversational tokens and prunes sparse attention heads while pinning vital semantic anchors. This achieves a <strong>4x memory compaction ratio</strong>, allowing 128k token contexts to execute comfortably on single-GPU hardware like the NVIDIA L40S or Apple Silicon M3 Max.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span class="faq-question-text">05 // Which model architectures and frameworks are supported?</span>
+                <span class="faq-toggle-icon">[+]</span>
+              </button>
+              <div class="faq-answer-panel">
+                <div class="faq-answer-content">
+                  <p>
+                    We provide out-of-the-box support for Meta Llama 3/3.1, Mistral/Mixtral, DeepSeek V2/V2.5 (MoE), Qwen 2.5, Gemma 2, and Vision-Language transformers. We ingest PyTorch checkpoints, SafeTensors, GGUF, and ONNX formats, and compile execution graphs for vLLM, TensorRT-LLM, SGLang, and edge WebGPU runtimes.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span class="faq-question-text">06 // How does billing work and are there token surge penalties?</span>
+                <span class="faq-toggle-icon">[+]</span>
+              </button>
+              <div class="faq-answer-panel">
+                <div class="faq-answer-content">
+                  <p>
+                    All plans are deterministic flat-rate cartridge tiers billed monthly or annually. There are zero surprise surge multipliers or dynamic price inflation during traffic spikes. Annual cycles include an automatic <strong>20% discount</strong> across all tiers.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             CONTACT SECTION - Vintage Mainframe Console Comms
+             ========================================================================== -->
+        <section class="contact-section" id="contact">
+          <div class="section-meta-label">// ENCRYPTED UPLINK</div>
+          <h2 class="section-retro-title">SIGNAL TRANSMISSION TO FLIGHT DECK</h2>
+          <p class="section-retro-sub">
+            Transmit your model specifications, latency requirements, or cluster footprint. Our core optimization engineers will analyze your tensor weights within 4 hours.
+          </p>
+
+          <div class="comms-console">
+            <div class="comms-header-bar">
+              <div class="comms-header-title">
+                TERMINAL-COMMS // MARVEAN PROTOCOL: SECURE
+              </div>
+              <div class="status-pill">
+                <span class="status-led"></span>
+                <span>CARRIER SIGNAL: LOCKED</span>
+              </div>
+            </div>
+
+            <div class="comms-grid">
+              <!-- Contact Form -->
+              <div class="comms-form-wrapper">
+                <form class="comms-form" id="commsTerminalForm">
+                  <div class="comms-field">
+                    <label for="callsignInput">// OPERATOR CALLSIGN (YOUR NAME)</label>
+                    <input type="text" id="callsignInput" class="comms-input" placeholder="e.g. Neo Carter / Lead ML Eng" required>
+                  </div>
+
+                  <div class="comms-field">
+                    <label for="frequencyInput">// COMMS FREQUENCY (EMAIL ADDRESS)</label>
+                    <input type="email" id="frequencyInput" class="comms-input" placeholder="operator@synthcorp.io" required>
+                  </div>
+
+                  <div class="comms-field">
+                    <label for="targetArchInput">// TARGET MODEL & HARDWARE INFRASTRUCTURE</label>
+                    <input type="text" id="targetArchInput" class="comms-input" placeholder="e.g. Llama-3-70B on 8x L40S, goal &lt; 25ms" required>
+                  </div>
+
+                  <div class="comms-field">
+                    <label for="directiveInput">// MISSION DIRECTIVE & PARAMETERS (MESSAGE)</label>
+                    <textarea id="directiveInput" class="comms-textarea" placeholder="Detail your token throughput goals, quantization constraints, or decision routing rules..."></textarea>
+                  </div>
+
+                  <button type="submit" class="btn-arcade btn-arcade-red" id="submitPacketBtn">
+                    <span>⚡ DISPATCH PACKET</span>
+                  </button>
+                </form>
+              </div>
+
+              <!-- Terminal Telemetry Log Readout & Direct Channels -->
+              <div class="comms-info-pane">
+                <div>
+                  <div style="font-family: var(--font-display); font-size: 0.72rem; color: #a4bde8; margin-bottom: 0.5rem;">
+                    // TERMINAL CONSOLE LOGS
+                  </div>
+                  <div class="terminal-telemetry-box" id="terminalLogBox">
+                    <div class="terminal-line">&gt; MARVEAN TELEMETRY INITIALIZED...</div>
+                    <div class="terminal-line">&gt; ENCRYPTED SOCKET: PORT 8842 [LISTENING]</div>
+                    <div class="terminal-line">&gt; READY TO RECEIVE COMPRESSION PAYLOAD</div>
+                    <div class="terminal-line">&gt; READY FOR MISSION PARAMETERS<span class="terminal-cursor"></span></div>
+                  </div>
+                </div>
+
+                <div class="direct-channels">
+                  <a href="mailto:ops@marvean.ai" class="channel-card">
+                    <div class="channel-icon">✉</div>
+                    <div class="channel-text">
+                      <h4>DIRECT OPERATOR INBOX</h4>
+                      <p>ops@marvean.ai // PGP Key 0x88F4A1</p>
+                    </div>
+                  </a>
+
+                  <a href="#" class="channel-card">
+                    <div class="channel-icon">👾</div>
+                    <div class="channel-text">
+                      <h4>COMMUNITY DISCORD TERMINAL</h4>
+                      <p>discord.gg/marvean // 4,800+ ML Engs</p>
+                    </div>
+                  </a>
+
+                  <a href="#" class="channel-card">
+                    <div class="channel-icon">⌨</div>
+                    <div class="channel-text">
+                      <h4>GITHUB KERNEL REPOSITORY</h4>
+                      <p>github.com/marvean/marvean-engine // Apache 2.0</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SAWTOOTH / SCALLOPED INVERTED DIVIDER TO FOOTER
+         ========================================================================== -->
+    <div class="sawtooth-divider-bottom" aria-hidden="true"></div>
+
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER - Mainframe Deep Navy Terminal
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top-grid">
+        
+        <!-- Brand Pane -->
+        <div class="footer-brand-pane">
+          <div class="logo-badge" style="display: inline-flex;">
+            <span>MARVEAN</span>
+          </div>
+          <p>
+            Autonomous AI Model Optimization, KV-Cache Sparsity Compression, and Deterministic Decision Routing Engine. 
+            Engineered for high-throughput, low-wattage AI systems.
+          </p>
+        </div>
+
+        <!-- Column 1: Engine -->
+        <div class="footer-col">
+          <h4>// ARCHITECTURE</h4>
+          <ul class="footer-links">
+            <li><a href="#architecture">FP8 & INT4 Quantization</a></li>
+            <li><a href="#architecture">Autonomous Decision Tree</a></li>
+            <li><a href="#architecture">Triton Kernel Fusion</a></li>
+            <li><a href="#architecture">KV-Cache Compactor</a></li>
+            <li><a href="#simulator">Live Benchmark Tool</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Ecosystem -->
+        <div class="footer-col">
+          <h4>// ECOSYSTEM</h4>
+          <ul class="footer-links">
+            <li><a href="#sdk">Developer SDK &amp; Silicon</a></li>
+            <li><a href="#sdk">Triton Kernel Generator</a></li>
+            <li><a href="#">WebGPU Browser Runtime</a></li>
+            <li><a href="#">HuggingFace Checkpoints</a></li>
+            <li><a href="#">Documentation & Whitepaper</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Mainframe Ops -->
+        <div class="footer-col">
+          <h4>// MAINFRAME</h4>
+          <ul class="footer-links">
+            <li><a href="#faq">Diagnostic FAQ</a></li>
+            <li><a href="#pricing">Cartridge Pricing</a></li>
+            <li><a href="#contact">Encrypted Comms</a></li>
+            <li><a href="#">Enterprise SLA Status</a></li>
+            <li><a href="#">Security & Zero Egress</a></li>
+            <li><a href="#">Privacy Protocol</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Live Heartbeat & Bottom Ticker -->
+      <div class="footer-bottom-bar">
+        <div>
+          <span>&copy; 2026 MARVEAN ENGINE. ALL RIGHTS RESERVED.</span>
+        </div>
+
+        <div class="footer-ticker">
+          <div class="ticker-item">
+            <span>UPTIME:</span>
+            <span class="ticker-val">99.994%</span>
+          </div>
+          <div class="ticker-item">
+            <span>GLOBAL OPTIMIZED TOKENS:</span>
+            <span class="ticker-val" id="globalTokCounter">18,492,040</span>
+          </div>
+          <div class="ticker-item">
+            <span class="status-led"></span>
+            <span>SYSTEM HEALTH: NOMINAL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script logic -->
+  <script src="script.js"></script>
+</body>
+</html>
