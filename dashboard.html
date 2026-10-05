@@ -50,6 +50,21 @@
         
         <!-- FORM 1: SIGN IN -->
         <form id="signInForm">
+          <!-- Google Authentication Button -->
+          <button type="button" class="btn-google-auth" id="btnGoogleAuth">
+            <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+            </svg>
+            <span>CONTINUE WITH GOOGLE</span>
+          </button>
+
+          <div class="auth-divider">
+            <span>OR SIGN IN WITH ENTERPRISE EMAIL</span>
+          </div>
+
           <div class="auth-form-grp">
             <label class="auth-label" for="signInEmail">Work / Enterprise Email</label>
             <input type="email" id="signInEmail" class="auth-input-box" placeholder="analyst@enterprise.com" value="analyst@marvean.net" required>
@@ -86,6 +101,20 @@
 
         <!-- FORM 2: SIGN UP -->
         <form id="signUpForm" style="display: none;">
+          <!-- Google Authentication Button (Sign Up) -->
+          <button type="button" class="btn-google-auth" id="btnGoogleSignUp">
+            <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+            </svg>
+            <span>SIGN UP WITH GOOGLE</span>
+          </button>
+
+          <div class="auth-divider">
+            <span>OR REGISTER WITH ENTERPRISE DETAILS</span>
+          </div>
           <div class="auth-form-grp">
             <label class="auth-label" for="signUpName">Full Name</label>
             <input type="text" id="signUpName" class="auth-input-box" placeholder="e.g. Dr. Jordan Vance" required>
@@ -439,6 +468,50 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
     </section>
 
   </main>
+
+  <!-- Firebase App & Authentication SDKs (v10 Modular) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtQ-9K41K-W44OSIWYEGZVOMQTu-V7ODs",
+      authDomain: "altitude-a1355.firebaseapp.com",
+      projectId: "altitude-a1355",
+      storageBucket: "altitude-a1355.firebasestorage.app",
+      messagingSenderId: "251265840302",
+      appId: "1:251265840302:web:fc29f8592f107e2949293f",
+      measurementId: "G-6PFJYJ1GYS"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    isSupported().then(supported => {
+      if (supported) {
+        getAnalytics(app);
+      }
+    }).catch(() => {});
+
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+    googleProvider.addScope('email');
+    googleProvider.addScope('profile');
+    googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+    // Expose client-side bridge for dashboard
+    window.MarveanFirebase = {
+      app,
+      auth,
+      provider: googleProvider,
+      signInWithGoogle: () => signInWithPopup(auth, googleProvider),
+      signOut: () => fbSignOut(auth),
+      isReady: true
+    };
+
+    window.dispatchEvent(new CustomEvent('marvean-firebase-initialized'));
+  </script>
 
   <!-- Scripts -->
   <script src="dashboard.js"></script>
