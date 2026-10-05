@@ -2484,8 +2484,8 @@ input:checked + .slider-retro:before {
 
 .footer-top-grid {
   display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr);
-  gap: 2.5rem;
+  grid-template-columns: 1.35fr repeat(3, 0.9fr) 1.35fr;
+  gap: 2rem;
   margin-bottom: 3rem;
 }
 
@@ -2640,6 +2640,91 @@ input:checked + .slider-retro:before {
 }
 
 /* ==========================================================================
+   Footer Global Offices & Contact Details
+   ========================================================================== */
+.footer-col-offices {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-office-card {
+  background: rgba(14, 23, 46, 0.7);
+  border: 1px solid rgba(42, 60, 102, 0.55);
+  border-radius: 6px;
+  padding: 0.75rem 0.85rem;
+  margin-bottom: 0.75rem;
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.footer-office-card:last-child {
+  margin-bottom: 0;
+}
+
+.footer-office-card:hover {
+  border-color: var(--arcade-teal);
+  background: rgba(18, 30, 60, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 229, 163, 0.18);
+}
+
+.office-country-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--arcade-teal);
+  letter-spacing: 0.5px;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+}
+
+.office-flag-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.office-address {
+  font-style: normal;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #a4badf;
+  margin: 0 0 0.45rem 0;
+}
+
+.office-tel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.18s ease;
+}
+
+.office-tel-svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--arcade-teal);
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+
+.office-tel-link:hover {
+  color: var(--arcade-teal);
+  text-decoration: underline;
+}
+
+.office-tel-link:hover .office-tel-svg {
+  transform: scale(1.15);
+}
+
+/* ==========================================================================
    Responsive Adaptations & Neat Clarity Rules
    ========================================================================== */
 
@@ -2713,6 +2798,10 @@ input:checked + .slider-retro:before {
   .footer-top-grid {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+  }
+
+  .footer-brand-pane {
+    grid-column: span 2;
   }
 
   .showcase-img {
@@ -2882,6 +2971,10 @@ input:checked + .slider-retro:before {
   .footer-top-grid {
     grid-template-columns: 1fr;
     gap: 1.75rem;
+  }
+
+  .footer-brand-pane {
+    grid-column: span 1;
   }
 
   .footer-bottom-bar {
