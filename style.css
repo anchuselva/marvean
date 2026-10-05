@@ -4506,6 +4506,15 @@ input:checked + .slider-retro:before {
   justify-content: space-between;
 }
 
+@media (max-width: 576px) {
+  .nav-product-btn {
+    padding: 0.32rem 0.65rem !important;
+  }
+  .nav-product-btn .product-pill-badge {
+    display: none;
+  }
+}
+
 /* ==========================================================================
    Elevator Pitch Banner
    ========================================================================== */
