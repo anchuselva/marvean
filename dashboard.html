@@ -231,16 +231,9 @@
         </div>
       </div>
 
-      <!-- User Profile & Action Controls -->
+      <!-- User Profile, Avatar & Action Controls -->
       <div class="dash-user-bar">
-        <div class="user-profile-badge">
-          <span class="user-avatar-dot"></span>
-          <div>
-            <strong id="dashUserName" style="color: #fff;">GUEST ANALYST</strong>
-            <span id="dashUserRole" style="color: var(--arcade-teal); margin-left: 4px;">[Level 4 Admin]</span>
-          </div>
-        </div>
-
+        
         <button class="nav-icon-btn" id="dashAudioBtn" title="Toggle Sound Feedback" style="padding: 0.38rem 0.75rem;">
           <span>🔊 AUDIO: ON</span>
         </button>
@@ -249,9 +242,71 @@
           ← MV INTEL™
         </a>
 
-        <button class="btn-dash-auth" id="dashAuthToggleBtn">
-          SIGN OUT
+        <!-- Executive Avatar Capsule -->
+        <div class="user-avatar-capsule" id="userAvatarCapsule" title="Click to view analyst session credentials">
+          <div class="avatar-ring-wrap">
+            <div class="avatar-initials-badge" id="dashAvatarInitials">AV</div>
+            <img id="dashAvatarImg" class="avatar-photo-img" src="" alt="User Avatar" style="display: none;">
+            <span class="avatar-status-dot" id="dashAvatarStatusDot" title="Session: Active"></span>
+          </div>
+          <div class="avatar-info-col">
+            <div class="avatar-name-row">
+              <strong id="dashUserName" class="avatar-user-name">Alex Vance</strong>
+              <span class="avatar-verified-badge" title="Cryptographically Verified">✓</span>
+            </div>
+            <span id="dashUserRole" class="avatar-user-role">Lead Strategy Analyst</span>
+          </div>
+        </div>
+
+        <!-- Dedicated Sleek Logout Button -->
+        <button class="btn-dash-logout" id="dashLogoutBtn" title="Sign out of intelligence terminal">
+          <svg class="logout-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span id="dashLogoutBtnText">LOGOUT</span>
         </button>
+
+        <!-- User Session Popover Dropdown -->
+        <div class="user-session-popover" id="userSessionPopover">
+          <div class="popover-header">
+            <div class="popover-avatar-lg" id="popoverAvatarInitials">AV</div>
+            <div>
+              <div class="popover-user-name" id="popoverUserName">Alex Vance</div>
+              <div class="popover-user-email" id="popoverUserEmail">alex.vance@marvean.net</div>
+            </div>
+          </div>
+
+          <div class="popover-details-list">
+            <div class="popover-detail-row">
+              <span class="popover-detail-label">ORGANIZATION</span>
+              <span class="popover-detail-val" id="popoverOrg">Aegis Corporate Strategy</span>
+            </div>
+            <div class="popover-detail-row">
+              <span class="popover-detail-label">CLEARANCE LEVEL</span>
+              <span class="popover-detail-val text-teal" id="popoverClearance">Level 4 (Director)</span>
+            </div>
+            <div class="popover-detail-row">
+              <span class="popover-detail-label">SESSION FINGERPRINT</span>
+              <span class="popover-detail-val" style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--arcade-yellow);">SHA256:7f83b1...e491</span>
+            </div>
+            <div class="popover-detail-row">
+              <span class="popover-detail-label">STATUS</span>
+              <span class="popover-detail-val text-teal">● ENCRYPTED &amp; ONLINE</span>
+            </div>
+          </div>
+
+          <div class="popover-actions">
+            <button type="button" class="btn-arcade btn-arcade-outline" id="popoverSwitchAccountBtn" style="font-size: 0.74rem; padding: 0.45rem; justify-content: center; width: 100%;">
+              SWITCH ACCOUNT / RE-AUTH
+            </button>
+            <button type="button" class="btn-dash-logout" id="popoverSignOutBtn" style="font-size: 0.74rem; padding: 0.45rem; justify-content: center; width: 100%;">
+              <span>⎋ END SESSION (SIGN OUT)</span>
+            </button>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -384,6 +439,8 @@
          ======================================================================== -->
     <main class="dash-content-pane">
       
+      <div class="dash-workspace-inner">
+
       <!-- Mobile Bar to open slidebar (visible on screens < 1024px) -->
       <div class="mobile-slidebar-bar">
         <button class="btn-mobile-slidebar" id="btnMobileSlidebarToggle">
@@ -396,7 +453,7 @@
       </div>
 
       <!-- Top Executive Telemetry Ribbon (6 Enterprise KPI Nodes) -->
-      <div class="product-kpi-bar" style="margin: 0 0 2rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
+      <div class="product-kpi-bar" style="margin: 0 0 1.5rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
         <div class="kpi-card">
           <div class="kpi-val text-teal" id="kpiCompetitorsCount">4</div>
           <div class="kpi-label">3.1 Competitors</div>
@@ -422,6 +479,185 @@
           <div class="kpi-label">3.5 Strategic Insights</div>
         </div>
       </div>
+
+      <!-- ====================================================================
+           UNIQUE INTERACTIVE GRAPH: MARKET SIGNAL VELOCITY & THREAT RADAR
+           ==================================================================== -->
+      <section class="telemetry-radar-card" id="radarTelemetryCard" aria-label="Market Signal Velocity and Competitive Threat Radar">
+        
+        <!-- Radar Top Header & Controls -->
+        <div class="radar-header">
+          <div class="radar-title-group">
+            <div class="radar-eyebrow">
+              <span class="radar-live-badge"><span class="radar-live-dot"></span> LIVE SIGINT</span>
+              <span>// MULTI-VECTOR RADAR TELEMETRY</span>
+            </div>
+            <h2 class="radar-main-title">
+              <span>⚡</span> Market Signal Velocity &amp; Competitive Threat Radar
+            </h2>
+            <p class="radar-sub-desc">
+              Real-time algorithmic threat index aggregation, pricing disruption anomaly spikes, and commercial signal ingestion telemetry.
+            </p>
+          </div>
+
+          <div class="radar-controls-toolbar">
+            <!-- Time Interval Selector -->
+            <div class="radar-time-pill-group" id="radarTimeFilterGroup">
+              <button class="radar-time-btn" data-interval="1h">1H</button>
+              <button class="radar-time-btn active" data-interval="24h">24H</button>
+              <button class="radar-time-btn" data-interval="7d">7D</button>
+              <button class="radar-time-btn" data-interval="30d">30D</button>
+              <button class="radar-time-btn radar-time-btn-live" data-interval="live">
+                <span class="radar-live-dot" style="display:inline-block; margin-right:3px;"></span> REAL-TIME
+              </button>
+            </div>
+
+            <!-- Metric Visibility Toggles -->
+            <div class="radar-metric-toggles">
+              <button class="radar-metric-chip metric-threat active" id="toggleThreatMetric" data-metric="threat">
+                <span>●</span> Threat Index (Avg: 86.4)
+              </button>
+              <button class="radar-metric-chip metric-velocity active" id="toggleVelocityMetric" data-metric="velocity">
+                <span>●</span> Signal Velocity (348/m)
+              </button>
+              <button class="radar-metric-chip metric-anomalies active" id="toggleAnomaliesMetric" data-metric="anomalies">
+                <span>●</span> Anomaly Spikes (7)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Key Metrics Mini-Ribbon -->
+        <div class="radar-stats-ribbon">
+          <div class="radar-stat-box">
+            <span class="radar-stat-label">Peak Threat Index</span>
+            <div class="radar-stat-val text-red">
+              <span id="radarStatPeak">94.2</span>
+              <span style="font-size: 0.65rem; color: var(--arcade-red);">MAX [CRITICAL]</span>
+            </div>
+          </div>
+          <div class="radar-stat-box">
+            <span class="radar-stat-label">Mean Ingestion Rate</span>
+            <div class="radar-stat-val text-cyan">
+              <span id="radarStatVelocity">348</span>
+              <span style="font-size: 0.65rem; color: #38bdf8;">sig / min</span>
+            </div>
+          </div>
+          <div class="radar-stat-box">
+            <span class="radar-stat-label">Tracked Anomaly Spikes</span>
+            <div class="radar-stat-val text-yellow">
+              <span id="radarStatAnomalies">7</span>
+              <span style="font-size: 0.65rem; color: var(--arcade-yellow);">EVENTS (24H)</span>
+            </div>
+          </div>
+          <div class="radar-stat-box">
+            <span class="radar-stat-label">Surveillance Horizon</span>
+            <div class="radar-stat-val text-teal">
+              <span id="radarStatHorizon">SECURE</span>
+              <span style="font-size: 0.65rem; color: var(--arcade-teal);">99.4% CONF</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive SVG Radar Canvas -->
+        <div class="radar-svg-container" id="radarSvgContainer">
+          <div class="radar-scan-beam" id="radarScanBeam"></div>
+          <div class="radar-crosshair-line" id="radarCrosshairLine"></div>
+          <div class="radar-chart-tooltip" id="radarChartTooltip"></div>
+
+          <svg id="radarChartSvg" viewBox="0 0 960 250" preserveAspectRatio="none" aria-label="Market Threat Telemetry Visualizer">
+            <defs>
+              <!-- Threat Gradient Area Fill -->
+              <linearGradient id="threatAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#00e5a3" stop-opacity="0.38"/>
+                <stop offset="65%" stop-color="#00e5a3" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#00e5a3" stop-opacity="0"/>
+              </linearGradient>
+
+              <!-- Velocity Gradient -->
+              <linearGradient id="velocityAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+              </linearGradient>
+
+              <!-- Neon Glow Filter -->
+              <filter id="radarNeonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Background Grid Lines -->
+            <g class="radar-grid" stroke="rgba(22, 35, 63, 0.6)" stroke-width="1" stroke-dasharray="3 3">
+              <line x1="50" y1="30" x2="940" y2="30"/>
+              <line x1="50" y1="80" x2="940" y2="80"/>
+              <line x1="50" y1="130" x2="940" y2="130"/>
+              <line x1="50" y1="180" x2="940" y2="180"/>
+              <line x1="50" y1="220" x2="940" y2="220"/>
+            </g>
+
+            <!-- Y-Axis Labels -->
+            <g class="radar-axis-labels" fill="#58749a" font-family="'JetBrains Mono', monospace" font-size="10">
+              <text x="12" y="34">100</text>
+              <text x="12" y="84">75</text>
+              <text x="12" y="134">50</text>
+              <text x="12" y="184">25</text>
+              <text x="18" y="224">0</text>
+            </g>
+
+            <!-- Rendered Paths & Dynamic Layers (Populated dynamically by dashboard.js) -->
+            <g id="radarVelocityLayer"></g>
+            <g id="radarThreatAreaLayer"></g>
+            <g id="radarThreatLineLayer"></g>
+            <g id="radarAnomaliesLayer"></g>
+            <g id="radarXAxisLabels" fill="#58749a" font-family="'JetBrains Mono', monospace" font-size="10"></g>
+            <g id="radarInteractiveHoverLayer"></g>
+          </svg>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           GLOBAL INTELLIGENCE SEARCH & MULTI-CATEGORY FILTER CONSOLE
+           ==================================================================== -->
+      <section class="global-search-filter-card" id="globalSearchFilterCard" aria-label="Global Intelligence Search">
+        
+        <!-- Search Input with Clear Button and Shortcut Key -->
+        <div class="search-input-wrapper">
+          <svg class="search-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="globalSearchInput" class="global-search-input" placeholder="Search all intelligence (competitor profiles, signals, SEC filings, shootout attributes, SHA-256 hashes...)" autocomplete="off">
+          <button type="button" class="search-clear-btn" id="globalSearchClearBtn" title="Clear search query">&times;</button>
+          <span class="search-kbd-hint">Press / to search</span>
+        </div>
+
+        <!-- Category Filter Pills & Dynamic Match Counter -->
+        <div class="global-filter-pills-row">
+          <div class="global-filter-chips" id="globalFilterChips">
+            <button class="global-filter-chip active" data-cat="all">ALL INTEL (<span id="cntAll">16</span>)</button>
+            <button class="global-filter-chip" data-cat="competitors">🏢 3.1 Competitors (<span id="cntComps">4</span>)</button>
+            <button class="global-filter-chip" data-cat="records">📊 3.2 Records (<span id="cntRecords">3</span>)</button>
+            <button class="global-filter-chip" data-cat="shootouts">⚔️ 3.3 Shootouts (<span id="cntShootouts">2</span>)</button>
+            <button class="global-filter-chip" data-cat="signals">📡 3.4 Signals (<span id="cntSignals">4</span>)</button>
+            <button class="global-filter-chip" data-cat="evidence">🔐 3.5 Evidence (<span id="cntEvidence">3</span>)</button>
+            <button class="global-filter-chip chip-critical" data-cat="critical">🚨 Critical Only</button>
+          </div>
+          <div class="search-match-count-badge" id="globalSearchCount">Showing 16 intelligence assets</div>
+        </div>
+
+        <!-- Instant Search Results Live Drawer -->
+        <div class="search-results-drawer" id="globalSearchResultsDrawer">
+          <div id="globalSearchResultsList">
+            <!-- Rendered on input -->
+          </div>
+        </div>
+
+      </section>
 
       <!-- Secondary Horizontal Tab Selector (Synchronized with Slidebar) -->
       <div class="dash-tabs-nav">
@@ -743,6 +979,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
 
     </section>
 
+      </div><!-- /.dash-workspace-inner -->
     </main>
   </div>
 

@@ -25,6 +25,8 @@ const DashState = {
   activeSignalFilter: 'all',
   activeShootoutId: 1,
   backendConnected: false,
+  globalSearchQuery: '',
+  globalSearchCategory: 'all',
 
   // 3.1 Competitors & Updates
   competitors: [
@@ -552,6 +554,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initEvidenceAndInsightsModule();
   initBriefingSynthesizer();
   initDeveloperConsole();
+  initTelemetryRadarGraph();
+  initGlobalSearchAndFilter();
 
   checkPersistedSession();
   syncWithBackend();
@@ -1076,6 +1080,50 @@ function initAuthGateway() {
   if (googleSignInBtn) googleSignInBtn.addEventListener('click', handleGoogleAuth);
   if (googleSignUpBtn) googleSignUpBtn.addEventListener('click', handleGoogleAuth);
 
+  const logoutBtn = document.getElementById('dashLogoutBtn');
+  const avatarCapsule = document.getElementById('userAvatarCapsule');
+  const sessionPopover = document.getElementById('userSessionPopover');
+  const popoverSignOut = document.getElementById('popoverSignOutBtn');
+  const popoverSwitchAccount = document.getElementById('popoverSwitchAccountBtn');
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      if (DashState.user) {
+        signOutUser();
+      } else {
+        openAuthModal();
+      }
+    });
+  }
+
+  if (avatarCapsule && sessionPopover) {
+    avatarCapsule.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sessionPopover.classList.toggle('active');
+      playTone('select');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!sessionPopover.contains(e.target) && !avatarCapsule.contains(e.target)) {
+        sessionPopover.classList.remove('active');
+      }
+    });
+  }
+
+  if (popoverSignOut) {
+    popoverSignOut.addEventListener('click', () => {
+      if (sessionPopover) sessionPopover.classList.remove('active');
+      signOutUser();
+    });
+  }
+
+  if (popoverSwitchAccount) {
+    popoverSwitchAccount.addEventListener('click', () => {
+      if (sessionPopover) sessionPopover.classList.remove('active');
+      openAuthModal();
+    });
+  }
+
   if (authOpenBtn) {
     authOpenBtn.addEventListener('click', () => {
       if (DashState.user) {
@@ -1151,6 +1199,7 @@ function signOutUser() {
     window.MarveanFirebase.signOut().catch(() => {});
   }
   updateUserUI();
+  playTone('alert');
   openAuthModal();
 }
 
@@ -1164,22 +1213,100 @@ function checkPersistedSession() {
       return;
     }
   } catch (e) {}
-  openAuthModal();
+  
+  // Default active executive analyst session
+  setAuthenticatedUser({
+    name: 'Alex Vance',
+    email: 'alex.vance@marvean.net',
+    role: 'Lead Strategy Analyst',
+    clearance: 'Level 4 (Director)',
+    org: 'Aegis Corporate Strategy [Tenant #9941]'
+  });
+  closeAuthModal();
 }
 
 function updateUserUI() {
   const nameEl = document.getElementById('dashUserName');
   const roleEl = document.getElementById('dashUserRole');
   const authBtn = document.getElementById('dashAuthToggleBtn');
+  const logoutBtn = document.getElementById('dashLogoutBtn');
+  const logoutBtnText = document.getElementById('dashLogoutBtnText');
+  const initialsBadge = document.getElementById('dashAvatarInitials');
+  const avatarImg = document.getElementById('dashAvatarImg');
+  const statusDot = document.getElementById('dashAvatarStatusDot');
+  const popoverInitials = document.getElementById('popoverAvatarInitials');
+  const popoverName = document.getElementById('popoverUserName');
+  const popoverEmail = document.getElementById('popoverUserEmail');
+  const popoverOrg = document.getElementById('popoverOrg');
+  const popoverClearance = document.getElementById('popoverClearance');
 
   if (DashState.user) {
-    if (nameEl) nameEl.textContent = DashState.user.name;
-    if (roleEl) roleEl.textContent = `[${DashState.user.role}]`;
+    const fullName = DashState.user.name || 'Alex Vance';
+    const roleText = DashState.user.role || 'Lead Strategy Analyst';
+    const emailText = DashState.user.email || 'alex.vance@marvean.net';
+    const orgText = DashState.user.org || 'Aegis Corporate Strategy [Tenant #9941]';
+    const clearanceText = DashState.user.clearance || 'Level 4 (Director)';
+
+    // Initials computation
+    const parts = fullName.trim().split(/\s+/);
+    const initials = parts.length > 1 
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : fullName.substring(0, 2).toUpperCase();
+
+    if (nameEl) nameEl.textContent = fullName;
+    if (roleEl) roleEl.textContent = roleText;
+    if (initialsBadge) initialsBadge.textContent = initials;
+    if (popoverInitials) popoverInitials.textContent = initials;
+    if (popoverName) popoverName.textContent = fullName;
+    if (popoverEmail) popoverEmail.textContent = emailText;
+    if (popoverOrg) popoverOrg.textContent = orgText;
+    if (popoverClearance) popoverClearance.textContent = clearanceText;
+
+    if (DashState.user.photoURL && avatarImg) {
+      avatarImg.src = DashState.user.photoURL;
+      avatarImg.style.display = 'block';
+      if (initialsBadge) initialsBadge.style.display = 'none';
+    } else {
+      if (avatarImg) avatarImg.style.display = 'none';
+      if (initialsBadge) initialsBadge.style.display = 'flex';
+    }
+
+    if (statusDot) {
+      statusDot.className = 'avatar-status-dot';
+      statusDot.title = 'Session: Active & Authenticated';
+    }
+
+    if (logoutBtn) {
+      logoutBtn.classList.remove('btn-mode-signin');
+      logoutBtn.title = 'Sign out of intelligence terminal';
+    }
+    if (logoutBtnText) logoutBtnText.textContent = 'LOGOUT';
     if (authBtn) authBtn.textContent = 'SIGN OUT';
   } else {
-    if (nameEl) nameEl.textContent = 'GUEST (UNAUTHENTICATED)';
-    if (roleEl) roleEl.textContent = '[CLICK TO SIGN IN]';
+    if (nameEl) nameEl.textContent = 'GUEST ANALYST';
+    if (roleEl) roleEl.textContent = '[UNAUTHENTICATED]';
+    if (initialsBadge) {
+      initialsBadge.textContent = 'GA';
+      initialsBadge.style.display = 'flex';
+    }
+    if (avatarImg) avatarImg.style.display = 'none';
+
+    if (statusDot) {
+      statusDot.className = 'avatar-status-dot offline';
+      statusDot.title = 'Session: Offline / Guest';
+    }
+
+    if (logoutBtn) {
+      logoutBtn.classList.add('btn-mode-signin');
+      logoutBtn.title = 'Sign in to access secure intelligence';
+    }
+    if (logoutBtnText) logoutBtnText.textContent = 'SIGN IN 🔑';
     if (authBtn) authBtn.textContent = 'SIGN IN / SIGN UP';
+
+    if (popoverName) popoverName.textContent = 'Guest Analyst';
+    if (popoverEmail) popoverEmail.textContent = 'Unauthenticated Sandbox';
+    if (popoverOrg) popoverOrg.textContent = 'Public Intelligence Observer';
+    if (popoverClearance) popoverClearance.textContent = 'Level 1 (Read-Only Demo)';
   }
 }
 
@@ -1472,7 +1599,9 @@ function renderCompetitors() {
   const container = document.getElementById('competitorsGridList');
   if (!container) return;
 
-  const searchQuery = (document.getElementById('competitorSearchInput')?.value || '').toLowerCase().trim();
+  const localSearch = (document.getElementById('competitorSearchInput')?.value || '').toLowerCase().trim();
+  const globalSearch = (DashState.globalSearchQuery || '').toLowerCase().trim();
+  const searchQuery = globalSearch || localSearch;
 
   const filtered = DashState.competitors.filter(c => {
     const matchesCategory = DashState.activeCompCategory === 'all' || 
@@ -1719,7 +1848,9 @@ function renderMarketRecords() {
   const container = document.getElementById('marketRecordsList');
   if (!container) return;
 
-  const searchQuery = (document.getElementById('recordSearchInput')?.value || '').toLowerCase().trim();
+  const localSearch = (document.getElementById('recordSearchInput')?.value || '').toLowerCase().trim();
+  const globalSearch = (DashState.globalSearchQuery || '').toLowerCase().trim();
+  const searchQuery = globalSearch || localSearch;
 
   const filtered = DashState.marketRecords.filter(r => {
     const matchesFilter = DashState.activeRecordFilter === 'all' || 
@@ -2206,7 +2337,9 @@ function renderSignalsFeed() {
   const container = document.getElementById('signalsFeedList');
   if (!container) return;
 
-  const searchQuery = (document.getElementById('signalSearchInput')?.value || '').toLowerCase().trim();
+  const localSearch = (document.getElementById('signalSearchInput')?.value || '').toLowerCase().trim();
+  const globalSearch = (DashState.globalSearchQuery || '').toLowerCase().trim();
+  const searchQuery = globalSearch || localSearch;
 
   const filtered = DashState.signals.filter(s => {
     const matchesFilter = DashState.activeSignalFilter === 'all' || 
@@ -2801,3 +2934,657 @@ function initDeveloperConsole() {
     });
   }
 }
+
+/* ==========================================================================
+   UNIQUE TELEMETRY GRAPH: MARKET SIGNAL VELOCITY & THREAT RADAR
+   ========================================================================== */
+const RadarGraphState = {
+  activeInterval: '24h',
+  visibleMetrics: { threat: true, velocity: true, anomalies: true },
+  liveTimer: null,
+  datasets: {
+    '1h': [
+      { time: '15:00', timestamp: '15:00 UTC', threat: 74, velocity: 260 },
+      { time: '15:05', timestamp: '15:05 UTC', threat: 76, velocity: 275 },
+      { time: '15:10', timestamp: '15:10 UTC', threat: 79, velocity: 310 },
+      { time: '15:15', timestamp: '15:15 UTC', threat: 88, velocity: 440, anomaly: 'Automated 15% SKU price cut detected', competitor: 'Nexus Enterprise' },
+      { time: '15:20', timestamp: '15:20 UTC', threat: 85, velocity: 380 },
+      { time: '15:25', timestamp: '15:25 UTC', threat: 83, velocity: 330 },
+      { time: '15:30', timestamp: '15:30 UTC', threat: 86, velocity: 370 },
+      { time: '15:35', timestamp: '15:35 UTC', threat: 92, velocity: 490, anomaly: 'Patent filing: Multi-Agent scraping', competitor: 'Apex Market Intel' },
+      { time: '15:40', timestamp: '15:40 UTC', threat: 89, velocity: 420 },
+      { time: '15:45', timestamp: '15:45 UTC', threat: 87, velocity: 360 },
+      { time: '15:50', timestamp: '15:50 UTC', threat: 88, velocity: 350 },
+      { time: '15:55', timestamp: '15:55 UTC', threat: 91, velocity: 390 }
+    ],
+    '24h': [
+      { time: '00:00', timestamp: '00:00 UTC', threat: 68, velocity: 160 },
+      { time: '02:00', timestamp: '02:00 UTC', threat: 72, velocity: 195 },
+      { time: '04:00', timestamp: '04:00 UTC', threat: 75, velocity: 220 },
+      { time: '06:00', timestamp: '06:00 UTC', threat: 81, velocity: 290 },
+      { time: '08:30', timestamp: '08:30 UTC', threat: 94, velocity: 520, anomaly: 'Nexus dropped APAC Enterprise tier by 15%', competitor: 'Nexus Enterprise' },
+      { time: '11:00', timestamp: '11:00 UTC', threat: 88, velocity: 360 },
+      { time: '13:15', timestamp: '13:15 UTC', threat: 91, velocity: 440, anomaly: 'OmniRadar acquired SignalForge for $120M', competitor: 'OmniRadar Systems' },
+      { time: '15:45', timestamp: '15:45 UTC', threat: 93, velocity: 480, anomaly: 'SEC Form 10-Q disclosed 12.8% price compression', competitor: 'Industry Benchmark' },
+      { time: '18:00', timestamp: '18:00 UTC', threat: 86, velocity: 340 },
+      { time: '20:00', timestamp: '20:00 UTC', threat: 83, velocity: 280 },
+      { time: '22:00', timestamp: '22:00 UTC', threat: 87, velocity: 310 },
+      { time: 'LIVE', timestamp: 'Current Radar Lock', threat: 89, velocity: 348 }
+    ],
+    '7d': [
+      { time: 'Mon', timestamp: 'Oct 01', threat: 72, velocity: 280 },
+      { time: 'Tue', timestamp: 'Oct 02', threat: 78, velocity: 320 },
+      { time: 'Wed', timestamp: 'Oct 03', threat: 94, velocity: 540, anomaly: 'Enterprise pricing discount war initiated', competitor: 'Nexus Enterprise' },
+      { time: 'Thu', timestamp: 'Oct 04', threat: 89, velocity: 410 },
+      { time: 'Fri', timestamp: 'Oct 05', threat: 85, velocity: 360, anomaly: 'OmniRadar SignalForge M&A asset injection', competitor: 'OmniRadar Systems' },
+      { time: 'Sat', timestamp: 'Oct 06', threat: 82, velocity: 290 },
+      { time: 'Sun', timestamp: 'Oct 07', threat: 89, velocity: 348 }
+    ],
+    '30d': [
+      { time: 'Wk 1', timestamp: 'Sep 08', threat: 65, velocity: 210 },
+      { time: 'Wk 2', timestamp: 'Sep 15', threat: 74, velocity: 290 },
+      { time: 'Wk 3', timestamp: 'Sep 22', threat: 83, velocity: 380, anomaly: 'OmniRadar EU retail telemetry patch', competitor: 'OmniRadar Systems' },
+      { time: 'Wk 4', timestamp: 'Sep 29', threat: 91, velocity: 490, anomaly: 'MIT CSAIL AI Chief poached by Nexus', competitor: 'Nexus Enterprise' },
+      { time: 'Wk 5', timestamp: 'Oct 05', threat: 89, velocity: 348, anomaly: 'Global pricing compression reaches 12.8%', competitor: 'SEC Audits' }
+    ]
+  },
+  liveBuffer: []
+};
+
+function initTelemetryRadarGraph() {
+  const container = document.getElementById('radarSvgContainer');
+  if (!container) return;
+
+  // Initialize live buffer from 24h data
+  RadarGraphState.liveBuffer = JSON.parse(JSON.stringify(RadarGraphState.datasets['24h']));
+
+  // Interval filter buttons
+  const timeBtns = document.querySelectorAll('#radarTimeFilterGroup .radar-time-btn');
+  timeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      timeBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const interval = btn.getAttribute('data-interval');
+      setRadarInterval(interval);
+      playTone('select');
+    });
+  });
+
+  // Metric toggles
+  const toggleThreat = document.getElementById('toggleThreatMetric');
+  const toggleVelocity = document.getElementById('toggleVelocityMetric');
+  const toggleAnomalies = document.getElementById('toggleAnomaliesMetric');
+
+  if (toggleThreat) {
+    toggleThreat.addEventListener('click', () => {
+      RadarGraphState.visibleMetrics.threat = !RadarGraphState.visibleMetrics.threat;
+      toggleThreat.classList.toggle('active', RadarGraphState.visibleMetrics.threat);
+      renderRadarGraph();
+      playTone('select');
+    });
+  }
+
+  if (toggleVelocity) {
+    toggleVelocity.addEventListener('click', () => {
+      RadarGraphState.visibleMetrics.velocity = !RadarGraphState.visibleMetrics.velocity;
+      toggleVelocity.classList.toggle('active', RadarGraphState.visibleMetrics.velocity);
+      renderRadarGraph();
+      playTone('select');
+    });
+  }
+
+  if (toggleAnomalies) {
+    toggleAnomalies.addEventListener('click', () => {
+      RadarGraphState.visibleMetrics.anomalies = !RadarGraphState.visibleMetrics.anomalies;
+      toggleAnomalies.classList.toggle('active', RadarGraphState.visibleMetrics.anomalies);
+      renderRadarGraph();
+      playTone('select');
+    });
+  }
+
+  // Crosshair tracking & tooltip
+  const crosshair = document.getElementById('radarCrosshairLine');
+  const tooltip = document.getElementById('radarChartTooltip');
+
+  container.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const svgX = (mouseX / rect.width) * 960;
+
+    const data = getActiveRadarData();
+    if (!data || data.length === 0) return;
+
+    // Find nearest point
+    const step = 870 / (data.length - 1);
+    let nearestIdx = Math.round((svgX - 60) / step);
+    nearestIdx = Math.max(0, Math.min(data.length - 1, nearestIdx));
+    const pt = data[nearestIdx];
+
+    const ptX = 60 + nearestIdx * step;
+    const threatY = 220 - (pt.threat / 100) * 190;
+
+    if (crosshair) {
+      crosshair.style.display = 'block';
+      crosshair.style.left = `${(ptX / 960) * 100}%`;
+    }
+
+    if (tooltip) {
+      tooltip.style.display = 'block';
+      tooltip.style.left = `${(ptX / 960) * 100}%`;
+      tooltip.style.top = `${(threatY / 250) * 100}%`;
+
+      const threatColor = pt.threat >= 90 ? 'var(--arcade-red)' : (pt.threat >= 80 ? 'var(--arcade-yellow)' : 'var(--arcade-teal)');
+
+      tooltip.innerHTML = `
+        <div style="font-weight: 700; color: #fff; margin-bottom: 3px; display: flex; justify-content: space-between; gap: 8px;">
+          <span>${pt.timestamp}</span>
+          <span style="color: ${threatColor}; font-weight: 800;">${pt.threat} / 100</span>
+        </div>
+        <div style="color: #7b94ba; display: flex; justify-content: space-between; gap: 8px;">
+          <span>Signal Ingestion:</span>
+          <span style="color: #38bdf8; font-weight: 700;">${pt.velocity} sig/min</span>
+        </div>
+        ${pt.anomaly ? `
+        <div style="margin-top: 5px; padding-top: 4px; border-top: 1px solid rgba(255, 77, 109, 0.4); color: #ffc23d;">
+          <span style="color: var(--arcade-red); font-weight: 700;">🚨 ANOMALY:</span> ${pt.anomaly}
+          <div style="color: #8ea5c8; font-size: 0.65rem;">Entity: ${pt.competitor}</div>
+        </div>` : ''}
+      `;
+    }
+  });
+
+  container.addEventListener('mouseleave', () => {
+    if (crosshair) crosshair.style.display = 'none';
+    if (tooltip) tooltip.style.display = 'none';
+  });
+
+  // Initial draw
+  updateRadarSummaryCards();
+  renderRadarGraph();
+}
+
+function setRadarInterval(interval) {
+  RadarGraphState.activeInterval = interval;
+  const scanBeam = document.getElementById('radarScanBeam');
+
+  if (RadarGraphState.liveTimer) {
+    clearInterval(RadarGraphState.liveTimer);
+    RadarGraphState.liveTimer = null;
+  }
+
+  if (interval === 'live') {
+    if (scanBeam) scanBeam.style.display = 'block';
+    startLiveRadarTicker();
+  } else {
+    if (scanBeam) scanBeam.style.display = 'none';
+  }
+
+  updateRadarSummaryCards();
+  renderRadarGraph();
+}
+
+function startLiveRadarTicker() {
+  RadarGraphState.liveTimer = setInterval(() => {
+    if (RadarGraphState.activeInterval !== 'live') return;
+
+    const buf = RadarGraphState.liveBuffer;
+    const last = buf[buf.length - 1];
+    const newThreat = Math.max(70, Math.min(96, Math.round(last.threat + (Math.random() * 8 - 4))));
+    const newVelocity = Math.max(220, Math.min(580, Math.round(last.velocity + (Math.random() * 40 - 20))));
+    const now = new Date();
+    const timeStr = `${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')}:${String(now.getUTCSeconds()).padStart(2, '0')}`;
+
+    const newPt = {
+      time: timeStr,
+      timestamp: `${timeStr} UTC`,
+      threat: newThreat,
+      velocity: newVelocity
+    };
+
+    if (newThreat >= 93 && Math.random() > 0.65) {
+      newPt.anomaly = 'High-frequency algorithmic pricing spike';
+      newPt.competitor = 'Nexus Enterprise';
+    }
+
+    buf.push(newPt);
+    if (buf.length > 14) buf.shift();
+
+    updateRadarSummaryCards();
+    renderRadarGraph();
+  }, 2500);
+}
+
+function getActiveRadarData() {
+  if (RadarGraphState.activeInterval === 'live') {
+    return RadarGraphState.liveBuffer;
+  }
+  return RadarGraphState.datasets[RadarGraphState.activeInterval] || RadarGraphState.datasets['24h'];
+}
+
+function updateRadarSummaryCards() {
+  const data = getActiveRadarData();
+  if (!data || data.length === 0) return;
+
+  const maxThreat = Math.max(...data.map(d => d.threat));
+  const avgVelocity = Math.round(data.reduce((acc, d) => acc + d.velocity, 0) / data.length);
+  const anomaliesCount = data.filter(d => d.anomaly).length;
+
+  const elPeak = document.getElementById('radarStatPeak');
+  const elVel = document.getElementById('radarStatVelocity');
+  const elAnom = document.getElementById('radarStatAnomalies');
+
+  if (elPeak) elPeak.textContent = maxThreat.toFixed(1);
+  if (elVel) elVel.textContent = avgVelocity;
+  if (elAnom) elAnom.textContent = anomaliesCount;
+}
+
+// Generate smooth cubic Bezier path from points
+function generateSmoothPath(points) {
+  if (points.length < 2) return '';
+  let path = `M ${points[0].x} ${points[0].y}`;
+
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[i === 0 ? 0 : i - 1];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = points[i + 2 < points.length ? i + 2 : i + 1];
+
+    const cp1x = p1.x + (p2.x - p0.x) / 6;
+    const cp1y = p1.y + (p2.y - p0.y) / 6;
+
+    const cp2x = p2.x - (p3.x - p1.x) / 6;
+    const cp2y = p2.y - (p3.y - p1.y) / 6;
+
+    path += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+  }
+  return path;
+}
+
+function renderRadarGraph() {
+  const data = getActiveRadarData();
+  if (!data || data.length === 0) return;
+
+  const threatAreaLayer = document.getElementById('radarThreatAreaLayer');
+  const threatLineLayer = document.getElementById('radarThreatLineLayer');
+  const velocityLayer = document.getElementById('radarVelocityLayer');
+  const anomaliesLayer = document.getElementById('radarAnomaliesLayer');
+  const xAxisLabels = document.getElementById('radarXAxisLabels');
+
+  if (!threatLineLayer) return;
+
+  const width = 960;
+  const startX = 60;
+  const endX = 930;
+  const step = (endX - startX) / (data.length - 1);
+
+  // Scaled coordinates
+  const threatPoints = data.map((d, i) => ({
+    x: startX + i * step,
+    y: 220 - (d.threat / 100) * 190,
+    raw: d
+  }));
+
+  const velocityPoints = data.map((d, i) => ({
+    x: startX + i * step,
+    y: 220 - (Math.min(600, d.velocity) / 600) * 190,
+    raw: d
+  }));
+
+  // 1. Render Velocity Line
+  if (velocityLayer) {
+    if (RadarGraphState.visibleMetrics.velocity) {
+      const vPath = generateSmoothPath(velocityPoints);
+      velocityLayer.innerHTML = `
+        <path d="${vPath}" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5 3" opacity="0.85"/>
+      `;
+    } else {
+      velocityLayer.innerHTML = '';
+    }
+  }
+
+  // 2. Render Threat Line & Gradient Area
+  if (threatAreaLayer && threatLineLayer) {
+    if (RadarGraphState.visibleMetrics.threat) {
+      const tPath = generateSmoothPath(threatPoints);
+      const areaPath = `${tPath} L ${threatPoints[threatPoints.length - 1].x} 220 L ${threatPoints[0].x} 220 Z`;
+
+      threatAreaLayer.innerHTML = `
+        <path d="${areaPath}" fill="url(#threatAreaGrad)"/>
+      `;
+
+      threatLineLayer.innerHTML = `
+        <path d="${tPath}" fill="none" stroke="#00e5a3" stroke-width="2.5" filter="url(#radarNeonGlow)"/>
+        ${threatPoints.map(p => `
+          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="#00e5a3" />
+        `).join('')}
+      `;
+    } else {
+      threatAreaLayer.innerHTML = '';
+      threatLineLayer.innerHTML = '';
+    }
+  }
+
+  // 3. Render Anomaly Spikes
+  if (anomaliesLayer) {
+    if (RadarGraphState.visibleMetrics.anomalies) {
+      const anomalies = threatPoints.filter(p => p.raw.anomaly);
+      anomaliesLayer.innerHTML = anomalies.map(p => `
+        <g class="radar-anomaly-marker" style="cursor: pointer;" onclick="handleRadarAnomalyClick('${encodeURIComponent(p.raw.anomaly)}')">
+          <line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="220" stroke="rgba(255, 77, 109, 0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="10" fill="none" stroke="#ff4d6d" stroke-width="1.5" opacity="0.6">
+            <animate attributeName="r" values="6;14;6" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="#ff4d6d" filter="url(#radarNeonGlow)"/>
+          <rect x="${(p.x - 28).toFixed(1)}" y="${(p.y - 20).toFixed(1)}" width="56" height="15" rx="3" fill="rgba(10, 18, 36, 0.9)" stroke="#ffc23d" stroke-width="1"/>
+          <text x="${p.x.toFixed(1)}" y="${(p.y - 9).toFixed(1)}" fill="#ffc23d" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" text-anchor="middle">🚨 ${p.raw.threat}</text>
+        </g>
+      `).join('');
+    } else {
+      anomaliesLayer.innerHTML = '';
+    }
+  }
+
+  // 4. Render X-Axis Labels
+  if (xAxisLabels) {
+    xAxisLabels.innerHTML = threatPoints.map((p, i) => `
+      <text x="${p.x.toFixed(1)}" y="240" text-anchor="middle">${p.raw.time}</text>
+    `).join('');
+  }
+}
+
+window.handleRadarAnomalyClick = function(encodedAnomaly) {
+  const anomalyText = decodeURIComponent(encodedAnomaly);
+  switchDashboardTab('signals');
+  const searchInput = document.getElementById('signalSearchInput');
+  if (searchInput) {
+    searchInput.value = anomalyText.split(' ')[0];
+    renderSignalsFeed();
+  }
+  playTone('alert');
+};
+
+/* ==========================================================================
+   GLOBAL SEARCH & MULTI-CATEGORY FILTER CONSOLE
+   ========================================================================== */
+function initGlobalSearchAndFilter() {
+  const searchInput = document.getElementById('globalSearchInput');
+  const clearBtn = document.getElementById('globalSearchClearBtn');
+  const countBadge = document.getElementById('globalSearchCount');
+  const drawer = document.getElementById('globalSearchResultsDrawer');
+  const resultsList = document.getElementById('globalSearchResultsList');
+  const filterChips = document.querySelectorAll('#globalFilterChips .global-filter-chip');
+
+  // Update initial counts
+  updateGlobalAssetCounts();
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim();
+      DashState.globalSearchQuery = query;
+
+      if (clearBtn) clearBtn.style.display = query.length > 0 ? 'inline-block' : 'none';
+
+      executeGlobalSearch(query);
+    });
+
+    searchInput.addEventListener('focus', () => {
+      if (searchInput.value.trim().length > 0 && drawer) {
+        drawer.classList.add('active');
+      }
+    });
+  }
+
+  if (clearBtn && searchInput) {
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      DashState.globalSearchQuery = '';
+      clearBtn.style.display = 'none';
+      if (drawer) drawer.classList.remove('active');
+      executeGlobalSearch('');
+      playTone('select');
+    });
+  }
+
+  // Close drawer on click outside
+  document.addEventListener('click', (e) => {
+    if (drawer && !drawer.contains(e.target) && searchInput && !searchInput.contains(e.target)) {
+      drawer.classList.remove('active');
+    }
+  });
+
+  // Global Keyboard Shortcut: '/' to search
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+      e.preventDefault();
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.select();
+        playTone('hover');
+      }
+    }
+    if (e.key === 'Escape' && drawer) {
+      drawer.classList.remove('active');
+    }
+  });
+
+  // Filter chips
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      filterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const cat = chip.getAttribute('data-cat') || 'all';
+      DashState.globalSearchCategory = cat;
+
+      if (cat === 'critical') {
+        switchDashboardTab('signals');
+        DashState.activeSignalFilter = 'Critical';
+        document.querySelectorAll('#signalFilters .signal-chip-filter').forEach(sc => {
+          sc.classList.toggle('active', sc.getAttribute('data-filter') === 'Critical');
+        });
+        renderSignalsFeed();
+      } else if (cat !== 'all') {
+        switchDashboardTab(cat === 'records' ? 'market-records' : (cat === 'shootouts' ? 'product-comparisons' : cat));
+      }
+
+      executeGlobalSearch(searchInput ? searchInput.value.trim() : '');
+      playTone('select');
+    });
+  });
+}
+
+function updateGlobalAssetCounts() {
+  const cntAll = document.getElementById('cntAll');
+  const cntComps = document.getElementById('cntComps');
+  const cntRecords = document.getElementById('cntRecords');
+  const cntShootouts = document.getElementById('cntShootouts');
+  const cntSignals = document.getElementById('cntSignals');
+  const cntEvidence = document.getElementById('cntEvidence');
+
+  const total = DashState.competitors.length + DashState.marketRecords.length + 
+                DashState.productComparisons.length + DashState.signals.length + 
+                DashState.evidence.length;
+
+  if (cntAll) cntAll.textContent = total;
+  if (cntComps) cntComps.textContent = DashState.competitors.length;
+  if (cntRecords) cntRecords.textContent = DashState.marketRecords.length;
+  if (cntShootouts) cntShootouts.textContent = DashState.productComparisons.length;
+  if (cntSignals) cntSignals.textContent = DashState.signals.length;
+  if (cntEvidence) cntEvidence.textContent = DashState.evidence.length;
+}
+
+function executeGlobalSearch(query) {
+  const drawer = document.getElementById('globalSearchResultsDrawer');
+  const resultsList = document.getElementById('globalSearchResultsList');
+  const countBadge = document.getElementById('globalSearchCount');
+
+  const q = query.toLowerCase().trim();
+
+  // 1. In-place tab filtering
+  renderCompetitors();
+  renderMarketRecords();
+  renderSignalsFeed();
+  renderEvidence();
+
+  // 2. Aggregate Search Across All Modules
+  const matchedComps = DashState.competitors.filter(c => 
+    !q || c.name.toLowerCase().includes(q) || (c.ticker && c.ticker.toLowerCase().includes(q)) || c.overview.toLowerCase().includes(q)
+  );
+
+  const matchedRecords = DashState.marketRecords.filter(r => 
+    !q || r.title.toLowerCase().includes(q) || r.industry.toLowerCase().includes(q) || r.executive_summary.toLowerCase().includes(q)
+  );
+
+  const matchedShootouts = DashState.productComparisons.filter(p => 
+    !q || p.matrix_name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
+  );
+
+  const matchedSignals = DashState.signals.filter(s => 
+    !q || s.title.toLowerCase().includes(q) || s.competitor.toLowerCase().includes(q) || s.details.toLowerCase().includes(q)
+  );
+
+  const matchedEvidence = DashState.evidence.filter(e => 
+    !q || e.title.toLowerCase().includes(q) || e.document_reference.toLowerCase().includes(q) || e.hash.toLowerCase().includes(q)
+  );
+
+  const totalMatches = matchedComps.length + matchedRecords.length + matchedShootouts.length + matchedSignals.length + matchedEvidence.length;
+
+  if (countBadge) {
+    countBadge.textContent = q ? `Found ${totalMatches} matching intelligence assets` : `Showing ${totalMatches} intelligence assets`;
+  }
+
+  // 3. Render Drawer Popover if user typed something
+  if (!q) {
+    if (drawer) drawer.classList.remove('active');
+    return;
+  }
+
+  if (drawer && resultsList) {
+    drawer.classList.add('active');
+
+    if (totalMatches === 0) {
+      resultsList.innerHTML = `
+        <div style="padding: 2rem; text-align: center; color: #7f97bd; font-family: var(--font-mono); font-size: 0.8rem;">
+          No matching intelligence assets found for "<span style="color: #fff;">${escapeHtml(query)}</span>".
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+
+    if (matchedComps.length > 0) {
+      html += `
+        <div class="search-result-group">
+          <div class="search-group-title">🏢 COMPETITORS (${matchedComps.length})</div>
+          ${matchedComps.map(c => `
+            <div class="search-result-row" onclick="jumpToSearchResult('competitors', 'comp-${c.id}')">
+              <div class="search-result-row-left">
+                <div class="search-res-title">${escapeHtml(c.name)} <span style="color: var(--arcade-teal); font-size: 0.72rem;">[${c.ticker}]</span></div>
+                <div class="search-res-snippet">${escapeHtml(c.recentMove || c.overview)}</div>
+              </div>
+              <span class="search-res-jump-badge">VIEW ➔</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (matchedSignals.length > 0) {
+      html += `
+        <div class="search-result-group">
+          <div class="search-group-title">📡 REAL-TIME SIGNALS (${matchedSignals.length})</div>
+          ${matchedSignals.map(s => `
+            <div class="search-result-row" onclick="jumpToSearchResult('signals', 'sig-${s.id}')">
+              <div class="search-result-row-left">
+                <div class="search-res-title"><span style="color: ${s.severity === 'Critical' ? 'var(--arcade-red)' : 'var(--arcade-yellow)'};">[${s.severity}]</span> ${escapeHtml(s.title)}</div>
+                <div class="search-res-snippet">${escapeHtml(s.competitor)} · ${escapeHtml(s.details)}</div>
+              </div>
+              <span class="search-res-jump-badge">VIEW ➔</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (matchedRecords.length > 0) {
+      html += `
+        <div class="search-result-group">
+          <div class="search-group-title">📊 MARKET RECORDS (${matchedRecords.length})</div>
+          ${matchedRecords.map(r => `
+            <div class="search-result-row" onclick="jumpToSearchResult('market-records', 'rec-${r.id}')">
+              <div class="search-result-row-left">
+                <div class="search-res-title">${escapeHtml(r.title)}</div>
+                <div class="search-res-snippet">${escapeHtml(r.industry)} · ${escapeHtml(r.executive_summary)}</div>
+              </div>
+              <span class="search-res-jump-badge">VIEW ➔</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (matchedShootouts.length > 0) {
+      html += `
+        <div class="search-result-group">
+          <div class="search-group-title">⚔️ PRODUCT SHOOTOUTS (${matchedShootouts.length})</div>
+          ${matchedShootouts.map(p => `
+            <div class="search-result-row" onclick="jumpToSearchResult('product-comparisons', 'shootout-${p.id}')">
+              <div class="search-result-row-left">
+                <div class="search-res-title">${escapeHtml(p.matrix_name)}</div>
+                <div class="search-res-snippet">${escapeHtml(p.category)} · Marvean Advantage</div>
+              </div>
+              <span class="search-res-jump-badge">VIEW ➔</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (matchedEvidence.length > 0) {
+      html += `
+        <div class="search-result-group">
+          <div class="search-group-title">🔐 CRYPTOGRAPHIC EVIDENCE (${matchedEvidence.length})</div>
+          ${matchedEvidence.map(e => `
+            <div class="search-result-row" onclick="jumpToSearchResult('evidence', 'evi-${e.id}')">
+              <div class="search-result-row-left">
+                <div class="search-res-title">${escapeHtml(e.title || e.document_reference)}</div>
+                <div class="search-res-snippet">${escapeHtml(e.hash)} · ${escapeHtml(e.regulatory_body || 'Direct Telemetry')}</div>
+              </div>
+              <span class="search-res-jump-badge">VIEW ➔</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    resultsList.innerHTML = html;
+  }
+}
+
+window.jumpToSearchResult = function(tabName, elementId) {
+  switchDashboardTab(tabName);
+  const drawer = document.getElementById('globalSearchResultsDrawer');
+  if (drawer) drawer.classList.remove('active');
+
+  setTimeout(() => {
+    // Scroll to panel container
+    const panel = document.getElementById(`panel-${tabName}`);
+    if (panel) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 100);
+
+  playTone('powerup');
+};
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
