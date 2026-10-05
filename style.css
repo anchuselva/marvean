@@ -2582,23 +2582,21 @@ input:checked + .slider-retro:before {
 .social-badge-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   background: rgba(18, 28, 56, 0.75);
   border: 1px solid var(--space-border);
   border-radius: 6px;
-  padding: 0.45rem 0.85rem;
   color: #c0d1ed;
   text-decoration: none;
-  font-family: var(--font-tech);
-  font-size: 0.85rem;
-  font-weight: 700;
   transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .social-badge-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   transition: transform 0.2s ease;
 }
