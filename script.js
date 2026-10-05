@@ -126,7 +126,7 @@ function initCrtToggle() {
 const competitorData = [
   {
     id: 'NX-8842',
-    name: 'Nexus Analytics',
+    name: 'Aarav Mehta',
     hq: 'San Francisco, CA',
     tier: 'tier-1',
     tierLabel: 'Tier 1 Direct',
@@ -135,7 +135,7 @@ const competitorData = [
     marketShare: '28.1%',
     products: 'Cloud BI, Predictive Forecasting, Deal Intelligence',
     pricing: 'Usage-Based (+15% revision in Q2)',
-    leadership: 'Sarah Chen appointed CEO; David Lee left CTO',
+    leadership: 'Aarav Mehta appointed CEO; David Lee left CTO',
     evidenceCount: 12,
     recentMove: 'Launched unannounced 15% enterprise discounting in APAC to unseat incumbents.',
     history: [
@@ -146,7 +146,7 @@ const competitorData = [
   },
   {
     id: 'AD-9910',
-    name: 'Acme Dynamics',
+    name: 'Daniel Schneider',
     hq: 'Boston, MA',
     tier: 'tier-1',
     tierLabel: 'Tier 1 Direct',
@@ -155,7 +155,7 @@ const competitorData = [
     marketShare: '22.4%',
     products: 'B2B Commerce Engine, Inventory Optimization, Order Mesh',
     pricing: 'Annual Contract + 0.8% GMV Take-rate',
-    leadership: 'Marcus Brody, VP Commerce Strategy',
+    leadership: 'Daniel Schneider, VP Commerce Strategy',
     evidenceCount: 8,
     recentMove: 'Filed 4 automated cart replenishment patents to defend mid-market retail base.',
     history: [
@@ -247,22 +247,22 @@ const signalsData = [
   {
     type: 'pricing',
     typeLabel: 'PRICING SHIFT',
-    competitor: 'Nexus Analytics',
+    competitor: 'Arjun Perera',
     impact: 'critical',
     time: '4m ago',
-    title: 'Nexus Analytics Drops APAC Enterprise Tier Pricing by 15%',
+    title: 'Arjun Perera Drops APAC Enterprise Tier Pricing by 15%',
     desc: 'Automated scraping confirmed a 15% discount across multi-year contracts in Tokyo and Singapore. Direct counter-strategy recommended for field sales.',
     confidence: '98.8%',
-    analyst: 'Sarah Chen',
+    analyst: 'Arjun Perera Research Desk',
     evidence: 'SEC Edgar 10-Q & Public Pricing API'
   },
   {
     type: 'patent',
     typeLabel: 'PATENT FILING',
-    competitor: 'Acme Dynamics',
+    competitor: 'Rohan Wijesinghe',
     impact: 'major',
     time: '18m ago',
-    title: 'Autonomous Replenishment Agent Algorithm Published (USPTO #2026-0814)',
+    title: 'Rohan Wijesinghe: Autonomous Replenishment Agent Algorithm Published (USPTO #2026-0814)',
     desc: 'Patent covers predictive procurement triggers for B2B e-commerce platforms without human intervention.',
     confidence: '97.5%',
     analyst: 'Alex Carter',
@@ -271,22 +271,22 @@ const signalsData = [
   {
     type: 'leadership',
     typeLabel: 'LEADERSHIP MOVE',
-    competitor: 'Nexus Analytics',
+    competitor: 'Matteo Rossi',
     impact: 'minor',
     time: '42m ago',
-    title: 'David Lee Departs as CTO; Replaced by Former AWS Principal',
+    title: 'Matteo Rossi: Executive Restructuring and Strategic Pivot to Real-Time Streaming',
     desc: 'Executive restructuring suggests pivot toward hyperscaler cloud native architecture and real-time streaming pipelines.',
     confidence: '99.2%',
-    analyst: 'Sarah Chen',
+    analyst: 'Intelligence Desk',
     evidence: 'Corporate 8-K Notice'
   },
   {
     type: 'launch',
     typeLabel: 'PRODUCT LAUNCH',
-    competitor: 'AdventurEx Cloud',
+    competitor: 'Clara Novak',
     impact: 'major',
     time: '1h ago',
-    title: 'Frankfurt Sovereign Data Pipeline Cluster Deployed',
+    title: 'Clara Novak: Frankfurt Sovereign Data Pipeline Cluster Deployed',
     desc: 'Air-gapped telemetry and processing dedicated for EU banking and enterprise commerce compliance.',
     confidence: '99.4%',
     analyst: 'David Smith',
@@ -295,10 +295,10 @@ const signalsData = [
   {
     type: 'launch',
     typeLabel: 'PRODUCT LAUNCH',
-    competitor: 'Synapse Solutions',
+    competitor: 'Anika Sharma',
     impact: 'minor',
     time: '3h ago',
-    title: 'Neural Recommendation Graph 2.0 Beta Released',
+    title: 'Anika Sharma: Neural Recommendation Graph 2.0 Beta Released',
     desc: 'Self-serve catalog embedding tool launched for digital commerce merchants processing under $50M GMV.',
     confidence: '95.1%',
     analyst: 'Alex Carter',
@@ -747,6 +747,7 @@ function initPricingToggle() {
   const labelMonthly = document.getElementById('labelMonthly');
   const labelAnnual = document.getElementById('labelAnnual');
   const priceVals = document.querySelectorAll('.price-val');
+  const periods = document.querySelectorAll('.pricing-cost .period');
   if (!switchBtn) return;
 
   let isAnnual = false;
@@ -760,6 +761,20 @@ function initPricingToggle() {
     priceVals.forEach(val => {
       const price = isAnnual ? val.getAttribute('data-annual') : val.getAttribute('data-monthly');
       val.textContent = price;
+
+      // Handle currency symbol visibility if price is Custom
+      const card = val.closest('.pricing-cost');
+      if (card) {
+        const curr = card.querySelector('.currency');
+        if (curr) {
+          curr.style.display = price === 'Custom' ? 'none' : 'inline';
+        }
+      }
+    });
+
+    periods.forEach(p => {
+      const per = isAnnual ? p.getAttribute('data-annual-period') : p.getAttribute('data-monthly-period');
+      if (per) p.textContent = per;
     });
 
     if (soundEnabled) playArcadeSound('select');

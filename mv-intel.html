@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MV Intel™ // AI Autonomous Market Intelligence Engine | MARVEAN</title>
+  <meta name="description" content="MV Intel™ by Marvean: Continuous real-time competitor surveillance, algorithmic pricing shift detection, SEC/patent mining, and audited strategic counter-move synthesis.">
+  
+  <!-- Preconnect Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="MARVEAN/favicon.svg">
+  
+  <!-- Master Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mv-intel.css">
+</head>
+<body class="product-body">
+  <div class="cyber-grid-bg"></div>
+
+  <!-- ==========================================================================
+       TOP NAVIGATION BAR
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <!-- Brand Logo -->
+      <a href="index.html" class="brand-logo" id="logoLink" title="Return to Marvean Overview">
+        <img src="MARVEAN/logo.svg" alt="MARVEAN Logo" class="brand-logo-img">
+      </a>
+
+      <!-- Navigation Links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-btn">← OVERVIEW</a></li>
+        <li><a href="#features" class="nav-btn">FEATURES</a></li>
+        <li><a href="#architecture" class="nav-btn">ARCHITECTURE</a></li>
+        <li><a href="#developer-spec" class="nav-btn">DEV SPEC</a></li>
+        <li>
+          <!-- PRIMARY ACTION IN NAVBAR: EXPLORE DASHBOARD (OPENS IN NEW PAGE) -->
+          <a href="dashboard.html" target="_blank" class="nav-btn nav-product-btn" id="navDashBtn" title="Launch MV Intel™ Interactive Dashboard in New Page">
+            <span class="product-spark">⚡</span>
+            <span>EXPLORE DASHBOARD</span>
+            <span class="product-tm" style="font-size: 0.9rem;">↗</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Nav Utilities -->
+      <div class="nav-utilities">
+        <div class="nav-status-badge">
+          <span class="status-pulse-dot"></span>
+          <span class="status-badge-text">MV INTEL v4.8 ONLINE</span>
+        </div>
+        <button class="nav-icon-btn" id="audioToggleBtn" title="Toggle Audio Feedback">
+          <span>🔊 AUDIO: ON</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrap -->
+  <main>
+
+    <!-- ==========================================================================
+         HERO SECTION: MV INTEL™ FLAGSHIP PRODUCT SHOWCASE
+         ========================================================================== -->
+    <section class="product-hero-wrap" id="hero">
+      <div class="container">
+        
+        <!-- Breadcrumb / System Identifier -->
+        <div class="product-breadcrumb">
+          <a href="index.html">MARVEAN.NET</a>
+          <span>//</span>
+          <span>ENTERPRISE PRODUCTS</span>
+          <span>//</span>
+          <span style="color: var(--arcade-yellow);">MV INTEL™ AUTONOMOUS ENGINE</span>
+        </div>
+
+        <!-- Headline & Positioning -->
+        <h1 class="product-brand-title">
+          <span class="text-gradient-teal">MV Intel</span><span class="tm-sup">™</span>
+        </h1>
+        <div class="product-tagline">
+          Autonomous Competitive Surveillance &amp; Algorithmic Market Intelligence
+        </div>
+        <p class="product-desc">
+          Eliminate corporate blind spots and stale market assumptions. <strong>MV Intel™</strong> continuously monitors competitor actions across global commerce, parses pricing fluctuations, analyzes patent filings, tracks executive movements, and delivers AI-synthesized counter-strategies with immutable cryptographic provenance.
+        </p>
+
+        <!-- PRIMARY CALL TO ACTION BUTTON (THE REQUESTED BUTTON) -->
+        <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; margin-bottom: 2.5rem;">
+          <a href="dashboard.html" target="_blank" class="btn-explore-dashboard btn-explore-hero" id="heroExploreDashboardBtn">
+            <span class="btn-spark">⚡</span>
+            <span>EXPLORE DASHBOARD</span>
+            <span class="ext-arrow">↗</span>
+          </a>
+          <a href="#developer-spec" class="btn-arcade btn-arcade-outline" style="padding: 0.95rem 1.75rem; border-radius: 8px;">
+            <span>🛠️ SENIOR DEVELOPER SPEC</span>
+          </a>
+        </div>
+
+        <!-- Real-Time Key KPI Indicators -->
+        <div class="product-kpi-bar">
+          <div class="kpi-card">
+            <div class="kpi-val text-teal">142 <span style="font-size: 1rem; color: var(--arcade-teal);">DOSSIERS</span></div>
+            <div class="kpi-label">Active Competitors Monitored</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val text-yellow" id="liveStreamEventsCount">28,450+</div>
+            <div class="kpi-label">Live Ingested Signals / Mo</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val text-green">&lt; 15<span style="font-size: 1.1rem;">ms</span></div>
+            <div class="kpi-label">Processing Latency</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val text-cyan">99.4%</div>
+            <div class="kpi-label">Audited SEC / Patent Provenance</div>
+          </div>
+        </div>
+
+        <!-- Live Interactive Feed Terminal Showcase -->
+        <div class="hero-stage-console" style="margin-top: 1.5rem;">
+          <div class="console-bezel-header">
+            <div class="console-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="console-title-pill">
+              MV INTEL™ // REAL-TIME INGESTION RADAR (GLOBAL COMMERCE TELEMETRY)
+            </div>
+            <div class="console-diodes">
+              <span>STREAM: ACTIVE</span>
+              <span class="status-led"></span>
+            </div>
+          </div>
+
+          <div style="background: #040712; padding: 1.25rem; font-family: var(--font-mono); font-size: 0.8rem; border-radius: 0 0 8px 8px;" id="liveProductFeedBox">
+            <div class="telemetry-log-item" style="padding: 0.35rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+              <span style="color: var(--arcade-teal);">[LIVE STREAM]</span>
+              <span style="color: var(--arcade-yellow); font-weight: 700;">[USPTO]</span>
+              <span style="color: #c4d7f5;">Patent Application #US2026/00918: Real-time autonomous trading pricing models detected.</span>
+            </div>
+            <div class="telemetry-log-item" style="padding: 0.35rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+              <span style="color: var(--arcade-teal);">[LIVE STREAM]</span>
+              <span style="color: var(--arcade-yellow); font-weight: 700;">[SEC 10-Q]</span>
+              <span style="color: #c4d7f5;">Competitor Delta: 18.5% YoY CapEx shift into autonomous logistics infrastructure.</span>
+            </div>
+            <div class="telemetry-log-item" style="padding: 0.35rem 0;">
+              <span style="color: var(--arcade-teal);">[LIVE STREAM]</span>
+              <span style="color: var(--arcade-yellow); font-weight: 700;">[PRICING DELTA]</span>
+              <span style="color: #c4d7f5;">Direct price cut detected: Apex AI reduces multi-tenant seat pricing by 14.2%.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         CORE ARCHITECTURE & FEATURE PILLARS
+         ========================================================================== -->
+    <section class="section" id="features" style="padding: 4rem 0;">
+      <div class="container">
+        
+        <div class="section-title-wrap">
+          <div class="section-chip">
+            <span>⚡ SURVEILLANCE MODULES</span>
+          </div>
+          <h2 class="section-heading">ENGINEERED FOR STRATEGIC SUPREMACY</h2>
+          <p class="section-subhead">
+            MV Intel™ combines autonomous entity scrapers, mathematical pricing differential tracking, and transformer-based threat analysis into a singular unified engine.
+          </p>
+        </div>
+
+        <div class="features-pillars-grid">
+          
+          <!-- Pillar 1 -->
+          <div class="pillar-card">
+            <div>
+              <div class="pillar-icon-box">📡</div>
+              <h3>Autonomous Radar Drone</h3>
+              <p>
+                Continuous multi-vector surveillance crawls SEC EDGAR, patent filings, web alterations, and commercial catalogs with sub-second change detection.
+              </p>
+            </div>
+            <div class="pillar-tags">
+              <span class="pillar-tag">SEC 10-K / 10-Q</span>
+              <span class="pillar-tag">USPTO &amp; WIPO</span>
+              <span class="pillar-tag">Web Diffing</span>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="pillar-card">
+            <div>
+              <div class="pillar-icon-box">📊</div>
+              <h3>Algorithmic Pricing Matrix</h3>
+              <p>
+                Reverse-engineers competitor pricing models, stealth discounts, API surcharge shifts, and bundle structuring before public press releases occur.
+              </p>
+            </div>
+            <div class="pillar-tags">
+              <span class="pillar-tag">Tier Tracking</span>
+              <span class="pillar-tag">Discount Detection</span>
+              <span class="pillar-tag">Elasticity Models</span>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="pillar-card">
+            <div>
+              <div class="pillar-icon-box">🛡️</div>
+              <h3>Cryptographic Evidence Chain</h3>
+              <p>
+                Every detected commercial signal is timestamped and cryptographically hashed with immutable document provenance to prevent hearsay.
+              </p>
+            </div>
+            <div class="pillar-tags">
+              <span class="pillar-tag">SHA-256 Provenance</span>
+              <span class="pillar-tag">Immutable Snapshots</span>
+              <span class="pillar-tag">Auditable Citations</span>
+            </div>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="pillar-card">
+            <div>
+              <div class="pillar-icon-box">🧠</div>
+              <h3>AI Counter-Strategy Engine</h3>
+              <p>
+                Transforms raw market data into executive decision briefings with actionable battlecards, defensive counters, and tactical opportunities.
+              </p>
+            </div>
+            <div class="pillar-tags">
+              <span class="pillar-tag">C-Suite Briefings</span>
+              <span class="pillar-tag">Battlecards</span>
+              <span class="pillar-tag">Actionable Alpha</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         ARCHITECTURE WORKFLOW PIPELINE
+         ========================================================================== -->
+    <section class="section" id="architecture" style="background: rgba(8, 14, 28, 0.6); padding: 4.5rem 0; border-top: 1px solid var(--space-border); border-bottom: 1px solid var(--space-border);">
+      <div class="container">
+        
+        <div class="section-title-wrap">
+          <div class="section-chip">
+            <span>⚙️ PIPELINE ARCHITECTURE</span>
+          </div>
+          <h2 class="section-heading">END-TO-END TELEMETRY INGESTION PIPELINE</h2>
+          <p class="section-subhead">
+            How MV Intel™ captures raw commercial signals from the open web and refines them into executive strategic intelligence.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; position: relative;">
+          
+          <div class="kpi-card" style="border-top: 3px solid var(--arcade-teal);">
+            <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--arcade-teal); margin-bottom: 0.5rem;">PHASE 01 // INGESTION</div>
+            <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Distributed Crawlers</h4>
+            <p style="color: #9db2d6; font-size: 0.88rem; line-height: 1.55;">
+              Asynchronous spiders crawl 1,200+ regulatory registries, corporate newsrooms, pricing gateways, and commercial endpoints.
+            </p>
+          </div>
+
+          <div class="kpi-card" style="border-top: 3px solid var(--arcade-yellow);">
+            <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--arcade-yellow); margin-bottom: 0.5rem;">PHASE 02 // PARSING</div>
+            <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">NLP Entity Disambiguation</h4>
+            <p style="color: #9db2d6; font-size: 0.88rem; line-height: 1.55;">
+              Entity linkage maps unstructured corporate disclosures into unified competitor schemas and financial ticker registries.
+            </p>
+          </div>
+
+          <div class="kpi-card" style="border-top: 3px solid var(--arcade-red);">
+            <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--arcade-red); margin-bottom: 0.5rem;">PHASE 03 // ANOMALY</div>
+            <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Differential Pricing Diff</h4>
+            <p style="color: #9db2d6; font-size: 0.88rem; line-height: 1.55;">
+              Mathematical tree-diff algorithms spot subtle changes in SKU definitions, tier allowances, and margin expansions.
+            </p>
+          </div>
+
+          <div class="kpi-card" style="border-top: 3px solid var(--arcade-teal);">
+            <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--arcade-teal); margin-bottom: 0.5rem;">PHASE 04 // DELIVERY</div>
+            <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Live Terminal &amp; Webhooks</h4>
+            <p style="color: #9db2d6; font-size: 0.88rem; line-height: 1.55;">
+              Signals stream directly into the MV Intel™ Dashboard and enterprise Slack, Teams, or CRM webhooks in real time.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SENIOR DEVELOPER EXTENSION POINT
+         "Inside that senior developer will give the product page"
+         ========================================================================== -->
+    <section class="section" id="developer-spec" style="padding: 4.5rem 0;">
+      <div class="container">
+        
+        <!-- SENIOR DEVELOPER EXTENSION POINT BANNER -->
+        <!-- =========================================================================
+             [SENIOR DEVELOPER EXTENSION POINT]
+             This section is engineered specifically for senior engineers and solution
+             architects to plug in custom API schemas, microservices, and client models.
+             ========================================================================= -->
+        <div class="dev-spec-container">
+          
+          <div class="dev-spec-header">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem;">
+                <span class="dev-badge-highlight">SENIOR DEVELOPER EXTENSION INTERFACE</span>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--arcade-teal);">MODULE: MV_INTEL_CORE_V4</span>
+              </div>
+              <h3 style="font-size: 1.6rem; font-weight: 800;">Enterprise API &amp; Ingestion SDK Integration</h3>
+            </div>
+            
+            <!-- Quick Link to Dashboard -->
+            <a href="dashboard.html" target="_blank" class="btn-arcade btn-arcade-teal" style="font-size: 0.8rem; padding: 0.55rem 1.15rem; border-radius: 6px;">
+              <span>LAUNCH DASHBOARD TERMINAL ↗</span>
+            </a>
+          </div>
+
+          <!-- Developer Tabs -->
+          <div class="dev-tabs-bar">
+            <button class="dev-tab-btn active" data-target="tab-rest-api">1. REST API GATEWAY</button>
+            <button class="dev-tab-btn" data-target="tab-ws-stream">2. WEBSOCKET REAL-TIME STREAM</button>
+            <button class="dev-tab-btn" data-target="tab-sdk-code">3. PYTHON &amp; TYPESCRIPT SDK</button>
+            <button class="dev-tab-btn" data-target="tab-webhook-schema">4. WEBHOOK PAYLOAD SPEC</button>
+          </div>
+
+          <!-- Tab 1: REST API -->
+          <div class="dev-tab-panel" id="tab-rest-api">
+            <p style="color: #9cb2d8; font-size: 0.9rem; margin-bottom: 1rem;">
+              Query competitor signals, trigger on-demand market briefings, and fetch audited filings via authenticated HTTP calls.
+            </p>
+            <div class="dev-code-box">
+              <button class="code-copy-btn">COPY</button>
+              <code># Fetch real-time commercial signals
+GET https://api.marvean.net/v1/intel/signals?severity=Critical&amp;limit=25
+Authorization: Bearer sec_tok_mvintel_99a8bc47e1
+Accept: application/json
+
+# Response (200 OK):
+{
+  "status": "success",
+  "data": {
+    "count": 25,
+    "source_latency_ms": 14.8,
+    "signals": [
+      {
+        "id": "sig_948201a",
+        "competitor": "OmniCloud Corp",
+        "event_type": "PRICING_SHIFT",
+        "severity": "CRITICAL",
+        "delta": "-14.2% Enterprise Tier Annual Surcharge",
+        "provenance_hash": "sha256:7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069",
+        "timestamp": "2026-10-05T08:30:14Z"
+      }
+    ]
+  }
+}</code>
+            </div>
+          </div>
+
+          <!-- Tab 2: WebSocket -->
+          <div class="dev-tab-panel" id="tab-ws-stream" style="display: none;">
+            <p style="color: #9cb2d8; font-size: 0.9rem; margin-bottom: 1rem;">
+              Connect low-latency sockets for sub-second trade and competitor surveillance event emissions.
+            </p>
+            <div class="dev-code-box">
+              <button class="code-copy-btn">COPY</button>
+              <code>// Establish persistent bidirectional telemetry stream
+const socket = new WebSocket('wss://stream.marvean.net/v1/intel?token=' + process.env.MARVEAN_KEY);
+
+socket.onopen = () => {
+  socket.send(JSON.stringify({
+    action: "SUBSCRIBE_CHANNELS",
+    channels: ["PRICING_ALERTS", "SEC_EDGAR_DIFFS", "PATENT_RADAR"]
+  }));
+};
+
+socket.onmessage = (event) => {
+  const signal = JSON.parse(event.data);
+  console.log('[MV Intel™ Telemetry Event]', signal);
+};</code>
+            </div>
+          </div>
+
+          <!-- Tab 3: SDK Code -->
+          <div class="dev-tab-panel" id="tab-sdk-code" style="display: none;">
+            <p style="color: #9cb2d8; font-size: 0.9rem; margin-bottom: 1rem;">
+              Official client libraries for automated executive reporting and ETL workflows.
+            </p>
+            <div class="dev-code-box">
+              <button class="code-copy-btn">COPY</button>
+              <code>from marvean_intel import MVIntelClient
+
+# Initialize secure enterprise client
+client = MVIntelClient(api_key="mv_live_83920194857")
+
+# Synthesize AI Strategy Briefing for a specific competitor
+briefing = client.briefings.synthesize(
+    competitor_id="comp_nexus_ai",
+    horizon="Q4_ENTERPRISE_COMMERCE",
+    include_counter_moves=True
+)
+
+print(f"Threat Score: {briefing.threat_score} / 100")
+print(f"Actionable Counter-Move: {briefing.primary_counter_move}")</code>
+            </div>
+          </div>
+
+          <!-- Tab 4: Webhook Schema -->
+          <div class="dev-tab-panel" id="tab-webhook-schema" style="display: none;">
+            <p style="color: #9cb2d8; font-size: 0.9rem; margin-bottom: 1rem;">
+              Schema dispatched to your configured endpoint whenever a Critical or Major signal is verified.
+            </p>
+            <div class="dev-code-box">
+              <button class="code-copy-btn">COPY</button>
+              <code>{
+  "event": "mvintel.signal.critical",
+  "dispatched_at": "2026-10-05T08:34:00Z",
+  "payload": {
+    "signal_id": "sig_critical_8912",
+    "competitor_name": "Apex AI Systems",
+    "trigger": "PATENT_INFRINGEMENT_RISK",
+    "impact_rating": 94,
+    "confidence_score": 0.994,
+    "evidence_url": "https://patents.google.com/patent/US202600182",
+    "cryptographic_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}</code>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         CALL TO ACTION: EXPLORE DASHBOARD BANNER
+         ========================================================================== -->
+    <section class="section" style="padding: 4.5rem 0 6rem; background: linear-gradient(180deg, transparent, rgba(0, 229, 163, 0.06)); text-align: center;">
+      <div class="container" style="max-width: 900px;">
+        
+        <div class="section-chip">
+          <span>🚀 FULL ENTERPRISE ACCESS</span>
+        </div>
+        <h2 style="font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 900; margin-bottom: 1.25rem;">
+          EXPERIENCE THE <span class="text-teal">MV INTEL™</span> DASHBOARD
+        </h2>
+        <p style="color: #adbcdb; font-size: 1.15rem; line-height: 1.7; margin-bottom: 2.5rem;">
+          Step into the live competitive command terminal. Explore real-time competitor dossiers, filter live commercial signals, test AI executive briefings, and configure developer webhooks.
+        </p>
+
+        <!-- THE PROMINENT EXPLORE DASHBOARD BUTTON (OPENS IN NEW PAGE) -->
+        <a href="dashboard.html" target="_blank" class="btn-explore-dashboard btn-explore-hero" id="footerExploreDashboardBtn" style="font-size: 1.2rem; padding: 1.1rem 2.8rem;">
+          <span class="btn-spark">⚡</span>
+          <span>EXPLORE DASHBOARD NOW</span>
+          <span class="ext-arrow">↗</span>
+        </a>
+
+        <div style="margin-top: 1.25rem; font-family: var(--font-mono); font-size: 0.78rem; color: #6d82a6;">
+          // INCLUDES DUAL AUTHENTICATION GATEWAY (SIGN IN &amp; SIGN UP) + INSTANT DEMO SANDBOX
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-content" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div style="display: flex; align-items: center; gap: 0.8rem;">
+        <img src="MARVEAN/logo.svg" alt="MARVEAN Logo" style="height: 32px; width: auto;">
+        <span style="font-family: var(--font-mono); font-size: 0.74rem; color: #6a7f9f;">
+          &copy; 2026 MARVEAN Inc. All Rights Reserved. MV Intel™ is a proprietary trademark.
+        </span>
+      </div>
+      <div>
+        <a href="index.html" style="color: var(--arcade-teal); text-decoration: none; font-family: var(--font-tech); font-weight: 700; font-size: 0.85rem;">
+          ← BACK TO HOME
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="mv-intel.js"></script>
+</body>
+</html>

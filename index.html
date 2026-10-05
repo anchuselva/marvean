@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MARVEAN // AI Market & Competitive Intelligence Platform (marvean.net)</title>
-  <meta name="description" content="Centralized AI Market & Competitive Intelligence Platform for enterprise and commerce. Unified competitor profiles, real-time commercial signals, and evidence-governed strategic research.">
+  <title>MARVEAN // AI Market & Competitive Intelligence Platform (marvean.vercel.app)</title>
+  <meta name="description" content="Centralize market intelligence, track competitive movements, connect research evidence, and turn emerging signals into strategic business insights.">
   
   <!-- Preconnect Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%2300e5a3%22/><text y=%2270%22 x=%2220%22 font-family=%22sans-serif%22 font-size=%2262%22 fill=%22%23070b16%22 font-weight=%22900%22>M</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="MARVEAN/favicon.svg">
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
@@ -25,15 +25,19 @@
     <div class="container nav-wrapper">
       <!-- Brand Logo -->
       <a href="#hero" class="brand-logo" id="logoLink">
-        <div class="logo-badge">
-          <span>MARVEAN</span>
-          <span class="logo-domain">.NET</span>
-        </div>
+        <img src="MARVEAN/logo.svg" alt="MARVEAN Logo" class="brand-logo-img">
       </a>
 
       <!-- Navigation Links: Clean & Direct -->
       <ul class="nav-links" id="navLinks">
         <li><a href="#hero" class="nav-btn active">OVERVIEW</a></li>
+        <li>
+          <a href="mv-intel.html" class="nav-btn nav-product-btn" id="navProductBtn" title="Explore MV Intel™ Enterprise Product">
+            <span class="product-spark">⚡</span>
+            <span class="product-title">MV Intel<span class="product-tm">™</span></span>
+            <span class="product-pill-badge">PRODUCT</span>
+          </a>
+        </li>
         <li><a href="#registry" class="nav-btn">COMPETITORS</a></li>
         <li><a href="#signals" class="nav-btn">SIGNALS</a></li>
         <li><a href="#governance" class="nav-btn">GOVERNANCE</a></li>
@@ -44,13 +48,12 @@
 
       <!-- Nav Utilities -->
       <div class="nav-utilities">
-        <div class="status-pill" title="Intelligence Ingestion Status">
-          <span class="status-led"></span>
-          <span>PIPELINE: ACTIVE // <span id="livePingTicker">12ms</span></span>
+        <div class="nav-status-badge">
+          <span class="status-pulse-dot"></span>
+          <span class="status-badge-text">LIVE INTEL</span>
         </div>
-
         <button class="nav-icon-btn" id="audioToggleBtn" title="Toggle Audio Feedback">
-          <span>🔇 AUDIO</span>
+          <span>🔇 AUDIO: OFF</span>
         </button>
       </div>
 
@@ -64,14 +67,17 @@
   <!-- Mobile Drawer Menu (Hidden offscreen on desktop) -->
   <div class="mobile-drawer" id="mobileDrawer">
     <div class="mobile-drawer-header">
-      <div class="logo-badge">
-        <span>MARVEAN</span>
-        <span class="logo-domain">.NET</span>
-      </div>
+      <img src="MARVEAN/logo.svg" alt="MARVEAN Logo" class="brand-logo-img" style="height: 38px; max-width: 170px;">
       <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
     </div>
     <ul class="mobile-nav-links">
       <li><a href="#hero" class="mobile-nav-link">OVERVIEW</a></li>
+      <li>
+        <a href="mv-intel.html" class="mobile-nav-link mobile-product-highlight">
+          <span>⚡ MV Intel™</span>
+          <span class="product-pill-badge">PRODUCT</span>
+        </a>
+      </li>
       <li><a href="#registry" class="mobile-nav-link">COMPETITOR REGISTRY</a></li>
       <li><a href="#signals" class="mobile-nav-link">COMMERCIAL SIGNALS</a></li>
       <li><a href="#governance" class="mobile-nav-link">RESEARCH GOVERNANCE</a></li>
@@ -93,18 +99,24 @@
         <div class="hero-grid">
           <!-- Left Column: Strategic Positioning -->
           <div class="hero-copy-col">
-            <div class="hero-chip-badge">
-              <span class="badge-icon">⚡</span>
-              <span>AI MARKET &amp; COMPETITIVE INTELLIGENCE // MARVEAN.NET</span>
+            <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.85rem; align-items: center;">
+              <div class="hero-chip-badge" style="margin-bottom: 0;">
+                <span class="badge-icon">⚡</span>
+                <span>AI MARKET &amp; COMPETITIVE INTELLIGENCE // MARVEAN.VERCEL.APP</span>
+              </div>
+              <a href="mv-intel.html" class="hero-chip-badge" style="margin-bottom: 0; text-decoration: none; background: rgba(0, 229, 163, 0.12); border-color: rgba(0, 229, 163, 0.45); color: #00e5a3; transition: all 0.2s ease;">
+                <span class="badge-icon">🚀</span>
+                <span>FLAGSHIP: <strong>MV Intel™</strong> Product Engine &rarr;</span>
+              </a>
             </div>
 
             <h1 class="hero-headline">
-              CENTRALIZED MARKET INTEL.<br>
-              <span class="text-teal">REAL-TIME</span> COMPETITIVE SIGNALS.
+              KNOW THE MARKET.<br>
+              <span class="text-teal">TRACK THE</span> COMPETITION.
             </h1>
 
             <p class="hero-subhead">
-              Eliminate distributed research, blind spots, and stale market assumptions. Marvean unifies competitor profiling, continuous commercial signal tracking, and evidence-governed strategic research into a single authoritative enterprise workspace.
+              Transform fragmented market research into centralized intelligence. Connect competitor profiles, product comparisons, market signals, and research evidence. Give teams a clearer view of market shifts, competitive movements, and emerging opportunities.
             </p>
 
             <!-- Real-time Key Metrics -->
@@ -186,7 +198,7 @@
 
               <!-- Unobstructed High-Res Hero Graphic -->
               <div class="hero-art-wrapper">
-                <img src="assets/hero-laptop-world.jpg" alt="Marvean Market &amp; Competitive Intelligence on Modern Laptop in Digital World Environment" class="hero-art-img" id="heroArtImg">
+                <img src="MARVEAN/hero img.svg" alt="Marvean Market &amp; Competitive Intelligence Command Center" class="hero-art-img" id="heroArtImg">
               </div>
 
               <!-- Interactive Live Alert Ticker Bar -->
@@ -224,6 +236,16 @@
     <!-- Sawtooth Divider -->
     <div class="sawtooth-divider" aria-hidden="true"></div>
 
+    <!-- Executive Elevator Pitch Strip -->
+    <section class="elevator-pitch-strip">
+      <div class="container" style="max-width: 1040px; text-align: center;">
+        <div class="pitch-tag"><span class="badge-icon">⚡</span> MARVEAN // ELEVATOR PITCH</div>
+        <blockquote class="pitch-quote">
+          &ldquo;Centralize market intelligence, track competitive movements, connect research evidence, and turn emerging signals into strategic business insights.&rdquo;
+        </blockquote>
+      </div>
+    </section>
+
     <!-- ==========================================================================
          LIGHT / PARCHMENT BODY SECTION: 3 CORE PLATFORM SECTIONS + PRICING + FAQ + CONTACT
          ========================================================================== -->
@@ -235,25 +257,25 @@
              ========================================================================== -->
         <section class="content-section" id="registry">
           <div class="section-meta-label">// 01 // ENTERPRISE REGISTRY &amp; PROFILES</div>
-          <h2 class="section-retro-title">COMPETITOR REGISTRY &amp; COMPANY PROFILES</h2>
+          <h2 class="section-retro-title">COMPETITOR INTELLIGENCE &amp; COMPANY PROFILES</h2>
           <p class="section-retro-sub">
-            Maintain dynamic, structured dossiers on every direct rival and emerging challenger in your commercial ecosystem. Track products, services, pricing shifts, leadership movements, and historical strategy changes.
+            Build structured intelligence profiles for competitors and emerging market players. Track products, services, pricing, market positioning, strategic moves, and company developments to understand competitive shifts and support informed business decisions.
           </p>
 
           <!-- Core Feature Pillars Grid for Section 1 -->
           <div class="features-trio-grid">
             <div class="feature-box">
-              <span class="feature-icon">🏢</span>
+              <span class="feature-icon"><img src="MARVEAN/ENTERPRISE REGISTRY &amp; PROFILES icon.svg" alt="Company Profiles" class="feature-svg-icon"></span>
               <h4>Company Profiles</h4>
               <p>Headcount, funding, revenue estimates, core target segments, and market positioning scorecards.</p>
             </div>
             <div class="feature-box">
-              <span class="feature-icon">📦</span>
+              <span class="feature-icon"><img src="MARVEAN/ENTERPRISE REGISTRY &amp; PROFILES icon (2).svg" alt="Product &amp; Pricing Taxonomy" class="feature-svg-icon"></span>
               <h4>Product &amp; Pricing Taxonomy</h4>
               <p>Granular breakdown of competitor feature matrices, licensing models, discounting tactics, and packaging changes.</p>
             </div>
             <div class="feature-box">
-              <span class="feature-icon">⏳</span>
+              <span class="feature-icon"><img src="MARVEAN/ENTERPRISE REGISTRY &amp; PROFILES icon (3).svg" alt="Historical Change Audits" class="feature-svg-icon"></span>
               <h4>Historical Change Audits</h4>
               <p>Chronological timeline tracing every strategic pivot, leadership hire, and discontinued product experiment.</p>
             </div>
@@ -271,7 +293,7 @@
               <span class="badge-mini text-teal">AUDITED DATABASE</span>
             </div>
             <div class="showcase-media-frame">
-              <img src="assets/registry-laptop-world.jpg" alt="Marvean Competitor Registry and Company Profile Management displayed on Laptop in Digital World" class="showcase-img">
+              <img src="MARVEAN/7.svg" alt="MARVEAN Competitor Registry &amp; Positioning Workspace" class="showcase-img">
             </div>
             <div class="showcase-caption-bar">
               <span>// DIGITAL WORKSPACE: LAPTOP ENVIRONMENT // 48 ACTIVE ENTERPRISE COMPETITORS INDEXED // 99.4% VERIFIED CITATIONS</span>
@@ -312,17 +334,17 @@
           <!-- Core Feature Pillars Grid for Section 2 -->
           <div class="features-trio-grid">
             <div class="feature-box">
-              <span class="feature-icon">💰</span>
+              <span class="feature-icon"><img src="MARVEAN/REAL-TIME MARKET INTELLIGENCE &amp; SIGNALS.svg" alt="Pricing Shift Surveillance" class="feature-svg-icon"></span>
               <h4>Pricing Shift Surveillance</h4>
               <p>Automated scrapers detect discounting wars, packaging changes, and regional price adjustments in minutes.</p>
             </div>
             <div class="feature-box">
-              <span class="feature-icon">🚀</span>
+              <span class="feature-icon"><img src="MARVEAN/REAL-TIME MARKET INTELLIGENCE &amp; SIGNALS (2).svg" alt="Product Launches &amp; Betas" class="feature-svg-icon"></span>
               <h4>Product Launches &amp; Betas</h4>
               <p>Early-warning tracking of rival changelogs, developer documentation updates, and beta feature rollout programs.</p>
             </div>
             <div class="feature-box">
-              <span class="feature-icon">📑</span>
+              <span class="feature-icon"><img src="MARVEAN/REAL-TIME MARKET INTELLIGENCE &amp; SIGNALS (3).svg" alt="Patent &amp; Regulatory Tracking" class="feature-svg-icon"></span>
               <h4>Patent &amp; Regulatory Tracking</h4>
               <p>Real-time indexing of USPTO, EPO, and regulatory filings revealing competitors' unannounced R&amp;D roadmaps.</p>
             </div>
@@ -340,7 +362,7 @@
               <span class="badge-mini text-yellow">REAL-TIME INGESTION</span>
             </div>
             <div class="showcase-media-frame">
-              <img src="assets/signals-laptop-world.jpg" alt="Marvean Commercial Signals Live Feed and Market Intelligence on Laptop in Global Digital World" class="showcase-img">
+              <img src="MARVEAN/REAL-TIME MARKET INTELLIGENCE &amp; SIGNALS (4).svg" alt="Live Commercial Signals Workspace &amp; Event Stream" class="showcase-img">
             </div>
             <div class="showcase-caption-bar">
               <span>// DIGITAL WORLD SURVEILLANCE: REAL-TIME CONTINUOUS FEED // TRIAGED BY CRITICAL, MAJOR &amp; MINOR IMPACT</span>
@@ -379,23 +401,23 @@
           <div class="section-meta-label">// 03 // RESEARCH GOVERNANCE &amp; STRATEGIC INSIGHTS</div>
           <h2 class="section-retro-title">RESEARCH GOVERNANCE &amp; STRATEGIC INSIGHTS</h2>
           <p class="section-retro-sub">
-            Strategic decision-making demands institutional rigor. Marvean anchors every observation to an audited evidence chain, facilitates peer review workflows, allocates analyst ownership, and generates board-ready briefing decks.
+            Turn market research into structured, decision-ready intelligence. Marvean connects market observations to supporting evidence, analyst assessments, competitive signals, and strategic insights, helping teams validate findings, maintain research history, and build clear intelligence for business planning.
           </p>
 
           <!-- Core Feature Pillars Grid for Section 3 -->
           <div class="features-trio-grid">
             <div class="feature-box">
-              <span class="feature-icon">🛡</span>
+              <span class="feature-icon"><img src="MARVEAN/RESEARCH GOVERNANCE &amp; STRATEGIC INSIGHTS icon.svg" alt="Audited Evidence Provenance" class="feature-svg-icon"></span>
               <h4>Audited Evidence Provenance</h4>
               <p>Cryptographic citation trail linking insights directly to primary SEC filings, patent records, and verified quotes.</p>
             </div>
             <div class="feature-box">
-              <span class="feature-icon">👥</span>
+              <span class="feature-icon"><img src="MARVEAN/RESEARCH GOVERNANCE &amp; STRATEGIC INSIGHTS icon (2).svg" alt="Peer Review Workflows" class="feature-svg-icon"></span>
               <h4>Peer Review Workflows</h4>
               <p>Multi-stage verification (Submission &rarr; Peer Review &rarr; Critique &rarr; Approval) ensuring zero hallucinated rumors.</p>
             </div>
             <div class="feature-box">
-              <span class="feature-icon">📊</span>
+              <span class="feature-icon"><img src="MARVEAN/RESEARCH GOVERNANCE &amp; STRATEGIC INSIGHTS icon (3).svg" alt="Executive Briefing Exports" class="feature-svg-icon"></span>
               <h4>Executive Briefing Exports</h4>
               <p>One-click generation of board-ready PDF briefs, PowerPoint presentations, and structured REST API payloads.</p>
             </div>
@@ -413,7 +435,7 @@
               <span class="badge-mini text-green">EVIDENCE VERIFIED</span>
             </div>
             <div class="showcase-media-frame">
-              <img src="assets/governance-laptop-world.jpg" alt="Marvean Research Governance Dashboard and Evidence Verification displayed on Laptop in Digital World" class="showcase-img">
+              <img src="MARVEAN/RESEARCH GOVERNANCE &amp; STRATEGIC INSIGHTS img.svg" alt="Research Governance Dashboard &amp; Evidence Verification" class="showcase-img">
             </div>
             <div class="showcase-caption-bar">
               <span>// DIGITAL WORLD ENVIRONMENT: SEC EDGAR 10-K, USPTO GAZETTE &amp; AUDITED PRICING SNAPSHOTS</span>
@@ -430,9 +452,9 @@
                   <span class="badge-mini text-red">CRITICAL EXECUTIVE SYNTHESIS</span>
                   <span>Q3 2026 COMMERCIAL OUTLOOK</span>
                 </div>
-                <h3>Nexus Analytics Accelerating Enterprise Land Grab with 15% APAC Discount</h3>
+                <h3>Arjun Perera Accelerating Enterprise Land Grab with 15% APAC Discount</h3>
                 <p>
-                  Verified through regulatory pricing filings and field quote records, primary rival Nexus Analytics has initiated an unannounced enterprise discounting offensive across Singapore and Tokyo. Key targets include mid-tier commerce platforms.
+                  Verified through regulatory pricing filings and field quote records, primary rival Arjun Perera has initiated an unannounced enterprise discounting offensive across Singapore and Tokyo. Key targets include mid-tier commerce platforms.
                 </p>
                 <div class="recommended-countermove">
                   <strong>RECOMMENDED STRATEGIC COUNTER-MOVE:</strong>
@@ -532,8 +554,8 @@
 
               <div class="pricing-cost">
                 <span class="currency">$</span>
-                <span class="price-val" data-monthly="180" data-annual="144">180</span>
-                <span class="period">/ seat / mo</span>
+                <span class="price-val" data-monthly="88" data-annual="854">88</span>
+                <span class="period" data-monthly-period="/ mo" data-annual-period="/ yr">/ mo</span>
               </div>
 
               <div class="card-divider"></div>
@@ -565,8 +587,8 @@
 
               <div class="pricing-cost">
                 <span class="currency">$</span>
-                <span class="price-val" data-monthly="790" data-annual="632">790</span>
-                <span class="period">/ workspace / mo</span>
+                <span class="price-val" data-monthly="176" data-annual="1,690">176</span>
+                <span class="period" data-monthly-period="/ mo" data-annual-period="/ yr">/ mo</span>
               </div>
 
               <div class="card-divider"></div>
@@ -598,9 +620,9 @@
               </div>
 
               <div class="pricing-cost">
-                <span class="currency">$</span>
-                <span class="price-val" data-monthly="1950" data-annual="1560">1,950</span>
-                <span class="period">/ enterprise / mo</span>
+                <span class="currency" style="display: none;">$</span>
+                <span class="price-val" data-monthly="Custom" data-annual="Custom" style="font-size: 2.3rem; letter-spacing: -0.5px;">Custom</span>
+                <span class="period" data-monthly-period="/ enterprise" data-annual-period="/ enterprise">/ enterprise</span>
               </div>
 
               <div class="card-divider"></div>
@@ -634,9 +656,9 @@
              ========================================================================== -->
         <section class="faq-section" id="faq">
           <div class="section-meta-label">// 05 // KNOWLEDGE BASE &amp; GOVERNANCE FAQ</div>
-          <h2 class="section-retro-title">FREQUENTLY ASKED QUESTIONS</h2>
+          <h2 class="section-retro-title">MARVEAN INTELLIGENCE EXPLAINED</h2>
           <p class="section-retro-sub">
-            Detailed insights on intelligence sources, data verification, historical records, and platform integration.
+            Explore how Marvean organizes market research, competitive signals, company intelligence, and strategic insights into one centralized workspace.
           </p>
 
           <div class="faq-accordion-container">
@@ -730,7 +752,7 @@
           <div class="comms-console">
             <div class="comms-header-bar">
               <div class="comms-header-title">
-                TERMINAL-COMMS // MARVEAN.NET SECURE UPLINK
+                TERMINAL-COMMS // MARVEAN.VERCEL.APP SECURE UPLINK
               </div>
               <div class="status-pill">
                 <span class="status-led"></span>
@@ -749,7 +771,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="contactEmail">// CORPORATE EMAIL (marvean.net domain / enterprise):</label>
+                    <label for="contactEmail">// CORPORATE EMAIL (marvean.vercel.app / enterprise):</label>
                     <input type="email" id="contactEmail" name="email" required placeholder="e.g., s.chen@enterprise.com" class="retro-input">
                   </div>
 
@@ -781,7 +803,7 @@
                   <div class="terminal-log-label">// UPLINK CONSOLE TELEMETRY</div>
                   <div class="terminal-telemetry-box" id="terminalLogBox">
                     <div class="terminal-line">&gt; MARVEAN INTELLIGENCE ROUTER READY...</div>
-                    <div class="terminal-line">&gt; DOMAIN: MARVEAN.NET // ENCRYPTED SESSION ACTIVE</div>
+                    <div class="terminal-line">&gt; DOMAIN: MARVEAN.VERCEL.APP // ENCRYPTED SESSION ACTIVE</div>
                     <div class="terminal-line">&gt; SURVEILLANCE ENGINE: 48 COMPETITORS INDEXED</div>
                     <div class="terminal-line">&gt; AWAITING STRATEGY PARAMETERS<span class="terminal-cursor"></span></div>
                   </div>
@@ -809,16 +831,14 @@
         
         <!-- Brand Pane -->
         <div class="footer-brand-pane">
-          <div class="logo-badge" style="display: inline-flex;">
-            <span>MARVEAN</span>
-            <span class="logo-domain">.NET</span>
-          </div>
+          <a href="#hero" class="footer-brand-logo-link" style="display: inline-block; margin-bottom: 1.15rem;">
+            <img src="MARVEAN/logo.svg" alt="MARVEAN Logo" class="brand-logo-img" style="height: 50px;">
+          </a>
           <p>
-            Centralized AI Market &amp; Competitive Intelligence Platform for enterprise and commerce.
-            Unifying competitor profiling, continuous market signals, industry trends, and evidence-governed strategic research.
+            Centralize market intelligence, track competitive movements, connect research evidence, and turn emerging signals into strategic business insights.
           </p>
           <div class="footer-meta-tags">
-            <span class="tag-pill">DOMAIN: marvean.net</span>
+            <span class="tag-pill">DOMAIN: marvean.vercel.app</span>
             <span class="tag-pill">NICHE: AI Competitive Intelligence</span>
             <span class="tag-pill">INDUSTRY: Enterprise / Commerce</span>
           </div>
@@ -865,13 +885,13 @@
       <!-- Bottom Bar -->
       <div class="footer-bottom-bar">
         <div>
-          <span>&copy; 2026 MARVEAN (marvean.net). ALL RIGHTS RESERVED. AI MARKET &amp; COMPETITIVE INTELLIGENCE.</span>
+          <span>&copy; 2026 MARVEAN (marvean.vercel.app). ALL RIGHTS RESERVED. AI MARKET &amp; COMPETITIVE INTELLIGENCE.</span>
         </div>
 
         <div class="footer-ticker">
           <div class="ticker-item">
             <span>PLATFORM:</span>
-            <span class="ticker-val">marvean.net</span>
+            <span class="ticker-val">marvean.vercel.app</span>
           </div>
           <div class="ticker-item">
             <span>INDEXED SIGNALS:</span>

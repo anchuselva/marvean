@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MV Intel™ // Enterprise Intelligence Dashboard | MARVEAN</title>
+  <meta name="description" content="MV Intel™ Enterprise Intelligence Dashboard: Real-time competitor tracking, commercial signal streams, automated briefing synthesis, and developer API console.">
+  
+  <!-- Preconnect Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="MARVEAN/favicon.svg">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mv-intel.css">
+</head>
+<body class="dashboard-body">
+  <div class="cyber-grid-bg"></div>
+
+  <!-- ==========================================================================
+       AUTHENTICATION GATEWAY MODAL (SIGN IN & SIGN UP)
+       ========================================================================== -->
+  <div class="auth-modal-overlay" id="authModalOverlay">
+    <div class="auth-modal-box">
+      
+      <!-- Modal Header -->
+      <div class="auth-modal-header">
+        <div class="auth-title-grp">
+          <span style="color: var(--arcade-yellow); font-size: 1.25rem;">🔐</span>
+          <div>
+            <div class="auth-header-title">MARVEAN // MV INTEL™ ACCESS GATEWAY</div>
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--arcade-teal);">
+              SECURE CRYPTOGRAPHIC WORKSPACE AUTHORIZATION
+            </div>
+          </div>
+        </div>
+        <button class="auth-close-btn" id="authModalCloseBtn" title="Dismiss or Enter Demo Mode">&times;</button>
+      </div>
+
+      <!-- Tab Switcher: Sign In vs Sign Up -->
+      <div class="auth-tab-switch">
+        <button class="auth-switch-btn active" id="authTabSignIn">🔑 1. SIGN IN</button>
+        <button class="auth-switch-btn" id="authTabSignUp">📝 2. SIGN UP (NEW ACCOUNT)</button>
+      </div>
+
+      <div class="auth-modal-body">
+        
+        <!-- FORM 1: SIGN IN -->
+        <form id="signInForm">
+          <div class="auth-form-grp">
+            <label class="auth-label" for="signInEmail">Work / Enterprise Email</label>
+            <input type="email" id="signInEmail" class="auth-input-box" placeholder="analyst@enterprise.com" value="analyst@marvean.net" required>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="signInPassword">Terminal Password</label>
+            <input type="password" id="signInPassword" class="auth-input-box" placeholder="••••••••••••" value="EnterpriseDemo2026!" required>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="signInOrg">Authorized Organization / Tenant</label>
+            <select id="signInOrg" class="auth-select-box">
+              <option value="Aegis Corporate Strategy">Aegis Corporate Strategy [Tenant #9941]</option>
+              <option value="Global Commerce Ventures">Global Commerce Ventures [Tenant #4412]</option>
+              <option value="Nexus Strategic Intelligence">Nexus Strategic Intelligence [Tenant #1108]</option>
+              <option value="Independent Research Partner">Independent Research Partner [Sandbox]</option>
+            </select>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; font-family: var(--font-mono); font-size: 0.75rem;">
+            <label style="display: flex; align-items: center; gap: 0.4rem; color: #a6bde0; cursor: pointer;">
+              <input type="checkbox" checked style="accent-color: var(--arcade-teal);"> Remember session
+            </label>
+            <a href="#" style="color: var(--arcade-yellow); text-decoration: none;" onclick="alert('Password reset link dispatched to enterprise directory.'); return false;">
+              Forgot credentials?
+            </a>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="btnSubmitSignIn">
+            AUTHENTICATE &amp; ENTER DASHBOARD ➔
+          </button>
+        </form>
+
+        <!-- FORM 2: SIGN UP -->
+        <form id="signUpForm" style="display: none;">
+          <div class="auth-form-grp">
+            <label class="auth-label" for="signUpName">Full Name</label>
+            <input type="text" id="signUpName" class="auth-input-box" placeholder="e.g. Dr. Jordan Vance" required>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="signUpEmail">Enterprise Corporate Email</label>
+            <input type="email" id="signUpEmail" class="auth-input-box" placeholder="jordan.vance@company.com" required>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="signUpOrg">Organization / Enterprise</label>
+            <input type="text" id="signUpOrg" class="auth-input-box" placeholder="e.g. Vanguard Strategy Group" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="signUpRole">Primary Role</label>
+              <select id="signUpRole" class="auth-select-box">
+                <option value="VP Corporate Strategy">VP Corporate Strategy</option>
+                <option value="Market Intel Director">Market Intel Director</option>
+                <option value="Lead CI Analyst">Lead CI Analyst</option>
+                <option value="Senior Lead Developer">Senior Lead Developer</option>
+                <option value="Product Strategy Lead">Product Strategy Lead</option>
+              </select>
+            </div>
+
+            <div class="auth-form-grp">
+              <label class="auth-label" for="signUpClearance">Clearance Level</label>
+              <select id="signUpClearance" class="auth-select-box">
+                <option value="Level 4 (Full Admin)">Level 4 (Full Admin)</option>
+                <option value="Level 3 (Director)">Level 3 (Director)</option>
+                <option value="Level 2 (Analyst)">Level 2 (Analyst)</option>
+                <option value="Level 1 (Read-Only)">Level 1 (Read-Only)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="signUpPass">Password</label>
+              <input type="password" id="signUpPass" class="auth-input-box" placeholder="Minimum 8 chars" required>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="signUpPassConfirm">Confirm Password</label>
+              <input type="password" id="signUpPassConfirm" class="auth-input-box" placeholder="Repeat password" required>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1.2rem; font-family: var(--font-mono); font-size: 0.74rem; color: #8da4c8;">
+            <label style="display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" required checked style="accent-color: var(--arcade-teal); margin-top: 2px;">
+              <span>I acknowledge the MARVEAN enterprise data governance and cryptographic evidence provenance policy.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="btnSubmitSignUp">
+            CREATE ACCOUNT &amp; INITIALIZE WORKSPACE ➔
+          </button>
+        </form>
+
+        <!-- Authentication Terminal Feedback Simulation -->
+        <div class="auth-progress-box" id="authProgressBox">
+          <div id="authProgressLog"></div>
+        </div>
+
+        <!-- Instant Demo Access Shortcut (Zero Friction) -->
+        <div class="auth-demo-shortcut">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #7f97bd; margin-bottom: 0.6rem;">
+            // EVALUATING OR DEMOING?
+          </div>
+          <button type="button" class="btn-instant-demo" id="btnInstantDemo">
+            <span>⚡ INSTANT DEMO MODE (BYPASS LOGIN FOR LIVE PREVIEW)</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       DASHBOARD HEADER & CONTROL BAR
+       ========================================================================== -->
+  <header class="dashboard-header">
+    <div class="dash-nav-container">
+      
+      <!-- Brand & Product Identifier -->
+      <div class="dash-brand-block">
+        <a href="index.html" class="dash-logo-link">
+          <img src="MARVEAN/logo.svg" alt="MARVEAN Logo" style="height: 34px; width: auto;">
+        </a>
+        <div class="dash-product-chip">
+          <span style="color: var(--arcade-yellow);">⚡</span>
+          <span>MV Intel<span style="font-size: 0.65em; vertical-align: super;">™</span></span>
+          <span style="background: rgba(0, 229, 163, 0.2); padding: 1px 5px; border-radius: 3px; font-size: 0.7rem;">COMMAND</span>
+        </div>
+      </div>
+
+      <!-- Telemetry Stream Status & Live Clock -->
+      <div style="display: flex; align-items: center; gap: 1rem; font-family: var(--font-mono); font-size: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(0, 229, 163, 0.08); padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid rgba(0, 229, 163, 0.3);">
+          <span class="status-pulse-dot"></span>
+          <span style="color: var(--arcade-teal); font-weight: 700;">STREAM: ACTIVE (12ms)</span>
+        </div>
+        <div style="color: #8da4c8; display: none; @media(min-width: 768px){display: block;}" id="dashLiveClock">
+          UTC: --:--:--
+        </div>
+      </div>
+
+      <!-- User Profile & Action Controls -->
+      <div class="dash-user-bar">
+        <div class="user-profile-badge">
+          <span class="user-avatar-dot"></span>
+          <div>
+            <strong id="dashUserName" style="color: #fff;">GUEST ANALYST</strong>
+            <span id="dashUserRole" style="color: var(--arcade-teal); margin-left: 4px;">[Level 4 Admin]</span>
+          </div>
+        </div>
+
+        <button class="nav-icon-btn" id="dashAudioBtn" title="Toggle Sound Feedback" style="padding: 0.38rem 0.75rem;">
+          <span>🔊 AUDIO: ON</span>
+        </button>
+
+        <a href="mv-intel.html" class="btn-arcade btn-arcade-outline" style="font-size: 0.75rem; padding: 0.4rem 0.85rem; border-radius: 6px;" title="Return to MV Intel Product Page">
+          ← PRODUCT SPEC
+        </a>
+
+        <button class="btn-dash-auth" id="dashAuthToggleBtn">
+          SIGN OUT
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       DASHBOARD WORKSPACE BODY
+       ========================================================================== -->
+  <main class="dashboard-main-wrap">
+    
+    <!-- Top Executive Telemetry Ribbon -->
+    <div class="product-kpi-bar" style="margin: 0 0 2rem 0;">
+      <div class="kpi-card">
+        <div class="kpi-val text-teal">142</div>
+        <div class="kpi-label">Active Competitors Monitored</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val text-yellow" id="kpiSignalsCount">2,845</div>
+        <div class="kpi-label">Real-Time Signals Ingested</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val text-red">7 <span style="font-size: 1rem; color: var(--arcade-red);">ALERTS</span></div>
+        <div class="kpi-label">High Severity Commercial Moves</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val text-cyan">99.4%</div>
+        <div class="kpi-label">AI Decision Parity &amp; SEC Provenance</div>
+      </div>
+    </div>
+
+    <!-- Main Navigation Tabs inside Dashboard -->
+    <div class="dash-tabs-nav">
+      <button class="dash-view-tab active" data-dash-tab="signals">
+        <span>📡</span> 1. LIVE COMMERCIAL SIGNALS FEED
+      </button>
+      <button class="dash-view-tab" data-dash-tab="competitors">
+        <span>🏢</span> 2. COMPETITOR THREAT GRID
+      </button>
+      <button class="dash-view-tab" data-dash-tab="briefings">
+        <span>🧠</span> 3. AI STRATEGY BRIEFING SYNTHESIZER
+      </button>
+      <button class="dash-view-tab" data-dash-tab="developers">
+        <span>🛠️</span> 4. SENIOR DEVELOPER &amp; API GATEWAY
+      </button>
+    </div>
+
+    <!-- ========================================================================
+         VIEW 1: LIVE COMMERCIAL SIGNALS FEED
+         ======================================================================== -->
+    <section class="dash-tab-content" id="panel-signals">
+      
+      <!-- Controls & Filter Bar -->
+      <div class="signal-controls-bar">
+        <div class="signal-filter-group">
+          <button class="signal-chip-filter active" data-filter="all">ALL SIGNALS (28)</button>
+          <button class="signal-chip-filter" data-filter="Critical">🚨 CRITICAL ONLY</button>
+          <button class="signal-chip-filter" data-filter="pricing">💰 PRICING SHIFTS</button>
+          <button class="signal-chip-filter" data-filter="patent">📜 PATENTS</button>
+          <button class="signal-chip-filter" data-filter="leadership">👔 EXEC MOVES</button>
+          <button class="signal-chip-filter" data-filter="product">🚀 PRODUCT LAUNCHES</button>
+        </div>
+
+        <div style="display: flex; gap: 0.65rem; align-items: center; flex: 1; justify-content: flex-end; min-width: 280px;">
+          <input type="text" id="signalSearchInput" class="app-search-field" placeholder="Search by competitor, SKU, or filing..." style="background: #060b17; border: 1px solid var(--space-border); border-radius: 6px; padding: 0.45rem 0.85rem; max-width: 320px;">
+          <button class="btn-arcade btn-arcade-teal" id="btnSimulateSignal" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap;">
+            <span>⚡ SIMULATE INCOMING SIGNAL</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Signals Feed List -->
+      <div class="signals-feed-stream" id="signalsFeedList">
+        <!-- Rendered dynamically by dashboard.js -->
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 2: COMPETITOR THREAT GRID & DOSSIERS
+         ======================================================================== -->
+    <section class="dash-tab-content" id="panel-competitors" style="display: none;">
+      
+      <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff;">COMPETITOR DOSSIERS &amp; THREAT SCORING</h2>
+          <p style="color: var(--parchment-muted); font-size: 0.9rem;">
+            Real-time algorithmic surveillance scoring based on pricing moves, hiring velocity, and IP aggression.
+          </p>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--arcade-teal);">
+          SURVEILLANCE COVERAGE: 100% AUDITED
+        </div>
+      </div>
+
+      <div class="threat-grid-wrap" id="competitorsGridList">
+        <!-- Rendered dynamically by dashboard.js -->
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 3: AI STRATEGY BRIEFING SYNTHESIZER
+         ======================================================================== -->
+    <section class="dash-tab-content" id="panel-briefings" style="display: none;">
+      
+      <div class="briefing-generator-box">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div class="section-chip">
+              <span>🧠 C-SUITE AI REASONING</span>
+            </div>
+            <h2 style="font-size: 1.6rem; font-weight: 800; color: #fff;">AUTONOMOUS STRATEGY SYNTHESIZER</h2>
+            <p style="color: var(--parchment-muted); font-size: 0.92rem;">
+              Generate actionable defensive battlecards and executive briefing memos based on live market evidence.
+            </p>
+          </div>
+
+          <button class="btn-arcade btn-arcade-teal" id="btnExportBriefing" style="display: none; font-size: 0.8rem; padding: 0.55rem 1rem; border-radius: 6px;">
+            <span>📥 EXPORT BRIEFING (.TXT)</span>
+          </button>
+        </div>
+
+        <!-- Configuration Bar -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <label class="auth-label">Target Competitor Dossier</label>
+            <select id="briefingCompetitorSelect" class="auth-select-box">
+              <option value="Aarav Mehta">Aarav Mehta (Tier 1 Direct)</option>
+              <option value="Daniel Schneider">Daniel Schneider (Tier 1 Direct)</option>
+              <option value="HyperScale Commerce">HyperScale Commerce (Tier 2 Challenger)</option>
+              <option value="Synthetix Corp">Synthetix Corp (Tier 2 Challenger)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="auth-label">Strategic Focus Domain</label>
+            <select id="briefingDomainSelect" class="auth-select-box">
+              <option value="PRICING_AND_GO_TO_MARKET">Pricing Shifts &amp; Enterprise Discounting</option>
+              <option value="PATENT_AND_IP_INFRINGEMENT">Patent Fencing &amp; IP Protection</option>
+              <option value="AI_MODEL_ANNOUNCEMENTS">Large Model Capabilities &amp; Latency</option>
+              <option value="EXECUTIVE_POACHING">Executive Movements &amp; Talent Acquisition</option>
+            </select>
+          </div>
+
+          <div style="display: flex; align-items: flex-end;">
+            <button class="btn-arcade btn-arcade-teal" id="btnSynthesizeBriefing" style="width: 100%; padding: 0.75rem; border-radius: 6px; font-size: 0.9rem;">
+              <span>⚡ SYNTHESIZE STRATEGIC BRIEFING</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Streaming Output Terminal -->
+        <div class="briefing-output-terminal" id="briefingTerminalOutput">
+Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRIEFING] to stream an audited C-Suite strategy memo...
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 4: SENIOR DEVELOPER & API GATEWAY CONSOLE
+         ======================================================================== -->
+    <section class="dash-tab-content" id="panel-developers" style="display: none;">
+      
+      <div class="dev-spec-container" style="margin-bottom: 2rem;">
+        
+        <div class="dev-spec-header">
+          <div>
+            <span class="dev-badge-highlight">SENIOR DEVELOPER COMMAND CONSOLE</span>
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff; margin-top: 0.35rem;">
+              Production API Credentials &amp; Webhook Dispatch
+            </h2>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--arcade-teal);">
+            GATEWAY STATUS: HEALTHY (HTTP 200)
+          </div>
+        </div>
+
+        <!-- API Key Management -->
+        <div style="margin-bottom: 2rem;">
+          <label class="auth-label">Active Production API Key (Bearer Token)</label>
+          <div style="display: flex; gap: 0.65rem; max-width: 720px; flex-wrap: wrap;">
+            <input type="text" id="apiKeyField" class="auth-input-box" value="mv_live_83920194857a2b91048f72e91" readonly style="flex: 1; min-width: 280px; font-family: var(--font-mono); color: var(--arcade-yellow);">
+            <button class="btn-arcade btn-arcade-teal" id="btnCopyKey" style="font-size: 0.78rem; padding: 0.55rem 1rem; border-radius: 6px;">
+              COPY KEY
+            </button>
+            <button class="btn-arcade btn-arcade-outline" id="btnRegenKey" style="font-size: 0.78rem; padding: 0.55rem 1rem; border-radius: 6px;">
+              REGENERATE
+            </button>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #6d82a6; margin-top: 0.4rem;">
+            // Keep your API key confidential. Grants full read/write access to commercial intelligence pipelines.
+          </div>
+        </div>
+
+        <!-- Webhook Configuration -->
+        <div style="margin-bottom: 2rem;">
+          <label class="auth-label">Real-Time Webhook Dispatch Endpoint (HTTP POST)</label>
+          <div style="display: flex; gap: 0.65rem; max-width: 720px; flex-wrap: wrap;">
+            <input type="url" id="webhookUrlField" class="auth-input-box" value="https://api.yourcompany.com/webhooks/marvean-intel" style="flex: 1; min-width: 280px; font-family: var(--font-mono);">
+            <button class="btn-arcade btn-arcade-teal" id="btnTestWebhook" style="font-size: 0.78rem; padding: 0.55rem 1rem; border-radius: 6px;">
+              TEST PING
+            </button>
+          </div>
+          <div id="webhookTestStatus" style="display: none; font-family: var(--font-mono); font-size: 0.76rem; margin-top: 0.5rem; color: var(--arcade-yellow);"></div>
+        </div>
+
+        <!-- Code Snippet -->
+        <div>
+          <label class="auth-label">Live Ingestion cURL Example</label>
+          <div class="dev-code-box">
+            <code>curl -X GET "https://api.marvean.net/v1/intel/signals?severity=Critical" \
+     -H "Authorization: Bearer mv_live_83920194857a2b91048f72e91" \
+     -H "Accept: application/json"</code>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="dashboard.js"></script>
+</body>
+</html>

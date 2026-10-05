@@ -1,6 +1,6 @@
 # MARVEAN // AI Market & Competitive Intelligence Platform
 
-**Domain:** [marvean.net](https://marvean.net)  
+**Domain:** [marvean.vercel.app](https://marvean.vercel.app)  
 **Business Name:** Marvean  
 **Niche:** AI Market & Competitive Intelligence  
 **Primary Industry:** Enterprise / Commerce  
@@ -8,6 +8,8 @@
 ---
 
 ## 1. Project Overview
+
+> **Elevator Pitch:** Centralize market intelligence, track competitive movements, connect research evidence, and turn emerging signals into strategic business insights.
 
 Marvean provides a centralized enterprise platform for managing market intelligence, competitor information, industry observations, commercial signals, and strategic research.
 

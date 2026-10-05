@@ -2,3 +2,5 @@ server.js
 .git
 .gitignore
 README.md
+composer.phar
+backend/
