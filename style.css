@@ -2613,6 +2613,13 @@ input:checked + .slider-retro:before {
 }
 
 /* Platform-specific hover effects */
+.social-badge-btn.social-linkedin:hover {
+  background: rgba(10, 102, 194, 0.16);
+  border-color: #0a66c2;
+  box-shadow: 0 4px 18px rgba(10, 102, 194, 0.45);
+  color: #3b9bff;
+}
+
 .social-badge-btn.social-medium:hover {
   background: rgba(0, 229, 163, 0.14);
   border-color: var(--arcade-teal);
