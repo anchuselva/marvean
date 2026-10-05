@@ -166,7 +166,16 @@ function Nav() {
   return (
     <header className="nav">
       <div className="wrap">
-        <a href="#hero" className="logo px" aria-label="Marvean home">Marvean</a>
+        <a href="#hero" className="logo" aria-label="Marvean home" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <div style={{ width: 32, height: 32, borderRadius: 7, background: "rgba(0, 229, 163, 0.12)", border: "1px solid rgba(0, 229, 163, 0.35)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 12px rgba(0, 229, 163, 0.2)", flexShrink: 0 }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#00e5a3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M2 17L12 22L22 17" stroke="#00e5a3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M2 12L12 17L22 12" stroke="#00e5a3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <span style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 20, fontWeight: 800, letterSpacing: "0.08em", color: "#ffffff", textTransform: "uppercase" }}>MARVEAN</span>
+        </a>
         <nav className="pill" aria-label="Primary">
           <a href="#challenge">Challenge</a>
           <a href="#platform">Platform</a>
