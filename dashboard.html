@@ -201,8 +201,11 @@
   <header class="dashboard-header">
     <div class="dash-nav-container">
       
-      <!-- Brand & Product Identifier -->
+      <!-- Brand & Product Identifier with Slidebar Toggle -->
       <div class="dash-brand-block">
+        <button class="slidebar-toggle-btn" id="btnHeaderSlidebarToggle" title="Toggle Slidebar Navigation [">
+          <span>☰</span>
+        </button>
         <a href="index.html" class="dash-logo-link">
           <img src="MARVEAN/logo.svg" alt="MARVEAN Logo" style="height: 34px; width: auto;">
         </a>
@@ -255,59 +258,192 @@
   </header>
 
   <!-- ==========================================================================
-       DASHBOARD WORKSPACE BODY
+       DASHBOARD WORKSPACE WITH COMMAND SLIDEBAR
        ========================================================================== -->
-  <main class="dashboard-main-wrap">
-    
-    <!-- Top Executive Telemetry Ribbon (6 Enterprise KPI Nodes) -->
-    <div class="product-kpi-bar" style="margin: 0 0 2rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
-      <div class="kpi-card">
-        <div class="kpi-val text-teal" id="kpiCompetitorsCount">4</div>
-        <div class="kpi-label">3.1 Monitored Competitors</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-val text-yellow" id="kpiSignalsCount">4</div>
-        <div class="kpi-label">3.4 Real-Time Signals</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-val text-cyan" id="kpiMarketRecordsCount">3</div>
-        <div class="kpi-label">3.2 Market Records</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-val text-teal" id="kpiComparisonsCount">2</div>
-        <div class="kpi-label">3.3 Shootout Matrices</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-val text-red" id="kpiEvidenceCount">3</div>
-        <div class="kpi-label">3.5 SHA-256 Evidence</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-val text-yellow" id="kpiInsightsCount">3</div>
-        <div class="kpi-label">3.5 Strategic Insights</div>
-      </div>
-    </div>
+  <!-- Mobile Slidebar Backdrop Overlay -->
+  <div class="slidebar-backdrop" id="slidebarBackdrop"></div>
 
-    <!-- Main Navigation Tabs inside Dashboard (Full 5 Modules) -->
-    <div class="dash-tabs-nav">
-      <button class="dash-view-tab active" data-dash-tab="competitors">
-        <span>🏢</span> 3.1 COMPETITOR MANAGEMENT
-      </button>
-      <button class="dash-view-tab" data-dash-tab="market-records">
-        <span>📊</span> 3.2 MARKET RECORDS
-      </button>
-      <button class="dash-view-tab" data-dash-tab="product-comparisons">
-        <span>⚔️</span> 3.3 PRODUCT COMPARISONS
-      </button>
-      <button class="dash-view-tab" data-dash-tab="signals">
-        <span>📡</span> 3.4 SIGNAL TRACKING
-      </button>
-      <button class="dash-view-tab" data-dash-tab="evidence">
-        <span>🔐</span> 3.5 EVIDENCE &amp; INSIGHTS
-      </button>
-      <button class="dash-view-tab" data-dash-tab="briefings">
-        <span>🧠</span> AI BRIEFINGS &amp; API
-      </button>
-    </div>
+  <!-- Main Dual Layout: Collapsible Slidebar + Content Workspace -->
+  <div class="dashboard-layout-container">
+    
+    <!-- ========================================================================
+         COMMAND SLIDEBAR (RETRO ENTERPRISE SIDEBAR DRAWER)
+         ======================================================================== -->
+    <aside class="dash-slidebar" id="dashSlidebar">
+      
+      <!-- Slidebar Top Header -->
+      <div class="slidebar-header">
+        <div class="slidebar-brand-title">
+          <span style="color: var(--arcade-teal); font-size: 1.15rem;">⚡</span>
+          <span>INTEL RADAR</span>
+        </div>
+        <button class="slidebar-toggle-btn" id="btnCollapseSlidebar" title="Toggle Slidebar (Press [)">
+          <span id="slidebarToggleIcon">◀</span>
+        </button>
+      </div>
+
+      <!-- Slidebar Navigation Tree -->
+      <nav class="slidebar-nav">
+        
+        <div class="slidebar-section-label">Core Intelligence</div>
+
+        <button class="slidebar-link dash-view-tab active" data-dash-tab="competitors">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon">🏢</span>
+            <span class="slidebar-label-text">3.1 Competitors</span>
+          </div>
+          <span class="slidebar-badge" id="sbBadgeComps">4</span>
+        </button>
+
+        <button class="slidebar-link dash-view-tab" data-dash-tab="market-records">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon">📊</span>
+            <span class="slidebar-label-text">3.2 Market Records</span>
+          </div>
+          <span class="slidebar-badge" id="sbBadgeRecords">3</span>
+        </button>
+
+        <button class="slidebar-link dash-view-tab" data-dash-tab="product-comparisons">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon">⚔️</span>
+            <span class="slidebar-label-text">3.3 Shootouts</span>
+          </div>
+          <span class="slidebar-badge" id="sbBadgeComparisons">2</span>
+        </button>
+
+        <button class="slidebar-link dash-view-tab" data-dash-tab="signals">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon">📡</span>
+            <span class="slidebar-label-text">3.4 Signal Tracking</span>
+          </div>
+          <span class="slidebar-badge badge-pulse" id="sbBadgeSignals">4</span>
+        </button>
+
+        <button class="slidebar-link dash-view-tab" data-dash-tab="evidence">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon">🔐</span>
+            <span class="slidebar-label-text">3.5 Evidence &amp; Insights</span>
+          </div>
+          <span class="slidebar-badge" id="sbBadgeEvidence">3</span>
+        </button>
+
+        <div class="slidebar-section-label">AI &amp; Developer Tools</div>
+
+        <button class="slidebar-link dash-view-tab" data-dash-tab="briefings">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon">🧠</span>
+            <span class="slidebar-label-text">AI Strategy Briefing</span>
+          </div>
+        </button>
+
+        <button class="slidebar-link" id="sbBtnDevGateway">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon">💻</span>
+            <span class="slidebar-label-text">API &amp; Webhooks</span>
+          </div>
+          <span class="slidebar-badge" style="color: var(--arcade-teal);">v3.1</span>
+        </button>
+
+        <div class="slidebar-section-label">Fast Action Directives</div>
+
+        <button class="slidebar-link" onclick="openModalById('modalIngestSignal')">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon" style="color: var(--arcade-yellow);">⚡</span>
+            <span class="slidebar-label-text">+ Ingest Signal</span>
+          </div>
+        </button>
+
+        <button class="slidebar-link" onclick="openModalById('modalCreateCompetitor')">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon" style="color: var(--arcade-teal);">+</span>
+            <span class="slidebar-label-text">+ Add Competitor</span>
+          </div>
+        </button>
+
+        <button class="slidebar-link" onclick="openModalById('modalDepositEvidence')">
+          <div class="slidebar-link-left">
+            <span class="slidebar-icon" style="color: var(--arcade-red);">🔐</span>
+            <span class="slidebar-label-text">+ Deposit Evidence</span>
+          </div>
+        </button>
+
+      </nav>
+
+      <!-- Slidebar Collapsible Footer -->
+      <div class="slidebar-footer">
+        <button class="slidebar-collapse-footer-btn" id="btnFooterCollapseSlidebar">
+          <span class="collapse-icon">⇚</span>
+          <span class="slidebar-collapse-text">COLLAPSE SLIDEBAR</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ========================================================================
+         RIGHT DASHBOARD WORKSPACE CONTENT
+         ======================================================================== -->
+    <main class="dash-content-pane">
+      
+      <!-- Mobile Bar to open slidebar (visible on screens < 1024px) -->
+      <div class="mobile-slidebar-bar">
+        <button class="btn-mobile-slidebar" id="btnMobileSlidebarToggle">
+          <span>☰</span>
+          <span>INTEL SLIDEBAR</span>
+        </button>
+        <div class="slidebar-breadcrumb">
+          INTEL / <span id="currentViewBreadcrumb" style="color: var(--arcade-teal); font-weight: 700;">3.1 COMPETITOR MANAGEMENT</span>
+        </div>
+      </div>
+
+      <!-- Top Executive Telemetry Ribbon (6 Enterprise KPI Nodes) -->
+      <div class="product-kpi-bar" style="margin: 0 0 2rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
+        <div class="kpi-card">
+          <div class="kpi-val text-teal" id="kpiCompetitorsCount">4</div>
+          <div class="kpi-label">3.1 Competitors</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val text-yellow" id="kpiSignalsCount">4</div>
+          <div class="kpi-label">3.4 Real-Time Signals</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val text-cyan" id="kpiMarketRecordsCount">3</div>
+          <div class="kpi-label">3.2 Market Records</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val text-teal" id="kpiComparisonsCount">2</div>
+          <div class="kpi-label">3.3 Shootout Matrices</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val text-red" id="kpiEvidenceCount">3</div>
+          <div class="kpi-label">3.5 SHA-256 Evidence</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val text-yellow" id="kpiInsightsCount">3</div>
+          <div class="kpi-label">3.5 Strategic Insights</div>
+        </div>
+      </div>
+
+      <!-- Secondary Horizontal Tab Selector (Synchronized with Slidebar) -->
+      <div class="dash-tabs-nav">
+        <button class="dash-view-tab active" data-dash-tab="competitors">
+          <span>🏢</span> 3.1 COMPETITORS
+        </button>
+        <button class="dash-view-tab" data-dash-tab="market-records">
+          <span>📊</span> 3.2 MARKET RECORDS
+        </button>
+        <button class="dash-view-tab" data-dash-tab="product-comparisons">
+          <span>⚔️</span> 3.3 PRODUCT SHOOTOUTS
+        </button>
+        <button class="dash-view-tab" data-dash-tab="signals">
+          <span>📡</span> 3.4 SIGNAL RADAR
+        </button>
+        <button class="dash-view-tab" data-dash-tab="evidence">
+          <span>🔐</span> 3.5 EVIDENCE &amp; INSIGHTS
+        </button>
+        <button class="dash-view-tab" data-dash-tab="briefings">
+          <span>🧠</span> AI BRIEFINGS &amp; API
+        </button>
+      </div>
 
     <!-- ========================================================================
          VIEW 1: 3.1 COMPETITOR MANAGEMENT
@@ -607,7 +743,8 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
 
     </section>
 
-  </main>
+    </main>
+  </div>
 
   <!-- ==========================================================================
        ENTERPRISE DASHBOARD CRUD MODALS

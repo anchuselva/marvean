@@ -544,6 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPersistedData();
 
   initDashboardTabs();
+  initSlidebar();
   initCompetitorModule();
   initMarketRecordsModule();
   initProductComparisonsModule();
@@ -855,6 +856,18 @@ function updateKPICounters() {
   if (bEv) bEv.textContent = DashState.evidence.length;
   if (bIn) bIn.textContent = DashState.insights.length;
   if (bAc) bAc.textContent = DashState.activityLogs.length;
+
+  // Slidebar Badges
+  const sbComps = document.getElementById('sbBadgeComps');
+  const sbRecords = document.getElementById('sbBadgeRecords');
+  const sbComparisons = document.getElementById('sbBadgeComparisons');
+  const sbSignals = document.getElementById('sbBadgeSignals');
+  const sbEvidence = document.getElementById('sbBadgeEvidence');
+  if (sbComps) sbComps.textContent = DashState.competitors.length;
+  if (sbRecords) sbRecords.textContent = DashState.marketRecords.length;
+  if (sbComparisons) sbComparisons.textContent = DashState.productComparisons.length;
+  if (sbSignals) sbSignals.textContent = DashState.signals.length;
+  if (sbEvidence) sbEvidence.textContent = DashState.evidence.length;
 }
 
 function populateGlobalDropdowns() {
@@ -1171,38 +1184,158 @@ function updateUserUI() {
 }
 
 /* ==========================================================================
-   NAVIGATION TABS
+   NAVIGATION TABS & SLIDEBAR CONTROLLER
    ========================================================================== */
 function initDashboardTabs() {
   const tabs = document.querySelectorAll('.dash-view-tab');
-  const panels = document.querySelectorAll('.dash-tab-content');
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       const target = tab.getAttribute('data-dash-tab');
-      tabs.forEach(t => t.classList.remove('active'));
-      panels.forEach(p => p.style.display = 'none');
-
-      tab.classList.add('active');
-      DashState.currentTab = target;
-
-      const targetPanel = document.getElementById(`panel-${target}`);
-      if (targetPanel) {
-        targetPanel.style.display = 'block';
-      }
-
-      // Re-trigger layout/renders on switch
-      if (target === 'competitors') renderCompetitors();
-      else if (target === 'market-records') renderMarketRecords();
-      else if (target === 'product-comparisons') renderActiveShootout(DashState.activeShootoutId);
-      else if (target === 'signals') renderSignalsFeed();
-      else if (target === 'evidence') {
-        renderEvidence();
-        renderInsights();
-        renderActivityLogs();
+      if (target) {
+        switchDashboardTab(target);
       }
     });
   });
+}
+
+function switchDashboardTab(target) {
+  const tabs = document.querySelectorAll('.dash-view-tab');
+  const panels = document.querySelectorAll('.dash-tab-content');
+
+  // Synchronize active class across both slidebar links and top tabs
+  tabs.forEach(t => {
+    if (t.getAttribute('data-dash-tab') === target) {
+      t.classList.add('active');
+    } else {
+      t.classList.remove('active');
+    }
+  });
+
+  panels.forEach(p => p.style.display = 'none');
+  DashState.currentTab = target;
+
+  const targetPanel = document.getElementById(`panel-${target}`);
+  if (targetPanel) {
+    targetPanel.style.display = 'block';
+  }
+
+  // Update Breadcrumb
+  const breadcrumb = document.getElementById('currentViewBreadcrumb');
+  if (breadcrumb) {
+    const titles = {
+      'competitors': '3.1 COMPETITOR MANAGEMENT',
+      'market-records': '3.2 MARKET RECORDS',
+      'product-comparisons': '3.3 PRODUCT SHOOTOUTS',
+      'signals': '3.4 SIGNAL TRACKING & RADAR',
+      'evidence': '3.5 EVIDENCE & STRATEGIC INSIGHTS',
+      'briefings': 'AI BRIEFING SYNTHESIZER & API'
+    };
+    breadcrumb.textContent = titles[target] || target.toUpperCase();
+  }
+
+  // Auto-close mobile slidebar if open
+  closeMobileSlidebar();
+
+  // Re-trigger layout/renders on switch
+  if (target === 'competitors') renderCompetitors();
+  else if (target === 'market-records') renderMarketRecords();
+  else if (target === 'product-comparisons') renderActiveShootout(DashState.activeShootoutId);
+  else if (target === 'signals') renderSignalsFeed();
+  else if (target === 'evidence') {
+    renderEvidence();
+    renderInsights();
+    renderActivityLogs();
+  }
+}
+window.switchDashboardTab = switchDashboardTab;
+
+function initSlidebar() {
+  const slidebar = document.getElementById('dashSlidebar');
+  const btnCollapse = document.getElementById('btnCollapseSlidebar');
+  const btnFooterCollapse = document.getElementById('btnFooterCollapseSlidebar');
+  const btnHeaderToggle = document.getElementById('btnHeaderSlidebarToggle');
+  const btnMobileToggle = document.getElementById('btnMobileSlidebarToggle');
+  const backdrop = document.getElementById('slidebarBackdrop');
+  const toggleIcon = document.getElementById('slidebarToggleIcon');
+  const devGatewayBtn = document.getElementById('sbBtnDevGateway');
+
+  // Restore saved collapse state
+  try {
+    const isCollapsed = localStorage.getItem('mv_slidebar_collapsed') === 'true';
+    if (isCollapsed && slidebar) {
+      slidebar.classList.add('collapsed');
+      if (toggleIcon) toggleIcon.textContent = '▶';
+    }
+  } catch (e) {}
+
+  function toggleDesktopCollapse() {
+    if (!slidebar) return;
+    const collapsed = slidebar.classList.toggle('collapsed');
+    if (toggleIcon) toggleIcon.textContent = collapsed ? '▶' : '◀';
+    try {
+      localStorage.setItem('mv_slidebar_collapsed', collapsed ? 'true' : 'false');
+    } catch (e) {}
+    playTone('select');
+  }
+
+  function toggleMobileSlidebar() {
+    if (!slidebar) return;
+    const isOpen = slidebar.classList.toggle('mobile-open');
+    if (backdrop) backdrop.classList.toggle('active', isOpen);
+    playTone('select');
+  }
+
+  function closeMobileSlidebar() {
+    if (slidebar) slidebar.classList.remove('mobile-open');
+    if (backdrop) backdrop.classList.remove('active');
+  }
+  window.closeMobileSlidebar = closeMobileSlidebar;
+
+  if (btnCollapse) btnCollapse.addEventListener('click', toggleDesktopCollapse);
+  if (btnFooterCollapse) btnFooterCollapse.addEventListener('click', toggleDesktopCollapse);
+
+  if (btnHeaderToggle) {
+    btnHeaderToggle.addEventListener('click', () => {
+      if (window.innerWidth <= 1024) {
+        toggleMobileSlidebar();
+      } else {
+        toggleDesktopCollapse();
+      }
+    });
+  }
+
+  if (btnMobileToggle) {
+    btnMobileToggle.addEventListener('click', toggleMobileSlidebar);
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeMobileSlidebar);
+  }
+
+  // Keyboard shortcut: [ or ] toggles slidebar
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === '[' || e.key === ']') && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+      if (window.innerWidth <= 1024) {
+        toggleMobileSlidebar();
+      } else {
+        toggleDesktopCollapse();
+      }
+    }
+  });
+
+  // Developer Gateway button
+  if (devGatewayBtn) {
+    devGatewayBtn.addEventListener('click', () => {
+      switchDashboardTab('briefings');
+      setTimeout(() => {
+        const consoleEl = document.querySelector('.dev-spec-container');
+        if (consoleEl) {
+          consoleEl.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    });
+  }
 }
 
 /* ==========================================================================
