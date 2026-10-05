@@ -243,8 +243,10 @@ function Hero() {
             <div className="stat" key={l}><b className="px">{v}</b><span>{l}</span></div>
           ))}
         </div>
-        <a className="btn p" href="#sdk">Explore the SDK</a>
-        <a className="btn s" href="#contact">Request a demo</a>
+        <div style={{ display: "flex", gap: "14px", alignItems: "center", flexWrap: "wrap" }}>
+          <a className="btn p" href="#sdk">Explore the SDK</a>
+          <a className="btn s" href="dashboard.html" target="_blank" style={{ marginLeft: 0 }}>Live Dashboard ↗</a>
+        </div>
         <div className="code mono" style={{ marginTop: 34 }}>
           <div><span>// </span>BUILT ON: <b>NVML · Triton · TensorRT-LLM · RAPIDS · Morpheus · NeMo</b></div>
           <div><span>// </span>DEPLOY: <b>Multi-cloud · Hybrid · On-prem HPC</b></div>
