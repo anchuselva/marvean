@@ -213,11 +213,15 @@
         </div>
       </div>
 
-      <!-- Telemetry Stream Status & Live Clock -->
-      <div style="display: flex; align-items: center; gap: 1rem; font-family: var(--font-mono); font-size: 0.75rem;">
+      <!-- Telemetry Stream Status, Backend Link & Live Clock -->
+      <div style="display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; flex-wrap: wrap;">
         <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(0, 229, 163, 0.08); padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid rgba(0, 229, 163, 0.3);">
           <span class="status-pulse-dot"></span>
           <span style="color: var(--arcade-teal); font-weight: 700;">STREAM: ACTIVE (12ms)</span>
+        </div>
+        <div id="backendStatusPill" style="display: flex; align-items: center; gap: 0.45rem; background: rgba(14, 23, 46, 0.85); padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid var(--space-border);">
+          <span class="status-pulse-dot" id="backendPulseDot" style="background: var(--arcade-teal); box-shadow: 0 0 8px var(--arcade-teal);"></span>
+          <span id="backendStatusText" style="color: var(--arcade-teal); font-weight: 700;">BACKEND: INITIALIZING...</span>
         </div>
         <div style="color: #8da4c8; display: none; @media(min-width: 768px){display: block;}" id="dashLiveClock">
           UTC: --:--:--
@@ -255,62 +259,167 @@
        ========================================================================== -->
   <main class="dashboard-main-wrap">
     
-    <!-- Top Executive Telemetry Ribbon -->
-    <div class="product-kpi-bar" style="margin: 0 0 2rem 0;">
+    <!-- Top Executive Telemetry Ribbon (6 Enterprise KPI Nodes) -->
+    <div class="product-kpi-bar" style="margin: 0 0 2rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
       <div class="kpi-card">
-        <div class="kpi-val text-teal">142</div>
-        <div class="kpi-label">Active Competitors Monitored</div>
+        <div class="kpi-val text-teal" id="kpiCompetitorsCount">4</div>
+        <div class="kpi-label">3.1 Monitored Competitors</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-val text-yellow" id="kpiSignalsCount">2,845</div>
-        <div class="kpi-label">Real-Time Signals Ingested</div>
+        <div class="kpi-val text-yellow" id="kpiSignalsCount">4</div>
+        <div class="kpi-label">3.4 Real-Time Signals</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-val text-red">7 <span style="font-size: 1rem; color: var(--arcade-red);">ALERTS</span></div>
-        <div class="kpi-label">High Severity Commercial Moves</div>
+        <div class="kpi-val text-cyan" id="kpiMarketRecordsCount">3</div>
+        <div class="kpi-label">3.2 Market Records</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-val text-cyan">99.4%</div>
-        <div class="kpi-label">AI Decision Parity &amp; SEC Provenance</div>
+        <div class="kpi-val text-teal" id="kpiComparisonsCount">2</div>
+        <div class="kpi-label">3.3 Shootout Matrices</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val text-red" id="kpiEvidenceCount">3</div>
+        <div class="kpi-label">3.5 SHA-256 Evidence</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val text-yellow" id="kpiInsightsCount">3</div>
+        <div class="kpi-label">3.5 Strategic Insights</div>
       </div>
     </div>
 
-    <!-- Main Navigation Tabs inside Dashboard -->
+    <!-- Main Navigation Tabs inside Dashboard (Full 5 Modules) -->
     <div class="dash-tabs-nav">
-      <button class="dash-view-tab active" data-dash-tab="signals">
-        <span>📡</span> 1. LIVE COMMERCIAL SIGNALS FEED
+      <button class="dash-view-tab active" data-dash-tab="competitors">
+        <span>🏢</span> 3.1 COMPETITOR MANAGEMENT
       </button>
-      <button class="dash-view-tab" data-dash-tab="competitors">
-        <span>🏢</span> 2. COMPETITOR THREAT GRID
+      <button class="dash-view-tab" data-dash-tab="market-records">
+        <span>📊</span> 3.2 MARKET RECORDS
+      </button>
+      <button class="dash-view-tab" data-dash-tab="product-comparisons">
+        <span>⚔️</span> 3.3 PRODUCT COMPARISONS
+      </button>
+      <button class="dash-view-tab" data-dash-tab="signals">
+        <span>📡</span> 3.4 SIGNAL TRACKING
+      </button>
+      <button class="dash-view-tab" data-dash-tab="evidence">
+        <span>🔐</span> 3.5 EVIDENCE &amp; INSIGHTS
       </button>
       <button class="dash-view-tab" data-dash-tab="briefings">
-        <span>🧠</span> 3. AI STRATEGY BRIEFING SYNTHESIZER
-      </button>
-      <button class="dash-view-tab" data-dash-tab="developers">
-        <span>🛠️</span> 4. SENIOR DEVELOPER &amp; API GATEWAY
+        <span>🧠</span> AI BRIEFINGS &amp; API
       </button>
     </div>
 
     <!-- ========================================================================
-         VIEW 1: LIVE COMMERCIAL SIGNALS FEED
+         VIEW 1: 3.1 COMPETITOR MANAGEMENT
          ======================================================================== -->
-    <section class="dash-tab-content" id="panel-signals">
+    <section class="dash-tab-content" id="panel-competitors">
+      
+      <!-- Action Toolbar -->
+      <div class="signal-controls-bar">
+        <div class="signal-filter-group" id="competitorCategoryFilters">
+          <button class="signal-chip-filter active" data-comp-cat="all">ALL CATEGORIES</button>
+          <button class="signal-chip-filter" data-comp-cat="Enterprise Commerce Intelligence">ENTERPRISE COMMERCE</button>
+          <button class="signal-chip-filter" data-comp-cat="Market Signal Tracking">SIGNAL TRACKING</button>
+          <button class="signal-chip-filter" data-comp-cat="Competitive AI Analytics">AI ANALYTICS</button>
+          <button class="signal-chip-filter" data-comp-cat="Algorithmic Financial Telemetry">FINANCIAL TELEMETRY</button>
+        </div>
+
+        <div style="display: flex; gap: 0.65rem; align-items: center; flex: 1; justify-content: flex-end; min-width: 280px; flex-wrap: wrap;">
+          <input type="text" id="competitorSearchInput" class="app-search-field" placeholder="Search by name, ticker, overview..." style="background: #060b17; border: 1px solid var(--space-border); border-radius: 6px; padding: 0.45rem 0.85rem; max-width: 260px;">
+          <button class="btn-arcade btn-arcade-teal" id="btnOpenCreateCompetitor" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap;">
+            <span>+ REGISTER COMPETITOR PROFILE</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Competitors Grid -->
+      <div class="threat-grid-wrap" id="competitorsGridList">
+        <!-- Rendered dynamically by dashboard.js -->
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 2: 3.2 MARKET RECORDS
+         ======================================================================== -->
+    <section class="dash-tab-content" id="panel-market-records" style="display: none;">
+      
+      <!-- Action Toolbar -->
+      <div class="signal-controls-bar">
+        <div class="signal-filter-group" id="marketRecordFilters">
+          <button class="signal-chip-filter active" data-rec-class="all">ALL CLASSIFICATIONS</button>
+          <button class="signal-chip-filter" data-rec-class="Direct Pricing Audit">PRICING AUDITS</button>
+          <button class="signal-chip-filter" data-rec-class="SEC Filing">SEC FILINGS</button>
+          <button class="signal-chip-filter" data-rec-class="Patent Registry">PATENT REGISTRY</button>
+          <button class="signal-chip-filter" data-rec-class="Industry Benchmark">BENCHMARKS</button>
+        </div>
+
+        <div style="display: flex; gap: 0.65rem; align-items: center; flex: 1; justify-content: flex-end; min-width: 280px; flex-wrap: wrap;">
+          <input type="text" id="recordSearchInput" class="app-search-field" placeholder="Search records by title, industry..." style="background: #060b17; border: 1px solid var(--space-border); border-radius: 6px; padding: 0.45rem 0.85rem; max-width: 260px;">
+          <button class="btn-arcade btn-arcade-teal" id="btnOpenCreateRecord" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap;">
+            <span>+ PUBLISH MARKET RECORD</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Market Records Container -->
+      <div id="marketRecordsList">
+        <!-- Rendered dynamically by dashboard.js -->
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 3: 3.3 PRODUCT COMPARISONS
+         ======================================================================== -->
+    <section class="dash-tab-content" id="panel-product-comparisons" style="display: none;">
+      
+      <!-- Shootout Select & Creation Toolbar -->
+      <div class="signal-controls-bar">
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <label style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--arcade-teal); font-weight: 700;">SELECT ACTIVE SHOOTOUT:</label>
+          <select id="activeShootoutSelect" class="auth-select-box" style="padding: 0.45rem 0.85rem; font-size: 0.85rem; max-width: 380px;">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 0.65rem; align-items: center;">
+          <button class="btn-arcade btn-arcade-outline" id="btnOpenComparisonHistory" style="font-size: 0.78rem; padding: 0.5rem 0.85rem; border-radius: 6px;">
+            <span>📜 VIEW BENCHMARK HISTORY</span>
+          </button>
+          <button class="btn-arcade btn-arcade-teal" id="btnOpenCreateComparison" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px;">
+            <span>+ NEW PRODUCT SHOOTOUT</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Comparison Matrix Display -->
+      <div id="activeShootoutContainer">
+        <!-- Rendered dynamically by dashboard.js -->
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 4: 3.4 SIGNAL TRACKING
+         ======================================================================== -->
+    <section class="dash-tab-content" id="panel-signals" style="display: none;">
       
       <!-- Controls & Filter Bar -->
       <div class="signal-controls-bar">
-        <div class="signal-filter-group">
-          <button class="signal-chip-filter active" data-filter="all">ALL SIGNALS (28)</button>
+        <div class="signal-filter-group" id="signalFilters">
+          <button class="signal-chip-filter active" data-filter="all">ALL SIGNALS</button>
           <button class="signal-chip-filter" data-filter="Critical">🚨 CRITICAL ONLY</button>
-          <button class="signal-chip-filter" data-filter="pricing">💰 PRICING SHIFTS</button>
-          <button class="signal-chip-filter" data-filter="patent">📜 PATENTS</button>
-          <button class="signal-chip-filter" data-filter="leadership">👔 EXEC MOVES</button>
-          <button class="signal-chip-filter" data-filter="product">🚀 PRODUCT LAUNCHES</button>
+          <button class="signal-chip-filter" data-filter="Pricing Shift">💰 PRICING SHIFTS</button>
+          <button class="signal-chip-filter" data-filter="Patent Filing">📜 PATENTS</button>
+          <button class="signal-chip-filter" data-filter="Executive Move">👔 EXEC MOVES</button>
+          <button class="signal-chip-filter" data-filter="M&A / Partnership">🤝 M&amp;A ACTIVITY</button>
         </div>
 
-        <div style="display: flex; gap: 0.65rem; align-items: center; flex: 1; justify-content: flex-end; min-width: 280px;">
-          <input type="text" id="signalSearchInput" class="app-search-field" placeholder="Search by competitor, SKU, or filing..." style="background: #060b17; border: 1px solid var(--space-border); border-radius: 6px; padding: 0.45rem 0.85rem; max-width: 320px;">
-          <button class="btn-arcade btn-arcade-teal" id="btnSimulateSignal" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap;">
-            <span>⚡ SIMULATE INCOMING SIGNAL</span>
+        <div style="display: flex; gap: 0.65rem; align-items: center; flex: 1; justify-content: flex-end; min-width: 280px; flex-wrap: wrap;">
+          <input type="text" id="signalSearchInput" class="app-search-field" placeholder="Search by title, competitor, source..." style="background: #060b17; border: 1px solid var(--space-border); border-radius: 6px; padding: 0.45rem 0.85rem; max-width: 260px;">
+          <button class="btn-arcade btn-arcade-teal" id="btnOpenIngestSignal" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap;">
+            <span>⚡ INGEST MARKET SIGNAL</span>
           </button>
         </div>
       </div>
@@ -323,34 +432,83 @@
     </section>
 
     <!-- ========================================================================
-         VIEW 2: COMPETITOR THREAT GRID & DOSSIERS
+         VIEW 5: 3.5 EVIDENCE & STRATEGIC INSIGHTS
          ======================================================================== -->
-    <section class="dash-tab-content" id="panel-competitors" style="display: none;">
+    <section class="dash-tab-content" id="panel-evidence" style="display: none;">
       
-      <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-        <div>
-          <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff;">COMPETITOR DOSSIERS &amp; THREAT SCORING</h2>
-          <p style="color: var(--parchment-muted); font-size: 0.9rem;">
-            Real-time algorithmic surveillance scoring based on pricing moves, hiring velocity, and IP aggression.
-          </p>
+      <!-- Sub-Navigation Switcher -->
+      <div style="display: flex; gap: 0.65rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--space-border); padding-bottom: 0.65rem; flex-wrap: wrap;">
+        <button class="signal-chip-filter active" id="btnSubtabEvidence" style="font-size: 0.82rem; padding: 0.45rem 1rem;">
+          🔐 1. CRYPTOGRAPHIC EVIDENCE LOCKER (<span id="evidenceBadgeCount">3</span>)
+        </button>
+        <button class="signal-chip-filter" id="btnSubtabInsights" style="font-size: 0.82rem; padding: 0.45rem 1rem;">
+          🧠 2. STRATEGIC INSIGHT RECORDS (<span id="insightsBadgeCount">3</span>)
+        </button>
+        <button class="signal-chip-filter" id="btnSubtabActivity" style="font-size: 0.82rem; padding: 0.45rem 1rem;">
+          📜 3. HISTORICAL ACTIVITY AUDIT TRAIL (<span id="activityBadgeCount">4</span>)
+        </button>
+      </div>
+
+      <!-- SUB-PANE A: EVIDENCE LOCKER -->
+      <div id="subpane-evidence">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff;">CRYPTOGRAPHIC EVIDENCE LOCKER</h3>
+            <p style="color: var(--parchment-muted); font-size: 0.85rem;">
+              Audited regulatory filings, SEC Form 10-Q signatures, and direct telemetry manifests sealed with SHA-256 hashes.
+            </p>
+          </div>
+          <button class="btn-arcade btn-arcade-teal" id="btnOpenDepositEvidence" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px;">
+            <span>+ DEPOSIT EVIDENCE DOCUMENT</span>
+          </button>
         </div>
-        <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--arcade-teal);">
-          SURVEILLANCE COVERAGE: 100% AUDITED
+
+        <div id="evidenceTableContainer">
+          <!-- Rendered dynamically -->
         </div>
       </div>
 
-      <div class="threat-grid-wrap" id="competitorsGridList">
-        <!-- Rendered dynamically by dashboard.js -->
+      <!-- SUB-PANE B: STRATEGIC INSIGHTS -->
+      <div id="subpane-insights" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff;">STRATEGIC INSIGHT RECORDS &amp; COUNTER-MOVES</h3>
+            <p style="color: var(--parchment-muted); font-size: 0.85rem;">
+              Actionable C-Suite battlecards, strategic horizon guidance, and competitive countermeasures.
+            </p>
+          </div>
+          <button class="btn-arcade btn-arcade-teal" id="btnOpenRecordInsight" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px;">
+            <span>+ RECORD STRATEGIC INSIGHT</span>
+          </button>
+        </div>
+
+        <div id="insightsGridContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem;">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- SUB-PANE C: HISTORICAL ACTIVITY AUDIT TRAIL -->
+      <div id="subpane-activity" style="display: none;">
+        <div style="margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff;">HISTORICAL ACTIVITY &amp; AUDIT LOG</h3>
+          <p style="color: var(--parchment-muted); font-size: 0.85rem;">
+            Immutable ledger tracking every entity creation, status update, evidence deposit, and audit event.
+          </p>
+        </div>
+
+        <div id="activityTableContainer">
+          <!-- Rendered dynamically -->
+        </div>
       </div>
 
     </section>
 
     <!-- ========================================================================
-         VIEW 3: AI STRATEGY BRIEFING SYNTHESIZER
+         VIEW 6: AI STRATEGY BRIEFING SYNTHESIZER & DEVELOPER GATEWAY
          ======================================================================== -->
     <section class="dash-tab-content" id="panel-briefings" style="display: none;">
       
-      <div class="briefing-generator-box">
+      <div class="briefing-generator-box" style="margin-bottom: 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <div class="section-chip">
@@ -372,10 +530,7 @@
           <div>
             <label class="auth-label">Target Competitor Dossier</label>
             <select id="briefingCompetitorSelect" class="auth-select-box">
-              <option value="Aarav Mehta">Aarav Mehta (Tier 1 Direct)</option>
-              <option value="Daniel Schneider">Daniel Schneider (Tier 1 Direct)</option>
-              <option value="HyperScale Commerce">HyperScale Commerce (Tier 2 Challenger)</option>
-              <option value="Synthetix Corp">Synthetix Corp (Tier 2 Challenger)</option>
+              <!-- Populated dynamically -->
             </select>
           </div>
 
@@ -400,23 +555,15 @@
         <div class="briefing-output-terminal" id="briefingTerminalOutput">
 Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRIEFING] to stream an audited C-Suite strategy memo...
         </div>
-
       </div>
 
-    </section>
-
-    <!-- ========================================================================
-         VIEW 4: SENIOR DEVELOPER & API GATEWAY CONSOLE
-         ======================================================================== -->
-    <section class="dash-tab-content" id="panel-developers" style="display: none;">
-      
-      <div class="dev-spec-container" style="margin-bottom: 2rem;">
-        
+      <!-- Developer Credentials & API Testing -->
+      <div class="dev-spec-container">
         <div class="dev-spec-header">
           <div>
             <span class="dev-badge-highlight">SENIOR DEVELOPER COMMAND CONSOLE</span>
             <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff; margin-top: 0.35rem;">
-              Production API Credentials &amp; Webhook Dispatch
+              Production API Gateway &amp; Live Endpoints
             </h2>
           </div>
           <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--arcade-teal);">
@@ -424,7 +571,6 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
           </div>
         </div>
 
-        <!-- API Key Management -->
         <div style="margin-bottom: 2rem;">
           <label class="auth-label">Active Production API Key (Bearer Token)</label>
           <div style="display: flex; gap: 0.65rem; max-width: 720px; flex-wrap: wrap;">
@@ -436,12 +582,8 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
               REGENERATE
             </button>
           </div>
-          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #6d82a6; margin-top: 0.4rem;">
-            // Keep your API key confidential. Grants full read/write access to commercial intelligence pipelines.
-          </div>
         </div>
 
-        <!-- Webhook Configuration -->
         <div style="margin-bottom: 2rem;">
           <label class="auth-label">Real-Time Webhook Dispatch Endpoint (HTTP POST)</label>
           <div style="display: flex; gap: 0.65rem; max-width: 720px; flex-wrap: wrap;">
@@ -453,21 +595,613 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
           <div id="webhookTestStatus" style="display: none; font-family: var(--font-mono); font-size: 0.76rem; margin-top: 0.5rem; color: var(--arcade-yellow);"></div>
         </div>
 
-        <!-- Code Snippet -->
         <div>
           <label class="auth-label">Live Ingestion cURL Example</label>
           <div class="dev-code-box">
-            <code>curl -X GET "https://api.marvean.net/v1/intel/signals?severity=Critical" \
+            <code>curl -X GET "http://localhost:8000/api/signals?severity=Critical" \
      -H "Authorization: Bearer mv_live_83920194857a2b91048f72e91" \
      -H "Accept: application/json"</code>
           </div>
         </div>
-
       </div>
 
     </section>
 
   </main>
+
+  <!-- ==========================================================================
+       ENTERPRISE DASHBOARD CRUD MODALS
+       ========================================================================== -->
+
+  <!-- Modal 1: 3.1 Create Competitor Profile -->
+  <div class="crud-modal-overlay" id="modalCreateCompetitor">
+    <div class="crud-modal-box">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>🏢</span> CREATE COMPETITOR PROFILE</div>
+        <button class="auth-close-btn" data-close-modal="modalCreateCompetitor">&times;</button>
+      </div>
+      <form id="formCreateCompetitor">
+        <div class="crud-modal-body">
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="compName">Competitor Name *</label>
+              <input type="text" id="compName" class="auth-input-box" placeholder="e.g. Nexus Enterprise Inc." required>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="compTicker">Ticker (Optional)</label>
+              <input type="text" id="compTicker" class="auth-input-box" placeholder="e.g. NXUS">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="compTier">Competitive Tier *</label>
+              <select id="compTier" class="auth-select-box">
+                <option value="Tier-1 Direct">Tier-1 Direct Rival</option>
+                <option value="Tier-2 Emerging">Tier-2 Emerging Threat</option>
+                <option value="Indirect Threat">Indirect Threat</option>
+                <option value="Strategic Partner">Strategic Partner</option>
+              </select>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="compThreatLevel">Threat Severity Level *</label>
+              <select id="compThreatLevel" class="auth-select-box">
+                <option value="Critical">Critical Threat</option>
+                <option value="High">High Threat</option>
+                <option value="Moderate">Moderate Threat</option>
+                <option value="Low">Low Threat</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="compCategory">Primary Sector / Category *</label>
+            <select id="compCategory" class="auth-select-box">
+              <option value="Enterprise Commerce Intelligence">Enterprise Commerce Intelligence</option>
+              <option value="Market Signal Tracking">Market Signal Tracking</option>
+              <option value="Competitive AI Analytics">Competitive AI Analytics</option>
+              <option value="Algorithmic Financial Telemetry">Algorithmic Financial Telemetry</option>
+              <option value="Global Supply Chain Intel">Global Supply Chain Intel</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="compMarketCap">Market Cap / Valuation</label>
+              <input type="text" id="compMarketCap" class="auth-input-box" placeholder="e.g. $18.4B">
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="compHq">Headquarters</label>
+              <input type="text" id="compHq" class="auth-input-box" placeholder="e.g. San Francisco, CA">
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="compOverview">Strategic Overview &amp; Profile Summary *</label>
+            <textarea id="compOverview" class="auth-input-box" rows="3" placeholder="Provide background on market positioning, pricing aggressiveness, and technology stack..." required></textarea>
+          </div>
+        </div>
+        <div class="crud-modal-footer">
+          <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalCreateCompetitor">CANCEL</button>
+          <button type="submit" class="btn-arcade btn-arcade-teal">SAVE COMPETITOR PROFILE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: 3.1 View & Add Competitor Updates -->
+  <div class="crud-modal-overlay" id="modalCompetitorUpdates">
+    <div class="crud-modal-box" style="max-width: 740px;">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title">
+          <span>📋</span> <span id="compUpdatesModalTitle">COMPETITOR PROFILE UPDATE HISTORY</span>
+        </div>
+        <button class="auth-close-btn" data-close-modal="modalCompetitorUpdates">&times;</button>
+      </div>
+      <div class="crud-modal-body">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--space-border); padding-bottom: 0.75rem;">
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--arcade-teal);">AUDITED TIMELINE OF PROFILE CHANGES</span>
+          <button class="btn-arcade btn-arcade-teal" id="btnOpenAddCompetitorUpdate" style="font-size: 0.74rem; padding: 0.4rem 0.85rem;">
+            + ADD PROFILE UPDATE
+          </button>
+        </div>
+
+        <div id="compUpdatesTimelineContainer">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+      <div class="crud-modal-footer">
+        <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalCompetitorUpdates">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: 3.1 Add Competitor Update Form -->
+  <div class="crud-modal-overlay" id="modalAddCompetitorUpdate">
+    <div class="crud-modal-box" style="max-width: 580px;">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>✍️</span> RECORD PROFILE UPDATE</div>
+        <button class="auth-close-btn" data-close-modal="modalAddCompetitorUpdate">&times;</button>
+      </div>
+      <form id="formAddCompetitorUpdate">
+        <input type="hidden" id="updateTargetCompId">
+        <div class="crud-modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="updateType">Update Type *</label>
+              <select id="updateType" class="auth-select-box">
+                <option value="Pricing Revision">Pricing Revision</option>
+                <option value="Executive Move">Executive Move</option>
+                <option value="M&A Activity">M&amp;A Activity</option>
+                <option value="Product Pivot">Product Pivot</option>
+                <option value="Patent Announcement">Patent Announcement</option>
+                <option value="Regulatory Action">Regulatory Action</option>
+              </select>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="changeField">Field Affected *</label>
+              <input type="text" id="changeField" class="auth-input-box" placeholder="e.g. Enterprise Tier Pricing" required>
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="updateSummary">Update Description &amp; Summary *</label>
+            <textarea id="updateSummary" class="auth-input-box" rows="4" placeholder="Detail the verified competitive change, impact on accounts, and evidence source..." required></textarea>
+          </div>
+        </div>
+        <div class="crud-modal-footer">
+          <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalAddCompetitorUpdate">CANCEL</button>
+          <button type="submit" class="btn-arcade btn-arcade-teal">LOG PROFILE UPDATE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: 3.2 Publish Market Record -->
+  <div class="crud-modal-overlay" id="modalCreateMarketRecord">
+    <div class="crud-modal-box">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>📊</span> PUBLISH MARKET INTELLIGENCE RECORD</div>
+        <button class="auth-close-btn" data-close-modal="modalCreateMarketRecord">&times;</button>
+      </div>
+      <form id="formCreateMarketRecord">
+        <div class="crud-modal-body">
+          <div class="auth-form-grp">
+            <label class="auth-label" for="recordTitle">Intel Record Title *</label>
+            <input type="text" id="recordTitle" class="auth-input-box" placeholder="e.g. Global Enterprise Cloud Pricing Compression Q3/Q4" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="recordIndustry">Industry / Sector *</label>
+              <input type="text" id="recordIndustry" class="auth-input-box" placeholder="e.g. Enterprise SaaS & Commerce" required>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="recordClassification">Classification *</label>
+              <select id="recordClassification" class="auth-select-box">
+                <option value="Direct Pricing Audit">Direct Pricing Audit</option>
+                <option value="SEC Filing">SEC Filing (10-K/10-Q)</option>
+                <option value="Patent Registry">Patent Registry Audit</option>
+                <option value="Industry Benchmark">Industry Benchmark</option>
+                <option value="Earnings Call Telemetry">Earnings Call Telemetry</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="recordConfidence">Confidence Score (%) *</label>
+              <input type="number" id="recordConfidence" class="auth-input-box" value="99.4" step="0.1" min="50" max="100" required>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="recordStatus">Publish Status *</label>
+              <select id="recordStatus" class="auth-select-box">
+                <option value="Published">Published (Live Intel)</option>
+                <option value="Under Peer Review">Under Peer Review</option>
+                <option value="Draft">Draft (Internal)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="recordExecutiveSummary">Executive Summary *</label>
+            <textarea id="recordExecutiveSummary" class="auth-input-box" rows="3" placeholder="High-level briefing takeaway for executive leadership..." required></textarea>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="recordDeepAnalysis">Deep Analysis (Optional)</label>
+            <textarea id="recordDeepAnalysis" class="auth-input-box" rows="3" placeholder="Supporting numerical telemetry, methodology, and cross-source verification notes..."></textarea>
+          </div>
+        </div>
+        <div class="crud-modal-footer">
+          <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalCreateMarketRecord">CANCEL</button>
+          <button type="submit" class="btn-arcade btn-arcade-teal">PUBLISH RECORD</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: 3.2 Manage Associated Sources -->
+  <div class="crud-modal-overlay" id="modalMarketSources">
+    <div class="crud-modal-box" style="max-width: 720px;">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>🔗</span> <span id="sourcesModalTitle">ASSOCIATED VERIFIED SOURCES</span></div>
+        <button class="auth-close-btn" data-close-modal="modalMarketSources">&times;</button>
+      </div>
+      <div class="crud-modal-body">
+        <div id="sourcesListContainer" style="margin-bottom: 1.5rem;">
+          <!-- Populated dynamically -->
+        </div>
+
+        <div style="background: rgba(10, 18, 38, 0.85); border: 1px dashed var(--space-border); border-radius: 8px; padding: 1.25rem;">
+          <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--arcade-teal); margin-bottom: 0.85rem;">
+            + ASSOCIATE NEW VERIFIED SOURCE
+          </h4>
+          <form id="formAddSource">
+            <input type="hidden" id="sourceTargetRecordId">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.85rem;">
+              <div class="auth-form-grp">
+                <label class="auth-label" for="sourceName">Source Organization / Feed *</label>
+                <input type="text" id="sourceName" class="auth-input-box" placeholder="e.g. U.S. SEC EDGAR System" required>
+              </div>
+              <div class="auth-form-grp">
+                <label class="auth-label" for="sourceCitationKey">Citation Key *</label>
+                <input type="text" id="sourceCitationKey" class="auth-input-box" placeholder="e.g. SEC-2026-Q3-0941" required>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+              <div class="auth-form-grp">
+                <label class="auth-label" for="sourceType">Source Type *</label>
+                <input type="text" id="sourceType" class="auth-input-box" placeholder="e.g. Regulatory Disclosure" required>
+              </div>
+              <div class="auth-form-grp">
+                <label class="auth-label" for="sourceDate">Verification Date *</label>
+                <input type="date" id="sourceDate" class="auth-input-box" required>
+              </div>
+            </div>
+
+            <div class="auth-form-grp">
+              <label class="auth-label" for="sourceUrl">Direct Provenance URL</label>
+              <input type="url" id="sourceUrl" class="auth-input-box" placeholder="https://...">
+            </div>
+
+            <button type="submit" class="btn-arcade btn-arcade-teal" style="font-size: 0.8rem; padding: 0.5rem 1rem;">
+              ATTACH SOURCE TO RECORD
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="crud-modal-footer">
+        <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalMarketSources">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6: 3.2 Market Record Revision History -->
+  <div class="crud-modal-overlay" id="modalMarketHistory">
+    <div class="crud-modal-box" style="max-width: 640px;">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>📜</span> <span id="historyModalTitle">RECORD REVISION HISTORY</span></div>
+        <button class="auth-close-btn" data-close-modal="modalMarketHistory">&times;</button>
+      </div>
+      <div class="crud-modal-body">
+        <div id="historyListContainer">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+      <div class="crud-modal-footer">
+        <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalMarketHistory">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7: 3.3 Create Product Shootout -->
+  <div class="crud-modal-overlay" id="modalCreateComparison">
+    <div class="crud-modal-box">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>⚔️</span> CREATE PRODUCT SHOOTOUT MATRIX</div>
+        <button class="auth-close-btn" data-close-modal="modalCreateComparison">&times;</button>
+      </div>
+      <form id="formCreateComparison">
+        <div class="crud-modal-body">
+          <div class="auth-form-grp">
+            <label class="auth-label" for="compTitle">Shootout Matrix Title *</label>
+            <input type="text" id="compTitle" class="auth-input-box" placeholder="e.g. MARVEAN Command Center vs. Nexus Commerce Core" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="compCategoryName">Comparison Domain *</label>
+              <input type="text" id="compCategoryName" class="auth-input-box" placeholder="e.g. Enterprise AI Market Intel" required>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="compStatus">Shootout Status *</label>
+              <select id="compStatus" class="auth-select-box">
+                <option value="Active Brief">Active Brief (Executive Live)</option>
+                <option value="Quarterly Review">Quarterly Review</option>
+                <option value="Archived">Archived</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="compNotes">Evaluation Notes &amp; Methodology</label>
+            <textarea id="compNotes" class="auth-input-box" rows="3" placeholder="Context on benchmark testing parameters, audience, and sales takeout battlecard use cases..."></textarea>
+          </div>
+        </div>
+        <div class="crud-modal-footer">
+          <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalCreateComparison">CANCEL</button>
+          <button type="submit" class="btn-arcade btn-arcade-teal">INITIALIZE SHOOTOUT</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 8: 3.3 Add Comparison Attribute -->
+  <div class="crud-modal-overlay" id="modalAddAttribute">
+    <div class="crud-modal-box">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>➕</span> ADD BENCHMARK ATTRIBUTE</div>
+        <button class="auth-close-btn" data-close-modal="modalAddAttribute">&times;</button>
+      </div>
+      <form id="formAddAttribute">
+        <input type="hidden" id="attrTargetCompId">
+        <div class="crud-modal-body">
+          <div class="auth-form-grp">
+            <label class="auth-label" for="attrName">Attribute / Capability Name *</label>
+            <input type="text" id="attrName" class="auth-input-box" placeholder="e.g. Real-Time Telemetry Latency" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="attrMarvean">MARVEAN Metric / Capability *</label>
+              <input type="text" id="attrMarvean" class="auth-input-box" placeholder="e.g. < 15m Continuous Socket" required>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="attrCompetitor">Competitor Metric *</label>
+              <input type="text" id="attrCompetitor" class="auth-input-box" placeholder="e.g. 4 - 12h Batch ETL" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="attrAdvantage">Advantage Assessment *</label>
+              <select id="attrAdvantage" class="auth-select-box">
+                <option value="Marvean">MARVEAN Advantage</option>
+                <option value="Competitor">Competitor Advantage</option>
+                <option value="Parity">Feature Parity</option>
+              </select>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="attrAuditNote">Audit Provenance Note</label>
+              <input type="text" id="attrAuditNote" class="auth-input-box" placeholder="e.g. Benchmarked via SEC Form 8-K">
+            </div>
+          </div>
+        </div>
+        <div class="crud-modal-footer">
+          <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalAddAttribute">CANCEL</button>
+          <button type="submit" class="btn-arcade btn-arcade-teal">SAVE ATTRIBUTE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 9: 3.3 Comparison History -->
+  <div class="crud-modal-overlay" id="modalComparisonHistory">
+    <div class="crud-modal-box" style="max-width: 640px;">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>📜</span> SHOOTOUT BENCHMARK AUDIT HISTORY</div>
+        <button class="auth-close-btn" data-close-modal="modalComparisonHistory">&times;</button>
+      </div>
+      <div class="crud-modal-body">
+        <div id="comparisonHistoryListContainer">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+      <div class="crud-modal-footer">
+        <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalComparisonHistory">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 10: 3.4 Ingest Signal -->
+  <div class="crud-modal-overlay" id="modalIngestSignal">
+    <div class="crud-modal-box">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>⚡</span> INGEST MARKET INTELLIGENCE SIGNAL</div>
+        <button class="auth-close-btn" data-close-modal="modalIngestSignal">&times;</button>
+      </div>
+      <form id="formIngestSignal">
+        <div class="crud-modal-body">
+          <div class="auth-form-grp">
+            <label class="auth-label" for="sigTitle">Signal Headline / Title *</label>
+            <input type="text" id="sigTitle" class="auth-input-box" placeholder="e.g. Competitor OmniRadar dropped Enterprise Tier by 15%" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="sigCategory">Signal Category *</label>
+              <select id="sigCategory" class="auth-select-box">
+                <option value="Pricing Shift">Pricing Shift</option>
+                <option value="Product Launch">Product Launch</option>
+                <option value="Patent Filing">Patent Filing</option>
+                <option value="Executive Move">Executive Move</option>
+                <option value="M&A / Partnership">M&amp;A / Partnership</option>
+                <option value="Regulatory Action">Regulatory Action</option>
+              </select>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="sigSeverity">Severity Level *</label>
+              <select id="sigSeverity" class="auth-select-box">
+                <option value="Critical">Critical Alert (Red)</option>
+                <option value="High">High Severity (Yellow)</option>
+                <option value="Medium">Medium Severity (Teal)</option>
+                <option value="Low">Low / Informational</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="sigCompetitor">Competitor Association</label>
+              <select id="sigCompetitor" class="auth-select-box">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="sigSource">Source Ingestion Tag</label>
+              <input type="text" id="sigSource" class="auth-input-box" value="Direct Pricing Audit Telemetry" required>
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="sigDetails">Signal Details &amp; Telemetry Data *</label>
+            <textarea id="sigDetails" class="auth-input-box" rows="3" placeholder="Provide verified details on pricing delta, patent claim numbers, or executive poached..." required></textarea>
+          </div>
+        </div>
+        <div class="crud-modal-footer">
+          <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalIngestSignal">CANCEL</button>
+          <button type="submit" class="btn-arcade btn-arcade-teal">INGEST SIGNAL</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 11: 3.4 Signal Status History -->
+  <div class="crud-modal-overlay" id="modalSignalHistory">
+    <div class="crud-modal-box" style="max-width: 640px;">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>📜</span> SIGNAL STATUS TRANSITION HISTORY</div>
+        <button class="auth-close-btn" data-close-modal="modalSignalHistory">&times;</button>
+      </div>
+      <div class="crud-modal-body">
+        <div id="signalHistoryListContainer">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+      <div class="crud-modal-footer">
+        <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalSignalHistory">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 12: 3.5 Deposit Evidence -->
+  <div class="crud-modal-overlay" id="modalDepositEvidence">
+    <div class="crud-modal-box">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>🔐</span> DEPOSIT CRYPTOGRAPHIC EVIDENCE</div>
+        <button class="auth-close-btn" data-close-modal="modalDepositEvidence">&times;</button>
+      </div>
+      <form id="formDepositEvidence">
+        <div class="crud-modal-body">
+          <div class="auth-form-grp">
+            <label class="auth-label" for="eviTitle">Evidence Document Title *</label>
+            <input type="text" id="eviTitle" class="auth-input-box" placeholder="e.g. SEC Form 10-Q Official Filing Q3" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="eviType">Evidence Category *</label>
+              <select id="eviType" class="auth-select-box">
+                <option value="SEC Filing (10-K/10-Q)">SEC Filing (10-K/10-Q)</option>
+                <option value="Patent Registry Audit">Patent Registry Audit</option>
+                <option value="Direct Pricing Audit">Direct Pricing Audit</option>
+                <option value="Antitrust / Legal Record">Antitrust / Legal Record</option>
+                <option value="Earnings Telemetry Transcript">Earnings Telemetry Transcript</option>
+              </select>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="eviDocRef">Document Reference ID *</label>
+              <input type="text" id="eviDocRef" class="auth-input-box" placeholder="e.g. SEC-EDGAR-0001844910-26-000042" required>
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="eviHash">Cryptographic SHA-256 Hash *</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="eviHash" class="auth-input-box" style="font-family: var(--font-mono); color: var(--arcade-yellow);" placeholder="sha256:..." required>
+              <button type="button" class="btn-arcade btn-arcade-outline" id="btnAutoGenerateHash" style="font-size: 0.72rem; white-space: nowrap;">
+                ⚡ AUTO-HASH
+              </button>
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="eviSummary">Verification Summary &amp; Findings *</label>
+            <textarea id="eviSummary" class="auth-input-box" rows="3" placeholder="Summary of evidentiary findings and validation confirmation..." required></textarea>
+          </div>
+        </div>
+        <div class="crud-modal-footer">
+          <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalDepositEvidence">CANCEL</button>
+          <button type="submit" class="btn-arcade btn-arcade-teal">DEPOSIT EVIDENCE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 13: 3.5 Record Strategic Insight -->
+  <div class="crud-modal-overlay" id="modalRecordInsight">
+    <div class="crud-modal-box">
+      <div class="crud-modal-header">
+        <div class="crud-modal-title"><span>🧠</span> RECORD STRATEGIC INSIGHT</div>
+        <button class="auth-close-btn" data-close-modal="modalRecordInsight">&times;</button>
+      </div>
+      <form id="formRecordInsight">
+        <div class="crud-modal-body">
+          <div class="auth-form-grp">
+            <label class="auth-label" for="insightTitle">Insight Directive Title *</label>
+            <input type="text" id="insightTitle" class="auth-input-box" placeholder="e.g. Counter Nexus Enterprise Price Drop with Multi-Year Lock" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="insightCompetitor">Target Competitor</label>
+              <select id="insightCompetitor" class="auth-select-box">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="insightEvidence">Evidentiary Provenance Item</label>
+              <select id="insightEvidence" class="auth-select-box">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="auth-form-grp">
+              <label class="auth-label" for="insightHorizon">Strategic Horizon *</label>
+              <select id="insightHorizon" class="auth-select-box">
+                <option value="Immediate (0-30d)">Immediate (0-30d)</option>
+                <option value="Tactical (1-6mo)">Tactical (1-6mo)</option>
+                <option value="Strategic (6-18mo)">Strategic (6-18mo)</option>
+              </select>
+            </div>
+            <div class="auth-form-grp">
+              <label class="auth-label" for="insightImpact">Impact Rating *</label>
+              <select id="insightImpact" class="auth-select-box">
+                <option value="Critical Advantage">Critical Advantage</option>
+                <option value="High Impact">High Impact</option>
+                <option value="Moderate Impact">Moderate Impact</option>
+                <option value="Observation Only">Observation Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="auth-form-grp">
+            <label class="auth-label" for="insightRecommendation">Actionable Strategic Recommendation *</label>
+            <textarea id="insightRecommendation" class="auth-input-box" rows="3" placeholder="Specify tactical counter-move to neutralize competitor move and win target accounts..." required></textarea>
+          </div>
+        </div>
+        <div class="crud-modal-footer">
+          <button type="button" class="btn-arcade btn-arcade-outline" data-close-modal="modalRecordInsight">CANCEL</button>
+          <button type="submit" class="btn-arcade btn-arcade-teal">LOG STRATEGIC INSIGHT</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 
   <!-- Firebase App & Authentication SDKs (v10 Modular) -->
   <script type="module">
