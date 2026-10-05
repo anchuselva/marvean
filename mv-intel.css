@@ -801,7 +801,6 @@
 .dash-logo-link {
   display: flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -811,26 +810,10 @@
   transform: translateY(-1px);
 }
 
-.dash-logo-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 7px;
-  background: rgba(0, 229, 163, 0.12);
-  border: 1px solid rgba(0, 229, 163, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 12px rgba(0, 229, 163, 0.2);
-  flex-shrink: 0;
-}
-
-.dash-logo-text {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 800;
-  font-size: 1.15rem;
-  letter-spacing: 0.08em;
-  color: #ffffff;
-  text-transform: uppercase;
+.dash-logo-img {
+  height: 34px;
+  width: auto;
+  display: block;
 }
 
 .dash-product-chip {
