@@ -18,7 +18,7 @@ const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
   if (reqPath === '/') reqPath = '/index.html';
 
-  const filePath = path.join(__dirname, reqPath);
+  let filePath = path.join(__dirname, reqPath);
 
   // Security check to prevent directory traversal
   if (!filePath.startsWith(__dirname)) {
@@ -27,28 +27,36 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const ext = path.extname(filePath).toLowerCase();
-  const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+  function tryServeFile(targetPath) {
+    const ext = path.extname(targetPath).toLowerCase();
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-  fs.readFile(filePath, (err, content) => {
-    if (err) {
-      if (err.code === 'ENOENT') {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('404 Not Found');
+    fs.readFile(targetPath, (err, content) => {
+      if (err) {
+        if (err.code === 'ENOENT' && !ext) {
+          // Clean URL fallback: try with .html
+          return tryServeFile(targetPath + '.html');
+        }
+        if (err.code === 'ENOENT') {
+          res.writeHead(404, { 'Content-Type': 'text/plain' });
+          res.end('404 Not Found');
+        } else {
+          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.end('500 Server Error: ' + err.code);
+        }
       } else {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('500 Server Error: ' + err.code);
+        res.writeHead(200, {
+          'Content-Type': contentType,
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        });
+        res.end(content);
       }
-    } else {
-      res.writeHead(200, {
-        'Content-Type': contentType,
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      });
-      res.end(content);
-    }
-  });
+    });
+  }
+
+  tryServeFile(filePath);
 });
 
 const PORT = parseInt(process.env.PORT, 10) || 3000;
