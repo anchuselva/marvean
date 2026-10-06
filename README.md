@@ -1,9 +1,5 @@
 # MARVEAN // AI Market & Competitive Intelligence Platform
 
-**Domain:** [marvean.vercel.app](https://marvean.vercel.app)  
-**Business Name:** Marvean  
-**Niche:** AI Market & Competitive Intelligence  
-**Primary Industry:** Enterprise / Commerce  
 
 ---
 
