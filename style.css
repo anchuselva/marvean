@@ -58,6 +58,8 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
+  width: 100%;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -2764,6 +2766,8 @@ input:checked + .slider-retro:before {
   font-family: var(--font-tech);
   font-size: 1rem;
   line-height: 1.75;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .privacy-document h1,
@@ -5276,6 +5280,9 @@ svg.office-tel-svg {
 
 .cookie-modal {
   width: min(100%, 520px);
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 1.35rem;
   background: #0a1224;
   border: 1px solid var(--space-border);
@@ -5423,5 +5430,31 @@ body.cookie-modal-open {
 
   .cookie-btn {
     width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Responsive Utilities & Third-Party Widgets
+   ========================================================================== */
+.g-recaptcha {
+  transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  max-width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 360px) {
+  .g-recaptcha {
+    transform: scale(0.85);
+    -webkit-transform: scale(0.85);
+    margin-bottom: -10px;
+  }
+}
+
+@media (max-width: 330px) {
+  .g-recaptcha {
+    transform: scale(0.77);
+    -webkit-transform: scale(0.77);
+    margin-bottom: -16px;
   }
 }
