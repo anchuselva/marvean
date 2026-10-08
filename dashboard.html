@@ -26,28 +26,37 @@
        ========================================================================== -->
   <div class="auth-modal-overlay" id="authModalOverlay">
     <div class="auth-modal-box">
-      
-      <!-- Modal Header -->
-      <div class="auth-modal-header">
-        <div class="auth-title-grp">
-          <span style="color: var(--arcade-yellow); font-size: 1.25rem;">🔐</span>
-          <div>
-            <div class="auth-header-title">MARVEAN // MV INTEL™ ACCESS GATEWAY</div>
-            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--arcade-teal);">
-              SECURE CRYPTOGRAPHIC WORKSPACE AUTHORIZATION
+      <section class="auth-visual-panel" aria-label="Marvean observability workspace">
+        <div class="auth-visual-content">
+          <div class="auth-eyebrow"><span></span> OBSERVABILITY WORKSPACE</div>
+          <h1>Sign in <strong>to your<br>observability<br>workspace.</strong></h1>
+          <p>Monitor infrastructure signals, detect anomalies, and surface operational risk from one QuietSignal workspace.</p>
+        </div>
+      </section>
+
+      <section class="auth-form-panel">
+        <!-- Modal Header -->
+        <div class="auth-modal-header">
+          <div class="auth-title-grp">
+            <div>
+              <div class="auth-header-title">MARVEAN // MV INTEL™</div>
+              <div class="auth-header-subtitle">SECURE WORKSPACE ACCESS</div>
             </div>
           </div>
         </div>
-        <button class="auth-close-btn" id="authModalCloseBtn" title="Dismiss or Enter Demo Mode">&times;</button>
-      </div>
 
-      <!-- Tab Switcher: Sign In vs Sign Up -->
-      <div class="auth-tab-switch">
-        <button class="auth-switch-btn active" id="authTabSignIn">🔑 1. SIGN IN</button>
-        <button class="auth-switch-btn" id="authTabSignUp">📝 2. SIGN UP (NEW ACCOUNT)</button>
-      </div>
+        <!-- Tab Switcher: Sign In vs Sign Up -->
+        <div class="auth-tab-switch">
+          <button class="auth-switch-btn active" id="authTabSignIn">Sign in</button>
+          <button class="auth-switch-btn" id="authTabSignUp">Sign up</button>
+        </div>
 
-      <div class="auth-modal-body">
+        <div class="auth-form-intro">
+          <h2 id="authFormHeading">Welcome back</h2>
+          <p id="authFormCopy">Enter your credentials to continue.</p>
+        </div>
+
+        <div class="auth-modal-body">
         
         <!-- FORM 1: SIGN IN -->
         <form id="signInForm">
@@ -131,7 +140,7 @@
             <input type="text" id="signUpOrg" class="auth-input-box" placeholder="e.g. Vanguard Strategy Group" required>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+          <div class="auth-two-col">
             <div class="auth-form-grp">
               <label class="auth-label" for="signUpRole">Primary Role</label>
               <select id="signUpRole" class="auth-select-box">
@@ -154,7 +163,7 @@
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+          <div class="auth-two-col">
             <div class="auth-form-grp">
               <label class="auth-label" for="signUpPass">Password</label>
               <input type="password" id="signUpPass" class="auth-input-box" placeholder="Minimum 8 chars" required>
@@ -182,17 +191,8 @@
           <div id="authProgressLog"></div>
         </div>
 
-        <!-- Instant Demo Access Shortcut (Zero Friction) -->
-        <div class="auth-demo-shortcut">
-          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #7f97bd; margin-bottom: 0.6rem;">
-            // EVALUATING OR DEMOING?
-          </div>
-          <button type="button" class="btn-instant-demo" id="btnInstantDemo">
-            <span>⚡ INSTANT DEMO MODE (BYPASS LOGIN FOR LIVE PREVIEW)</span>
-          </button>
         </div>
-
-      </div>
+      </section>
     </div>
   </div>
 
@@ -202,45 +202,50 @@
   <header class="dashboard-header">
     <div class="dash-nav-container">
       
-      <!-- Brand & Product Identifier with Slidebar Toggle -->
+      <!-- Brand & Product Identifier with Mobile Slidebar Toggle -->
       <div class="dash-brand-block">
-        <button class="slidebar-toggle-btn" id="btnHeaderSlidebarToggle" title="Toggle Slidebar Navigation [">
+        <button class="slidebar-toggle-btn mobile-only-toggle" id="btnHeaderSlidebarToggle" title="Toggle Slidebar Navigation [">
           <span>☰</span>
         </button>
         <a href="index.html" class="dash-logo-link" title="Marvean Platform Home">
           <img src="Logo.svg" alt="MARVEAN" class="dash-logo-img" onerror="this.src='MARVEAN/logo.svg'">
         </a>
-        <div class="dash-product-chip">
-          <span class="dash-chip-pulse"></span>
-          <span>INTELLIGENCE CORE</span>
+        <div class="dash-brand-tag" title="Marvean Intelligence Console">
+          <span class="dash-brand-divider">/</span>
+          <span class="dash-brand-edition">INTELLIGENCE CONSOLE</span>
         </div>
       </div>
 
       <!-- Telemetry Stream Status, Backend Link & Live Clock -->
-      <div style="display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(0, 229, 163, 0.08); padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid rgba(0, 229, 163, 0.3);">
+      <div class="dash-status-bar">
+        <div class="telemetry-pill" title="Real-time telemetry stream latency">
           <span class="status-pulse-dot"></span>
-          <span style="color: var(--arcade-teal); font-weight: 700;">STREAM: ACTIVE (12ms)</span>
+          <span class="telemetry-label">STREAM:</span>
+          <span class="telemetry-val">ACTIVE (12ms)</span>
         </div>
-        <div id="backendStatusPill" style="display: flex; align-items: center; gap: 0.45rem; background: rgba(14, 23, 46, 0.85); padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid var(--space-border);">
-          <span class="status-pulse-dot" id="backendPulseDot" style="background: var(--arcade-teal); box-shadow: 0 0 8px var(--arcade-teal);"></span>
-          <span id="backendStatusText" style="color: var(--arcade-teal); font-weight: 700;">BACKEND: INITIALIZING...</span>
+        <div class="telemetry-pill" id="backendStatusPill" title="Local Intelligence Gateway status">
+          <span class="status-pulse-dot" id="backendPulseDot"></span>
+          <span class="telemetry-val" id="backendStatusText">BACKEND: CONNECTED (PORT 8000)</span>
         </div>
-        <div class="dash-live-clock" id="dashLiveClock">
-          UTC: --:--:--
+        <div class="telemetry-pill telemetry-clock-pill" title="Universal Coordinated Time (UTC)">
+          <svg class="telemetry-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span class="dash-live-clock" id="dashLiveClock">--:--:-- UTC</span>
         </div>
       </div>
 
       <!-- User Profile, Avatar & Action Controls -->
       <div class="dash-user-bar">
         
-        <button class="nav-icon-btn" id="dashAudioBtn" title="Toggle Sound Feedback" style="padding: 0.38rem 0.75rem;">
-          <span>🔊 AUDIO: ON</span>
+        <button class="nav-icon-btn dash-audio-btn" id="dashAudioBtn" title="Toggle Terminal Audio Feedback">
+          <svg class="audio-btn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span>AUDIO: ON</span>
         </button>
-
-        <a href="product.html" class="btn-arcade btn-arcade-outline" style="font-size: 0.75rem; padding: 0.4rem 0.85rem; border-radius: 6px;" title="View MV Intel™ Enterprise Product">
-          ← MV INTEL™
-        </a>
 
         <!-- Executive Avatar Capsule -->
         <div class="user-avatar-capsule" id="userAvatarCapsule" title="Click to view analyst session credentials">
@@ -329,7 +334,6 @@
       <!-- Slidebar Top Header -->
       <div class="slidebar-header">
         <div class="slidebar-brand-title">
-          <span style="color: var(--arcade-teal); font-size: 1.15rem;">⚡</span>
           <span>INTEL RADAR</span>
         </div>
         <button class="slidebar-toggle-btn" id="btnCollapseSlidebar" title="Toggle Slidebar (Press [)">
@@ -343,83 +347,53 @@
         <div class="slidebar-section-label">Core Intelligence</div>
 
         <button class="slidebar-link dash-view-tab active" data-dash-tab="competitors">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon">🏢</span>
-            <span class="slidebar-label-text">3.1 Competitors</span>
-          </div>
+          <span class="slidebar-label-text">Competitors</span>
           <span class="slidebar-badge" id="sbBadgeComps">4</span>
         </button>
 
         <button class="slidebar-link dash-view-tab" data-dash-tab="market-records">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon">📊</span>
-            <span class="slidebar-label-text">3.2 Market Records</span>
-          </div>
+          <span class="slidebar-label-text">Market Records</span>
           <span class="slidebar-badge" id="sbBadgeRecords">3</span>
         </button>
 
         <button class="slidebar-link dash-view-tab" data-dash-tab="product-comparisons">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon">⚔️</span>
-            <span class="slidebar-label-text">3.3 Shootouts</span>
-          </div>
+          <span class="slidebar-label-text">Shootouts</span>
           <span class="slidebar-badge" id="sbBadgeComparisons">2</span>
         </button>
 
         <button class="slidebar-link dash-view-tab" data-dash-tab="signals">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon">📡</span>
-            <span class="slidebar-label-text">3.4 Signal Tracking</span>
-          </div>
+          <span class="slidebar-label-text">Signal Tracking</span>
           <span class="slidebar-badge badge-pulse" id="sbBadgeSignals">4</span>
         </button>
 
         <button class="slidebar-link dash-view-tab" data-dash-tab="evidence">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon">🔐</span>
-            <span class="slidebar-label-text">3.5 Evidence &amp; Insights</span>
-          </div>
+          <span class="slidebar-label-text">Evidence &amp; Insights</span>
           <span class="slidebar-badge" id="sbBadgeEvidence">3</span>
         </button>
 
         <div class="slidebar-section-label">AI &amp; Developer Tools</div>
 
         <button class="slidebar-link dash-view-tab" data-dash-tab="briefings">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon">🧠</span>
-            <span class="slidebar-label-text">AI Strategy Briefing</span>
-          </div>
+          <span class="slidebar-label-text">AI Strategy Briefing</span>
         </button>
 
         <button class="slidebar-link" id="sbBtnDevGateway">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon">💻</span>
-            <span class="slidebar-label-text">API &amp; Webhooks</span>
-          </div>
+          <span class="slidebar-label-text">API &amp; Webhooks</span>
           <span class="slidebar-badge" style="color: var(--arcade-teal);">v3.1</span>
         </button>
 
         <div class="slidebar-section-label">Fast Action Directives</div>
 
         <button class="slidebar-link" onclick="openModalById('modalIngestSignal')">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon" style="color: var(--arcade-yellow);">⚡</span>
-            <span class="slidebar-label-text">+ Ingest Signal</span>
-          </div>
+          <span class="slidebar-label-text">Ingest Signal</span>
         </button>
 
         <button class="slidebar-link" onclick="openModalById('modalCreateCompetitor')">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon" style="color: var(--arcade-teal);">+</span>
-            <span class="slidebar-label-text">+ Add Competitor</span>
-          </div>
+          <span class="slidebar-label-text">Add Competitor</span>
         </button>
 
         <button class="slidebar-link" onclick="openModalById('modalDepositEvidence')">
-          <div class="slidebar-link-left">
-            <span class="slidebar-icon" style="color: var(--arcade-red);">🔐</span>
-            <span class="slidebar-label-text">+ Deposit Evidence</span>
-          </div>
+          <span class="slidebar-label-text">Deposit Evidence</span>
         </button>
 
       </nav>
@@ -427,7 +401,6 @@
       <!-- Slidebar Collapsible Footer -->
       <div class="slidebar-footer">
         <button class="slidebar-collapse-footer-btn" id="btnFooterCollapseSlidebar">
-          <span class="collapse-icon">⇚</span>
           <span class="slidebar-collapse-text">COLLAPSE SLIDEBAR</span>
         </button>
       </div>
@@ -448,7 +421,7 @@
           <span>INTEL SLIDEBAR</span>
         </button>
         <div class="slidebar-breadcrumb">
-          INTEL / <span id="currentViewBreadcrumb" style="color: var(--arcade-teal); font-weight: 700;">3.1 COMPETITOR MANAGEMENT</span>
+          INTEL / <span id="currentViewBreadcrumb" style="color: var(--arcade-teal); font-weight: 700;">COMPETITOR MANAGEMENT</span>
         </div>
       </div>
 
@@ -456,27 +429,27 @@
       <div class="product-kpi-bar" style="margin: 0 0 1.5rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
         <div class="kpi-card">
           <div class="kpi-val text-teal" id="kpiCompetitorsCount">4</div>
-          <div class="kpi-label">3.1 Competitors</div>
+          <div class="kpi-label">Competitors</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-val text-yellow" id="kpiSignalsCount">4</div>
-          <div class="kpi-label">3.4 Real-Time Signals</div>
+          <div class="kpi-label">Real-Time Signals</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-val text-cyan" id="kpiMarketRecordsCount">3</div>
-          <div class="kpi-label">3.2 Market Records</div>
+          <div class="kpi-label">Market Records</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-val text-teal" id="kpiComparisonsCount">2</div>
-          <div class="kpi-label">3.3 Shootout Matrices</div>
+          <div class="kpi-label">Shootout Matrices</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-val text-red" id="kpiEvidenceCount">3</div>
-          <div class="kpi-label">3.5 SHA-256 Evidence</div>
+          <div class="kpi-label">SHA-256 Evidence</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-val text-yellow" id="kpiInsightsCount">3</div>
-          <div class="kpi-label">3.5 Strategic Insights</div>
+          <div class="kpi-label">Strategic Insights</div>
         </div>
       </div>
 
@@ -493,7 +466,7 @@
               <span>// MULTI-VECTOR RADAR TELEMETRY</span>
             </div>
             <h2 class="radar-main-title">
-              <span>⚡</span> Market Signal Velocity &amp; Competitive Threat Radar
+              Market Signal Velocity &amp; Competitive Threat Radar
             </h2>
             <p class="radar-sub-desc">
               Real-time algorithmic threat index aggregation, pricing disruption anomaly spikes, and commercial signal ingestion telemetry.
@@ -501,27 +474,16 @@
           </div>
 
           <div class="radar-controls-toolbar">
-            <!-- Time Interval Selector -->
-            <div class="radar-time-pill-group" id="radarTimeFilterGroup">
-              <button class="radar-time-btn" data-interval="1h">1H</button>
-              <button class="radar-time-btn active" data-interval="24h">24H</button>
-              <button class="radar-time-btn" data-interval="7d">7D</button>
-              <button class="radar-time-btn" data-interval="30d">30D</button>
-              <button class="radar-time-btn radar-time-btn-live" data-interval="live">
-                <span class="radar-live-dot" style="display:inline-block; margin-right:3px;"></span> REAL-TIME
-              </button>
-            </div>
-
             <!-- Metric Visibility Toggles -->
             <div class="radar-metric-toggles">
-              <button class="radar-metric-chip metric-threat active" id="toggleThreatMetric" data-metric="threat">
-                <span>●</span> Threat Index (Avg: 86.4)
+              <button class="radar-metric-chip metric-threat active" id="toggleThreatMetric" data-metric="threat" title="Slate Envelope Wave">
+                <span style="color: #38bdf8; font-size: 1.1em;">■</span> Upper Envelope (Slate)
               </button>
-              <button class="radar-metric-chip metric-velocity active" id="toggleVelocityMetric" data-metric="velocity">
-                <span>●</span> Signal Velocity (348/m)
+              <button class="radar-metric-chip metric-velocity active" id="toggleVelocityMetric" data-metric="velocity" title="Radiant Orange Core Wave">
+                <span style="color: #ea5e28; font-size: 1.1em;">■</span> Core Signal (Orange)
               </button>
-              <button class="radar-metric-chip metric-anomalies active" id="toggleAnomaliesMetric" data-metric="anomalies">
-                <span>●</span> Anomaly Spikes (7)
+              <button class="radar-metric-chip metric-anomalies active" id="toggleAnomaliesMetric" data-metric="anomalies" title="Algorithmic Anomaly Spikes">
+                <span style="color: #ffc23d;">●</span> Anomaly Spikes
               </button>
             </div>
           </div>
@@ -530,54 +492,70 @@
         <!-- Telemetry Key Metrics Mini-Ribbon -->
         <div class="radar-stats-ribbon">
           <div class="radar-stat-box">
-            <span class="radar-stat-label">Peak Threat Index</span>
+            <span class="radar-stat-label">Peak Spire Intensity</span>
             <div class="radar-stat-val text-red">
-              <span id="radarStatPeak">94.2</span>
-              <span style="font-size: 0.65rem; color: var(--arcade-red);">MAX [CRITICAL]</span>
+              <span id="radarStatPeak">78.5</span>
+              <span style="font-size: 0.65rem; color: #ea5e28;">SPIRE [MAX]</span>
             </div>
           </div>
           <div class="radar-stat-box">
-            <span class="radar-stat-label">Mean Ingestion Rate</span>
+            <span class="radar-stat-label">Core Signal Mean</span>
             <div class="radar-stat-val text-cyan">
-              <span id="radarStatVelocity">348</span>
-              <span style="font-size: 0.65rem; color: #38bdf8;">sig / min</span>
+              <span id="radarStatVelocity">24.5</span>
+              <span style="font-size: 0.65rem; color: #f97316;">ORANGE WAVE</span>
             </div>
           </div>
           <div class="radar-stat-box">
             <span class="radar-stat-label">Tracked Anomaly Spikes</span>
             <div class="radar-stat-val text-yellow">
-              <span id="radarStatAnomalies">7</span>
-              <span style="font-size: 0.65rem; color: var(--arcade-yellow);">EVENTS (24H)</span>
+              <span id="radarStatAnomalies">4</span>
+              <span style="font-size: 0.65rem; color: var(--arcade-yellow);">PEAK EVENTS</span>
             </div>
           </div>
           <div class="radar-stat-box">
-            <span class="radar-stat-label">Surveillance Horizon</span>
+            <span class="radar-stat-label">Horizon Status</span>
             <div class="radar-stat-val text-teal">
-              <span id="radarStatHorizon">SECURE</span>
+              <span id="radarStatHorizon">OPTIMAL</span>
               <span style="font-size: 0.65rem; color: var(--arcade-teal);">99.4% CONF</span>
             </div>
           </div>
         </div>
 
-        <!-- Interactive SVG Radar Canvas -->
+        <!-- Interactive SVG Radar Canvas: Dual Mountain Wave Pattern (Marvean Dark Cyber Theme) -->
         <div class="radar-svg-container" id="radarSvgContainer">
           <div class="radar-scan-beam" id="radarScanBeam"></div>
           <div class="radar-crosshair-line" id="radarCrosshairLine"></div>
           <div class="radar-chart-tooltip" id="radarChartTooltip"></div>
 
+          <!-- Top-Right Scope Pill (Woche / Monat) in Dark Cyber Theme -->
+          <div class="radar-canvas-scope-corner">
+            <div class="radar-time-pill-group" id="radarTimeFilterGroup" aria-label="Timeline Scope">
+              <button class="radar-time-btn active" data-interval="7d" title="Wöchentliche Signalansicht (7 Tage)">Woche</button>
+              <button class="radar-time-btn" data-interval="30d" title="Monatliche Signalansicht (30 Tage)">Monat</button>
+              <button class="radar-time-btn" data-interval="24h" title="24-Stunden-Ansicht">24H</button>
+              <button class="radar-time-btn" data-interval="1h" title="1-Stunden-Ansicht">1H</button>
+              <button class="radar-time-btn radar-time-btn-live" data-interval="live" title="Echtzeit-Telemetrie-Stream">
+                <span class="radar-live-dot" style="display:inline-block; margin-right:3px;"></span> LIVE
+              </button>
+            </div>
+          </div>
+
           <svg id="radarChartSvg" viewBox="0 0 960 250" preserveAspectRatio="none" aria-label="Market Threat Telemetry Visualizer">
             <defs>
-              <!-- Threat Gradient Area Fill -->
-              <linearGradient id="threatAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#00e5a3" stop-opacity="0.38"/>
-                <stop offset="65%" stop-color="#00e5a3" stop-opacity="0.08"/>
-                <stop offset="100%" stop-color="#00e5a3" stop-opacity="0"/>
+              <!-- Upper Mountain Envelope Gradient (Deep Cyber Slate / Midnight Navy) -->
+              <linearGradient id="ridgeUpperGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1e3a63" stop-opacity="0.9"/>
+                <stop offset="50%" stop-color="#142642" stop-opacity="0.75"/>
+                <stop offset="90%" stop-color="#0a1526" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#050a14" stop-opacity="0.3"/>
               </linearGradient>
 
-              <!-- Velocity Gradient -->
-              <linearGradient id="velocityAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
-                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+              <!-- Lower Mountain Wave Gradient (Vibrant Radiant Burnt Orange Wave) -->
+              <linearGradient id="ridgeLowerGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f97316" stop-opacity="0.95"/>
+                <stop offset="45%" stop-color="#ea5e28" stop-opacity="0.85"/>
+                <stop offset="90%" stop-color="#b43b0c" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#7c2404" stop-opacity="0.3"/>
               </linearGradient>
 
               <!-- Neon Glow Filter -->
@@ -590,30 +568,22 @@
               </filter>
             </defs>
 
-            <!-- Background Grid Lines -->
-            <g class="radar-grid" stroke="rgba(22, 35, 63, 0.6)" stroke-width="1" stroke-dasharray="3 3">
-              <line x1="50" y1="30" x2="940" y2="30"/>
-              <line x1="50" y1="80" x2="940" y2="80"/>
-              <line x1="50" y1="130" x2="940" y2="130"/>
-              <line x1="50" y1="180" x2="940" y2="180"/>
-              <line x1="50" y1="220" x2="940" y2="220"/>
+            <!-- Background Horizontal Grid Lines (Dark Cyber Faint Grid) -->
+            <g class="radar-grid" stroke="rgba(38, 62, 105, 0.35)" stroke-width="1">
+              <line x1="30" y1="40" x2="930" y2="40"/>
+              <line x1="30" y1="80" x2="930" y2="80"/>
+              <line x1="30" y1="120" x2="930" y2="120"/>
+              <line x1="30" y1="160" x2="930" y2="160"/>
+              <line x1="30" y1="200" x2="930" y2="200"/>
+              <line x1="30" y1="230" x2="930" y2="230" stroke="rgba(0, 229, 163, 0.35)" stroke-width="1.5"/>
             </g>
 
-            <!-- Y-Axis Labels -->
-            <g class="radar-axis-labels" fill="#58749a" font-family="'JetBrains Mono', monospace" font-size="10">
-              <text x="12" y="34">100</text>
-              <text x="12" y="84">75</text>
-              <text x="12" y="134">50</text>
-              <text x="12" y="184">25</text>
-              <text x="18" y="224">0</text>
-            </g>
-
-            <!-- Rendered Paths & Dynamic Layers (Populated dynamically by dashboard.js) -->
-            <g id="radarVelocityLayer"></g>
+            <!-- Rendered Wave Layers: Upper Slate Wave, Lower Orange Wave, Highlights & Labels -->
             <g id="radarThreatAreaLayer"></g>
+            <g id="radarVelocityLayer"></g>
             <g id="radarThreatLineLayer"></g>
             <g id="radarAnomaliesLayer"></g>
-            <g id="radarXAxisLabels" fill="#58749a" font-family="'JetBrains Mono', monospace" font-size="10"></g>
+            <g id="radarXAxisLabels" fill="#718ba8" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600"></g>
             <g id="radarInteractiveHoverLayer"></g>
           </svg>
         </div>
@@ -640,12 +610,12 @@
         <div class="global-filter-pills-row">
           <div class="global-filter-chips" id="globalFilterChips">
             <button class="global-filter-chip active" data-cat="all">ALL INTEL (<span id="cntAll">16</span>)</button>
-            <button class="global-filter-chip" data-cat="competitors">🏢 3.1 Competitors (<span id="cntComps">4</span>)</button>
-            <button class="global-filter-chip" data-cat="records">📊 3.2 Records (<span id="cntRecords">3</span>)</button>
-            <button class="global-filter-chip" data-cat="shootouts">⚔️ 3.3 Shootouts (<span id="cntShootouts">2</span>)</button>
-            <button class="global-filter-chip" data-cat="signals">📡 3.4 Signals (<span id="cntSignals">4</span>)</button>
-            <button class="global-filter-chip" data-cat="evidence">🔐 3.5 Evidence (<span id="cntEvidence">3</span>)</button>
-            <button class="global-filter-chip chip-critical" data-cat="critical">🚨 Critical Only</button>
+            <button class="global-filter-chip" data-cat="competitors">Competitors (<span id="cntComps">4</span>)</button>
+            <button class="global-filter-chip" data-cat="records">Records (<span id="cntRecords">3</span>)</button>
+            <button class="global-filter-chip" data-cat="shootouts">Shootouts (<span id="cntShootouts">2</span>)</button>
+            <button class="global-filter-chip" data-cat="signals">Signals (<span id="cntSignals">4</span>)</button>
+            <button class="global-filter-chip" data-cat="evidence">Evidence (<span id="cntEvidence">3</span>)</button>
+            <button class="global-filter-chip chip-critical" data-cat="critical">Critical Only</button>
           </div>
           <div class="search-match-count-badge" id="globalSearchCount">Showing 16 intelligence assets</div>
         </div>
@@ -662,27 +632,27 @@
       <!-- Secondary Horizontal Tab Selector (Synchronized with Slidebar) -->
       <div class="dash-tabs-nav">
         <button class="dash-view-tab active" data-dash-tab="competitors">
-          <span>🏢</span> 3.1 COMPETITORS
+          COMPETITORS
         </button>
         <button class="dash-view-tab" data-dash-tab="market-records">
-          <span>📊</span> 3.2 MARKET RECORDS
+          MARKET RECORDS
         </button>
         <button class="dash-view-tab" data-dash-tab="product-comparisons">
-          <span>⚔️</span> 3.3 PRODUCT SHOOTOUTS
+          PRODUCT SHOOTOUTS
         </button>
         <button class="dash-view-tab" data-dash-tab="signals">
-          <span>📡</span> 3.4 SIGNAL RADAR
+          SIGNAL RADAR
         </button>
         <button class="dash-view-tab" data-dash-tab="evidence">
-          <span>🔐</span> 3.5 EVIDENCE &amp; INSIGHTS
+          EVIDENCE &amp; INSIGHTS
         </button>
         <button class="dash-view-tab" data-dash-tab="briefings">
-          <span>🧠</span> AI BRIEFINGS &amp; API
+          AI BRIEFINGS &amp; API
         </button>
       </div>
 
     <!-- ========================================================================
-         VIEW 1: 3.1 COMPETITOR MANAGEMENT
+         COMPETITOR MANAGEMENT
          ======================================================================== -->
     <section class="dash-tab-content" id="panel-competitors">
       
@@ -712,7 +682,7 @@
     </section>
 
     <!-- ========================================================================
-         VIEW 2: 3.2 MARKET RECORDS
+         MARKET RECORDS
          ======================================================================== -->
     <section class="dash-tab-content" id="panel-market-records" style="display: none;">
       
@@ -742,7 +712,7 @@
     </section>
 
     <!-- ========================================================================
-         VIEW 3: 3.3 PRODUCT COMPARISONS
+         PRODUCT COMPARISONS
          ======================================================================== -->
     <section class="dash-tab-content" id="panel-product-comparisons" style="display: none;">
       
@@ -757,7 +727,7 @@
 
         <div style="display: flex; gap: 0.65rem; align-items: center;">
           <button class="btn-arcade btn-arcade-outline" id="btnOpenComparisonHistory" style="font-size: 0.78rem; padding: 0.5rem 0.85rem; border-radius: 6px;">
-            <span>📜 VIEW BENCHMARK HISTORY</span>
+            <span>VIEW BENCHMARK HISTORY</span>
           </button>
           <button class="btn-arcade btn-arcade-teal" id="btnOpenCreateComparison" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px;">
             <span>+ NEW PRODUCT SHOOTOUT</span>
@@ -773,7 +743,7 @@
     </section>
 
     <!-- ========================================================================
-         VIEW 4: 3.4 SIGNAL TRACKING
+         SIGNAL TRACKING
          ======================================================================== -->
     <section class="dash-tab-content" id="panel-signals" style="display: none;">
       
@@ -781,17 +751,17 @@
       <div class="signal-controls-bar">
         <div class="signal-filter-group" id="signalFilters">
           <button class="signal-chip-filter active" data-filter="all">ALL SIGNALS</button>
-          <button class="signal-chip-filter" data-filter="Critical">🚨 CRITICAL ONLY</button>
-          <button class="signal-chip-filter" data-filter="Pricing Shift">💰 PRICING SHIFTS</button>
-          <button class="signal-chip-filter" data-filter="Patent Filing">📜 PATENTS</button>
-          <button class="signal-chip-filter" data-filter="Executive Move">👔 EXEC MOVES</button>
-          <button class="signal-chip-filter" data-filter="M&A / Partnership">🤝 M&amp;A ACTIVITY</button>
+          <button class="signal-chip-filter" data-filter="Critical">CRITICAL ONLY</button>
+          <button class="signal-chip-filter" data-filter="Pricing Shift">PRICING SHIFTS</button>
+          <button class="signal-chip-filter" data-filter="Patent Filing">PATENTS</button>
+          <button class="signal-chip-filter" data-filter="Executive Move">EXEC MOVES</button>
+          <button class="signal-chip-filter" data-filter="M&A / Partnership">M&amp;A ACTIVITY</button>
         </div>
 
         <div style="display: flex; gap: 0.65rem; align-items: center; flex: 1; justify-content: flex-end; min-width: 280px; flex-wrap: wrap;">
           <input type="text" id="signalSearchInput" class="app-search-field" placeholder="Search by title, competitor, source..." style="background: #060b17; border: 1px solid var(--space-border); border-radius: 6px; padding: 0.45rem 0.85rem; max-width: 260px;">
           <button class="btn-arcade btn-arcade-teal" id="btnOpenIngestSignal" style="font-size: 0.78rem; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap;">
-            <span>⚡ INGEST MARKET SIGNAL</span>
+            <span>INGEST MARKET SIGNAL</span>
           </button>
         </div>
       </div>
@@ -804,20 +774,20 @@
     </section>
 
     <!-- ========================================================================
-         VIEW 5: 3.5 EVIDENCE & STRATEGIC INSIGHTS
+         EVIDENCE & STRATEGIC INSIGHTS
          ======================================================================== -->
     <section class="dash-tab-content" id="panel-evidence" style="display: none;">
       
       <!-- Sub-Navigation Switcher -->
       <div style="display: flex; gap: 0.65rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--space-border); padding-bottom: 0.65rem; flex-wrap: wrap;">
         <button class="signal-chip-filter active" id="btnSubtabEvidence" style="font-size: 0.82rem; padding: 0.45rem 1rem;">
-          🔐 1. CRYPTOGRAPHIC EVIDENCE LOCKER (<span id="evidenceBadgeCount">3</span>)
+          1. CRYPTOGRAPHIC EVIDENCE LOCKER (<span id="evidenceBadgeCount">3</span>)
         </button>
         <button class="signal-chip-filter" id="btnSubtabInsights" style="font-size: 0.82rem; padding: 0.45rem 1rem;">
-          🧠 2. STRATEGIC INSIGHT RECORDS (<span id="insightsBadgeCount">3</span>)
+          2. STRATEGIC INSIGHT RECORDS (<span id="insightsBadgeCount">3</span>)
         </button>
         <button class="signal-chip-filter" id="btnSubtabActivity" style="font-size: 0.82rem; padding: 0.45rem 1rem;">
-          📜 3. HISTORICAL ACTIVITY AUDIT TRAIL (<span id="activityBadgeCount">4</span>)
+          3. HISTORICAL ACTIVITY AUDIT TRAIL (<span id="activityBadgeCount">4</span>)
         </button>
       </div>
 
@@ -884,7 +854,7 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <div class="section-chip">
-              <span>🧠 C-SUITE AI REASONING</span>
+              <span>C-SUITE AI REASONING</span>
             </div>
             <h2 style="font-size: 1.6rem; font-weight: 800; color: #fff;">AUTONOMOUS STRATEGY SYNTHESIZER</h2>
             <p style="color: var(--parchment-muted); font-size: 0.92rem;">
@@ -918,7 +888,7 @@
 
           <div style="display: flex; align-items: flex-end;">
             <button class="btn-arcade btn-arcade-teal" id="btnSynthesizeBriefing" style="width: 100%; padding: 0.75rem; border-radius: 6px; font-size: 0.9rem;">
-              <span>⚡ SYNTHESIZE STRATEGIC BRIEFING</span>
+              <span>SYNTHESIZE STRATEGIC BRIEFING</span>
             </button>
           </div>
         </div>
@@ -991,7 +961,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalCreateCompetitor">
     <div class="crud-modal-box">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>🏢</span> CREATE COMPETITOR PROFILE</div>
+        <div class="crud-modal-title">CREATE COMPETITOR PROFILE</div>
         <button class="auth-close-btn" data-close-modal="modalCreateCompetitor">&times;</button>
       </div>
       <form id="formCreateCompetitor">
@@ -1094,7 +1064,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalAddCompetitorUpdate">
     <div class="crud-modal-box" style="max-width: 580px;">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>✍️</span> RECORD PROFILE UPDATE</div>
+        <div class="crud-modal-title">RECORD PROFILE UPDATE</div>
         <button class="auth-close-btn" data-close-modal="modalAddCompetitorUpdate">&times;</button>
       </div>
       <form id="formAddCompetitorUpdate">
@@ -1135,7 +1105,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalCreateMarketRecord">
     <div class="crud-modal-box">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>📊</span> PUBLISH MARKET INTELLIGENCE RECORD</div>
+        <div class="crud-modal-title">PUBLISH MARKET INTELLIGENCE RECORD</div>
         <button class="auth-close-btn" data-close-modal="modalCreateMarketRecord">&times;</button>
       </div>
       <form id="formCreateMarketRecord">
@@ -1256,7 +1226,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalMarketHistory">
     <div class="crud-modal-box" style="max-width: 640px;">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>📜</span> <span id="historyModalTitle">RECORD REVISION HISTORY</span></div>
+        <div class="crud-modal-title"><span id="historyModalTitle">RECORD REVISION HISTORY</span></div>
         <button class="auth-close-btn" data-close-modal="modalMarketHistory">&times;</button>
       </div>
       <div class="crud-modal-body">
@@ -1274,7 +1244,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalCreateComparison">
     <div class="crud-modal-box">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>⚔️</span> CREATE PRODUCT SHOOTOUT MATRIX</div>
+        <div class="crud-modal-title">CREATE PRODUCT SHOOTOUT MATRIX</div>
         <button class="auth-close-btn" data-close-modal="modalCreateComparison">&times;</button>
       </div>
       <form id="formCreateComparison">
@@ -1316,7 +1286,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalAddAttribute">
     <div class="crud-modal-box">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>➕</span> ADD BENCHMARK ATTRIBUTE</div>
+        <div class="crud-modal-title">ADD BENCHMARK ATTRIBUTE</div>
         <button class="auth-close-btn" data-close-modal="modalAddAttribute">&times;</button>
       </div>
       <form id="formAddAttribute">
@@ -1365,7 +1335,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalComparisonHistory">
     <div class="crud-modal-box" style="max-width: 640px;">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>📜</span> SHOOTOUT BENCHMARK AUDIT HISTORY</div>
+        <div class="crud-modal-title">SHOOTOUT BENCHMARK AUDIT HISTORY</div>
         <button class="auth-close-btn" data-close-modal="modalComparisonHistory">&times;</button>
       </div>
       <div class="crud-modal-body">
@@ -1383,7 +1353,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalIngestSignal">
     <div class="crud-modal-box">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>⚡</span> INGEST MARKET INTELLIGENCE SIGNAL</div>
+        <div class="crud-modal-title">INGEST MARKET INTELLIGENCE SIGNAL</div>
         <button class="auth-close-btn" data-close-modal="modalIngestSignal">&times;</button>
       </div>
       <form id="formIngestSignal">
@@ -1446,7 +1416,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalSignalHistory">
     <div class="crud-modal-box" style="max-width: 640px;">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>📜</span> SIGNAL STATUS TRANSITION HISTORY</div>
+        <div class="crud-modal-title">SIGNAL STATUS TRANSITION HISTORY</div>
         <button class="auth-close-btn" data-close-modal="modalSignalHistory">&times;</button>
       </div>
       <div class="crud-modal-body">
@@ -1464,7 +1434,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalDepositEvidence">
     <div class="crud-modal-box">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>🔐</span> DEPOSIT CRYPTOGRAPHIC EVIDENCE</div>
+        <div class="crud-modal-title">DEPOSIT CRYPTOGRAPHIC EVIDENCE</div>
         <button class="auth-close-btn" data-close-modal="modalDepositEvidence">&times;</button>
       </div>
       <form id="formDepositEvidence">
@@ -1496,7 +1466,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
             <div style="display: flex; gap: 0.5rem;">
               <input type="text" id="eviHash" class="auth-input-box" style="font-family: var(--font-mono); color: var(--arcade-yellow);" placeholder="sha256:..." required>
               <button type="button" class="btn-arcade btn-arcade-outline" id="btnAutoGenerateHash" style="font-size: 0.72rem; white-space: nowrap;">
-                ⚡ AUTO-HASH
+                AUTO-HASH
               </button>
             </div>
           </div>
@@ -1518,7 +1488,7 @@ Select a competitor and focus domain above, then click [SYNTHESIZE STRATEGIC BRI
   <div class="crud-modal-overlay" id="modalRecordInsight">
     <div class="crud-modal-box">
       <div class="crud-modal-header">
-        <div class="crud-modal-title"><span>🧠</span> RECORD STRATEGIC INSIGHT</div>
+        <div class="crud-modal-title">RECORD STRATEGIC INSIGHT</div>
         <button class="auth-close-btn" data-close-modal="modalRecordInsight">&times;</button>
       </div>
       <form id="formRecordInsight">

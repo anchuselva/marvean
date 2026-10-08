@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initSystemTicker();
   initMobileNav();
   initAnchorTabLinks();
+  initCookiePreferences();
+  initNavbarScrollSpy();
+  initFooterFeatures();
 });
 
 /* ==========================================================================
@@ -789,31 +792,59 @@ function initContactTerminal() {
   const logBox = document.getElementById('terminalLogBox');
   if (!form || !logBox) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const name = document.getElementById('contactName').value;
     const email = document.getElementById('contactEmail').value;
     const industry = document.getElementById('contactIndustry').value;
+    const recaptchaToken = window.grecaptcha ? window.grecaptcha.getResponse() : '';
+    const submitButton = document.getElementById('submitPacketBtn');
 
-    const timeStr = new Date().toLocaleTimeString();
-    const entry = document.createElement('div');
-    entry.className = 'terminal-line';
-    entry.style.color = 'var(--arcade-teal)';
-    entry.innerHTML = `&gt; [${timeStr}] UPLINK DISPATCHED FOR: ${name} &lt;${email}&gt; // SECTOR: ${industry}`;
-    logBox.appendChild(entry);
+    if (!recaptchaToken) {
+      alert('Please complete the reCAPTCHA challenge before transmitting your request.');
+      return;
+    }
 
-    const confirmation = document.createElement('div');
-    confirmation.className = 'terminal-line';
-    confirmation.style.color = 'var(--arcade-yellow)';
-    confirmation.innerHTML = `&gt; [${timeStr}] STRATEGY BRIEFING SCHEDULED // ACCESS CREDENTIALS ROUTED VIA MARVEAN.NET`;
-    logBox.appendChild(confirmation);
+    if (submitButton) submitButton.disabled = true;
 
-    logBox.scrollTop = logBox.scrollHeight;
-    if (soundEnabled) playArcadeSound('powerup');
+    try {
+      const response = await fetch(form.action, {
+        method: form.method || 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      });
+      const result = await response.json();
 
-    alert(`Thank you, ${name}. Your enterprise briefing request has been registered with Marvean Competitive Intelligence. An intelligence advisor will connect with you.`);
-    form.reset();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Contact verification failed.');
+      }
+
+      const timeStr = new Date().toLocaleTimeString();
+      const entry = document.createElement('div');
+      entry.className = 'terminal-line';
+      entry.style.color = 'var(--arcade-teal)';
+      entry.textContent = `> [${timeStr}] UPLINK DISPATCHED FOR: ${name} <${email}> // SECTOR: ${industry}`;
+      logBox.appendChild(entry);
+
+      const confirmation = document.createElement('div');
+      confirmation.className = 'terminal-line';
+      confirmation.style.color = 'var(--arcade-yellow)';
+      confirmation.textContent = `> [${timeStr}] STRATEGY BRIEFING SCHEDULED // ACCESS CREDENTIALS ROUTED VIA MARVEAN.NET`;
+      logBox.appendChild(confirmation);
+
+      logBox.scrollTop = logBox.scrollHeight;
+      if (soundEnabled) playArcadeSound('powerup');
+
+      alert(`Thank you, ${name}. Your enterprise briefing request has been registered with Marvean Competitive Intelligence. An intelligence advisor will connect with you.`);
+      form.reset();
+      if (window.grecaptcha) window.grecaptcha.reset();
+    } catch (error) {
+      alert(error.message);
+      if (window.grecaptcha) window.grecaptcha.reset();
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+    }
   });
 }
 
@@ -823,12 +854,22 @@ function initContactTerminal() {
 function initFaqAccordion() {
   const faqItems = document.querySelectorAll('.faq-item');
 
-  faqItems.forEach(item => {
+  faqItems.forEach((item, index) => {
     const trigger = item.querySelector('.faq-trigger');
     const panel = item.querySelector('.faq-answer-panel');
     const icon = item.querySelector('.faq-toggle-icon');
 
     if (!trigger || !panel) return;
+
+    const panelId = panel.id || `faq-answer-${index + 1}`;
+    const triggerId = trigger.id || `faq-question-${index + 1}`;
+    panel.id = panelId;
+    trigger.id = triggerId;
+    trigger.setAttribute('aria-controls', panelId);
+    panel.setAttribute('role', 'region');
+    panel.setAttribute('aria-labelledby', triggerId);
+    panel.style.maxHeight = '0px';
+    panel.style.transition = 'none';
 
     trigger.addEventListener('click', () => {
       const isOpen = item.classList.contains('active');
@@ -837,14 +878,20 @@ function initFaqAccordion() {
         other.classList.remove('active');
         const otherTrigger = other.querySelector('.faq-trigger');
         const otherIcon = other.querySelector('.faq-toggle-icon');
+        const otherPanel = other.querySelector('.faq-answer-panel');
         if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
         if (otherIcon) otherIcon.textContent = '[+]';
+        if (otherPanel) {
+          otherPanel.style.maxHeight = '0px';
+          otherPanel.style.transition = 'none';
+        }
       });
 
       if (!isOpen) {
         item.classList.add('active');
         trigger.setAttribute('aria-expanded', 'true');
         if (icon) icon.textContent = '[-]';
+        panel.style.maxHeight = 'none';
       }
     });
   });
@@ -890,10 +937,12 @@ function initMobileNav() {
 
   function openDrawer() {
     drawer.classList.add('open');
+    drawer.style.setProperty('transform', 'none', 'important');
   }
 
   function closeDrawer() {
     drawer.classList.remove('open');
+    drawer.style.removeProperty('transform');
   }
 
   menuBtn.addEventListener('click', openDrawer);
@@ -919,7 +968,317 @@ function initAnchorTabLinks() {
   });
 }
 
+function initCookiePreferences() {
+  const storageKey = 'marvean_cookie_preferences';
+  const banner = document.getElementById('cookieBanner');
+  const backdrop = document.getElementById('cookieModalBackdrop');
+  const triggerBtn = document.getElementById('cookieTriggerBtn');
+  const closeBannerBtn = document.getElementById('closeCookieBannerBtn');
+  const analyticsToggle = document.getElementById('analyticsCookiesToggle');
+  const marketingToggle = document.getElementById('marketingCookiesToggle');
+  const privacyLink = document.getElementById('privacyPreferencesLink');
+  const savedPreferences = readCookiePreferences();
+
+  if (!banner || !backdrop) return;
+
+  function showBanner() {
+    banner.hidden = false;
+    if (triggerBtn) triggerBtn.hidden = true;
+  }
+
+  function hideBanner() {
+    banner.hidden = true;
+    if (triggerBtn) triggerBtn.hidden = false;
+  }
+
+  if (savedPreferences) {
+    applyCookiePreferences(savedPreferences);
+    hideBanner();
+  } else {
+    showBanner();
+  }
+
+  function readCookiePreferences() {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      return stored ? JSON.parse(stored) : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveCookiePreferences(preferences) {
+    localStorage.setItem(storageKey, JSON.stringify({
+      essential: true,
+      analytics: Boolean(preferences.analytics),
+      marketing: Boolean(preferences.marketing),
+      updatedAt: new Date().toISOString()
+    }));
+  }
+
+  function applyCookiePreferences(preferences) {
+    if (analyticsToggle) analyticsToggle.checked = Boolean(preferences.analytics);
+    if (marketingToggle) marketingToggle.checked = Boolean(preferences.marketing);
+  }
+
+  function closePreferences() {
+    backdrop.hidden = true;
+    document.body.classList.remove('cookie-modal-open');
+    if (triggerBtn) triggerBtn.hidden = false;
+  }
+
+  function openPreferences() {
+    const current = readCookiePreferences() || { analytics: false, marketing: false };
+    applyCookiePreferences(current);
+    banner.hidden = true;
+    backdrop.hidden = false;
+    document.body.classList.add('cookie-modal-open');
+    if (triggerBtn) triggerBtn.hidden = true;
+  }
+
+  function savePreferences(preferences) {
+    saveCookiePreferences(preferences);
+    applyCookiePreferences(preferences);
+    hideBanner();
+    closePreferences();
+  }
+
+  closeBannerBtn?.addEventListener('click', () => {
+    hideBanner();
+  });
+
+  triggerBtn?.addEventListener('click', () => {
+    openPreferences();
+  });
+
+  document.getElementById('acceptCookiesBtn')?.addEventListener('click', () => {
+    savePreferences({ analytics: true, marketing: true });
+  });
+
+  document.getElementById('rejectCookiesBtn')?.addEventListener('click', () => {
+    savePreferences({ analytics: false, marketing: false });
+  });
+
+  document.getElementById('manageCookiesBtn')?.addEventListener('click', openPreferences);
+  privacyLink?.addEventListener('click', (event) => {
+    event.preventDefault();
+    openPreferences();
+  });
+  document.getElementById('closeCookieModalBtn')?.addEventListener('click', closePreferences);
+  document.getElementById('cancelCookieModalBtn')?.addEventListener('click', closePreferences);
+  document.getElementById('saveCookiePreferencesBtn')?.addEventListener('click', () => {
+    savePreferences({
+      analytics: analyticsToggle?.checked,
+      marketing: marketingToggle?.checked
+    });
+  });
+  backdrop.addEventListener('click', (event) => {
+    if (event.target === backdrop) closePreferences();
+  });
+}
+
 function capitalizeFirstLetter(str) {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+/* ==========================================================================
+   12. Navbar ScrollSpy - Highlight Active Section Topic
+   ========================================================================== */
+function initNavbarScrollSpy() {
+  const desktopNavLinks = Array.from(document.querySelectorAll('.nav-links .nav-btn'));
+  const mobileNavLinks = Array.from(document.querySelectorAll('.mobile-nav-links .mobile-nav-link'));
+
+  if (!desktopNavLinks.length && !mobileNavLinks.length) return;
+
+  const targetMap = new Map();
+  const targetIds = [];
+
+  const registerLink = (link, isMobile) => {
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    const id = href.slice(1);
+    if (!id || id === 'hero') return;
+
+    const section = document.getElementById(id);
+    if (!section) return;
+
+    if (!targetMap.has(id)) {
+      targetMap.set(id, { section, desktop: [], mobile: [] });
+      targetIds.push(id);
+    }
+
+    if (isMobile) {
+      targetMap.get(id).mobile.push(link);
+    } else {
+      targetMap.get(id).desktop.push(link);
+    }
+  };
+
+  desktopNavLinks.forEach(link => registerLink(link, false));
+  mobileNavLinks.forEach(link => registerLink(link, true));
+
+  if (!targetIds.length) return;
+
+  let currentActiveId = null;
+  let isClickScrolling = false;
+  let clickScrollTimer = null;
+  let ticking = false;
+
+  function setActive(activeId) {
+    if (currentActiveId === activeId) return;
+    currentActiveId = activeId;
+
+    targetMap.forEach((entry, id) => {
+      const isActive = id === activeId;
+      entry.desktop.forEach(link => {
+        link.classList.toggle('active', isActive);
+        if (isActive) {
+          link.setAttribute('aria-current', 'true');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+
+      entry.mobile.forEach(link => {
+        link.classList.toggle('active', isActive);
+        if (isActive) {
+          link.setAttribute('aria-current', 'true');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    });
+  }
+
+  function calculateActiveSection() {
+    const scrollY = window.scrollY || window.pageYOffset;
+    const viewportHeight = window.innerHeight;
+    const docHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    );
+
+    // Case 1: If user is at or very close to bottom of page, highlight the last topic
+    if (viewportHeight + scrollY >= docHeight - 60) {
+      setActive(targetIds[targetIds.length - 1]);
+      return;
+    }
+
+    const header = document.querySelector('.site-header');
+    const headerHeight = header ? header.offsetHeight : 70;
+    const triggerOffset = headerHeight + 50;
+
+    // Case 2: Above the first target section (Hero area)
+    const firstSection = targetMap.get(targetIds[0])?.section;
+    if (firstSection) {
+      const firstRect = firstSection.getBoundingClientRect();
+      if (firstRect.top > triggerOffset) {
+        setActive(null);
+        return;
+      }
+    }
+
+    // Case 3: Iterate backwards from last section to find the current active section
+    let foundId = null;
+    for (let i = targetIds.length - 1; i >= 0; i--) {
+      const id = targetIds[i];
+      const section = targetMap.get(id)?.section;
+      if (!section) continue;
+
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= triggerOffset) {
+        foundId = id;
+        break;
+      }
+    }
+
+    setActive(foundId);
+  }
+
+  function onScroll() {
+    if (isClickScrolling) return;
+
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        calculateActiveSection();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', calculateActiveSection, { passive: true });
+
+  function handleLinkClick(targetId) {
+    setActive(targetId);
+    isClickScrolling = true;
+    clearTimeout(clickScrollTimer);
+    clickScrollTimer = setTimeout(() => {
+      isClickScrolling = false;
+      calculateActiveSection();
+    }, 750);
+  }
+
+  // Resume normal scroll monitoring on manual gesture
+  window.addEventListener('wheel', () => {
+    if (isClickScrolling) {
+      isClickScrolling = false;
+      clearTimeout(clickScrollTimer);
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchmove', () => {
+    if (isClickScrolling) {
+      isClickScrolling = false;
+      clearTimeout(clickScrollTimer);
+    }
+  }, { passive: true });
+
+  targetMap.forEach((entry, id) => {
+    entry.desktop.forEach(link => {
+      link.addEventListener('click', () => handleLinkClick(id));
+    });
+    entry.mobile.forEach(link => {
+      link.addEventListener('click', () => handleLinkClick(id));
+    });
+  });
+
+  const logoLink = document.getElementById('logoLink');
+  if (logoLink) {
+    logoLink.addEventListener('click', () => {
+      handleLinkClick(null);
+    });
+  }
+
+  // Calculate initial active section
+  calculateActiveSection();
+}
+
+/* ==========================================================================
+   13. Footer Interactivity
+   ========================================================================== */
+function initFooterFeatures() {
+  // Smooth "Back to Top" Button
+  const backToTopBtn = document.getElementById('footerBackToTopBtn');
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      if (typeof playArcadeSound === 'function') playArcadeSound('select');
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      document.querySelectorAll('.nav-links .nav-btn, .mobile-nav-links .mobile-nav-link').forEach(link => {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
+      });
+    });
+  }
+}
+
+

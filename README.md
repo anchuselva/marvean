@@ -48,8 +48,8 @@ Organizations traditionally gather market and competitor information from discon
 ## 3. Technology Stack
 
 - **Frontend**: Responsive, modern HTML5, Vanilla CSS3 (Custom Enterprise Retro-Arcade Command System), and Modular Vanilla JavaScript with Web Audio API synthesizer.
-- **Backend (Roadmap)**: PHP / Laravel
-- **Database (Roadmap)**: SQL
+- **Backend**: PHP REST API with PDO/MySQL
+- **Database**: MySQL
 - **Server**: Zero-dependency Node.js HTTP server with dual-stack binding and automatic port fallback.
 
 ---
@@ -61,3 +61,41 @@ Run the local server:
 node server.js
 ```
 Open [http://localhost:3001/](http://localhost:3001/) (or port 3000 if available) in your browser.
+
+### Contact form reCAPTCHA
+
+The contact form uses Google reCAPTCHA. Configure the private verification key in the server environment before starting Node:
+
+PowerShell:
+```powershell
+$env:RECAPTCHA_SECRET_KEY = "your-secret-key"
+node server.js
+```
+
+Never place the secret key in HTML or frontend JavaScript. The public site key is configured in the contact form and can be restricted to the production domain in the Google reCAPTCHA console.
+
+## 5. Backend and `dist` deployment
+
+The `dist/` directory contains the static frontend only. The PHP backend must run separately with a PHP-capable web server and a reachable MySQL database.
+
+Start the backend locally with XAMPP:
+
+```powershell
+C:\xampp\php\php.exe -S localhost:8000 -t backend\public backend\public\index.php
+```
+
+Verify the connection before opening the dashboard:
+
+```powershell
+Invoke-WebRequest http://localhost:8000/api/status
+Invoke-WebRequest http://localhost:8000/api/stats
+```
+
+The status response must contain `"status":"online"` and `"database":"connected"`. The dashboard uses `http://localhost:8000/api` on local development and `/api` when the frontend is hosted in production. If the backend is hosted on a different domain, define `window.MARVEAN_API_BASE` before loading `dashboard.js`, for example:
+
+```html
+<script>window.MARVEAN_API_BASE = 'https://api.example.com/api';</script>
+<script src="dashboard.js"></script>
+```
+
+Do not copy `backend/.env` into `dist/` or expose database credentials. Configure the backend environment on the PHP server instead.

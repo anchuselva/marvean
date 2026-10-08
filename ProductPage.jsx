@@ -21,27 +21,29 @@ body{margin:0;background:var(--space-dark)}
 .mv{background:var(--space-dark);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6;min-height:100vh}
 .mv a{color:inherit;text-decoration:none}
 .mv :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+.wrap{width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(1rem,3vw,2rem)}
+@media (min-width:1536px){.wrap{max-width:1520px}}
+@media (min-width:1800px){.wrap{max-width:1640px}}
 .px{font-family:Silkscreen,'Courier New',monospace;text-transform:uppercase;letter-spacing:.02em}
 .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
-.nav{position:sticky;top:0;z-index:20;background:rgba(7,11,22,.94);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:78px;gap:20px}
+.nav{position:sticky;top:0;z-index:1000;background:rgba(7,12,24,.94);border-bottom:1px solid var(--line);padding:0.65rem 0}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;min-height:52px;gap:clamp(1rem,2vw,2rem);max-width:1560px;padding:0 clamp(1rem,2.5vw,2rem)}
 .logo{font-size:30px;font-weight:700;color:var(--accent)}
-.pill{display:flex;gap:6px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel)}
-.pill a{padding:6px 16px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-radius:999px}
+.pill{display:flex;gap:4px;padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:var(--panel)}
+.pill a{padding:6px 14px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-radius:999px}
 .pill a:hover{color:var(--accent)}
-.badge{border:1px solid var(--accent);color:var(--accent);padding:10px 20px;border-radius:999px;font-weight:600;font-size:14px;background:rgba(0,229,163,.08)}
-.tag{display:inline-block;border:1px solid var(--accent);color:var(--accent);padding:8px 16px;font-size:12px;background:rgba(0,229,163,.06)}
-h1{font-size:clamp(40px,6vw,76px);line-height:1.02;margin:22px 0 24px;font-weight:700}
+.badge{border:1px solid var(--accent);color:var(--accent);padding:8px 18px;border-radius:999px;font-weight:600;font-size:13px;background:rgba(0,229,163,.08)}
+.tag{display:inline-block;border:1px solid var(--accent);color:var(--accent);padding:7px 14px;font-size:12px;background:rgba(0,229,163,.06)}
+h1{font-size:clamp(32px,4vw,56px);line-height:1.12;margin:18px 0 20px;font-weight:700}
 h1 .a{color:var(--accent)}
-h2{font-size:clamp(26px,3.4vw,40px);line-height:1.15;margin:0 0 14px}
-.lead{color:var(--muted);font-size:18px;max-width:640px}
-.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;padding:64px 0 56px;align-items:start}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:36px 0}
-.stat{border:1px solid var(--line);background:var(--panel);padding:16px}
-.stat b{display:block;font-size:26px;color:var(--accent)}
-.stat span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.btn{display:inline-block;padding:16px 26px;font-weight:700;letter-spacing:.06em;font-size:14px;text-transform:uppercase}
+h2{font-size:clamp(24px,2.8vw,36px);line-height:1.25;margin:0 0 14px}
+.lead{color:var(--muted);font-size:clamp(16px,1.25vw,18px);max-width:720px;line-height:1.65}
+.hero{display:grid;grid-template-columns:1.1fr 0.95fr;gap:clamp(32px,3.5vw,52px);padding:clamp(48px,5.5vw,76px) 0 clamp(40px,4.5vw,60px);align-items:start}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:30px 0}
+.stat{border:1px solid var(--line);background:var(--panel);padding:16px 18px;border-radius:4px}
+.stat b{display:block;font-size:26px;color:var(--accent);line-height:1.2}
+.stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px;display:block}
+.btn{display:inline-block;padding:14px 24px;font-weight:700;letter-spacing:.06em;font-size:13px;text-transform:uppercase;border-radius:4px}
 .btn.p{background:var(--accent);color:#04120d!important}
 .btn.s{border:2px solid #fff;margin-left:14px}
 .code{border:1px solid var(--line);background:var(--panel);padding:16px 18px;font-size:13px;color:var(--muted)}
@@ -87,24 +89,34 @@ td:nth-child(2){color:var(--muted)}
 .sdk{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
 pre{margin:0;padding:22px;background:var(--bg);border:1px solid var(--accent);color:#cfe1ff;font-size:13px;overflow-x:auto;line-height:1.7}
 pre .c{color:var(--muted)} pre .k{color:var(--accent)}
-.price{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
-.price .card.f{border-color:var(--accent)}
-.price ul{padding-left:18px;margin:14px 0 0;color:var(--muted);font-size:15px}
-.faq details{border:1px solid var(--line);background:var(--panel);padding:18px 22px;margin-bottom:12px}
-.faq summary{font-weight:600;cursor:pointer}
-.faq p{color:var(--muted);margin:10px 0 0}
-.cta{text-align:center;padding:90px 0}
-.foot{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:14px}
-.foot .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-@media(max-width:980px){
- .hero,.sdk{grid-template-columns:1fr}
- .stats{grid-template-columns:repeat(2,1fr)}
- .g2,.g3,.price{grid-template-columns:1fr}
- .pill{display:none}
- .btn.s{margin:12px 0 0}
- .split{grid-template-columns:1fr}
- .gpus{grid-template-columns:repeat(2,1fr)}
-}
+.cta{text-align:center;padding:clamp(70px,7vw,100px) 0}
+.site-footer{background-color:var(--bg);color:#8da4d4;padding:clamp(3rem,5vw,4rem) 0 2rem;border-top:3px solid #000;position:relative}
+.footer-top-grid{display:grid;grid-template-columns:1.35fr repeat(3,0.9fr) 1.35fr;gap:2rem;margin-bottom:3rem}
+.footer-brand-pane p{font-size:0.92rem;line-height:1.6;margin-top:0.85rem;color:#9cb2e0;max-width:360px}
+.footer-brand-logo{display:block;width:min(190px,100%);height:auto}
+.footer-col h4{font-family:Silkscreen,monospace;font-size:0.76rem;color:#fff;margin-bottom:1.15rem;letter-spacing:0.5px;text-transform:uppercase}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:0.65rem;padding:0;margin:0}
+.footer-links a{color:#8da4d4;text-decoration:none;font-size:0.88rem;transition:all 0.16s ease}
+.footer-links a:hover{color:var(--accent);transform:translateX(4px)}
+.social-header-label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:0.75rem}
+.footer-social-wrap{margin-top:1.5rem}
+.footer-social-links{display:flex;align-items:center;gap:0.65rem;flex-wrap:wrap}
+.social-badge-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:rgba(18,28,56,0.75);border:1px solid var(--line);border-radius:6px;color:#c0d1ed;text-decoration:none}
+.footer-office-card{background:rgba(14,23,46,0.7);border:1px solid rgba(42,60,102,0.55);border-radius:6px;padding:0.75rem 0.85rem;margin-bottom:0.75rem}
+.office-country-tag{display:flex;align-items:center;gap:0.45rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:700;color:var(--accent);margin-bottom:0.35rem;text-transform:uppercase}
+.office-pin-svg{width:13px;height:13px;stroke:var(--accent);flex-shrink:0}
+.office-address{font-style:normal;font-size:0.82rem;line-height:1.45;color:#a4badf;margin:0 0 0.45rem 0}
+.office-map-link,.office-map-link:link,.office-map-link:visited{color:#a4badf!important;text-decoration:none!important;display:inline-block;transition:color 0.18s ease}
+.office-map-link:hover{color:var(--accent)!important;text-decoration:underline!important}
+.office-tel-link{display:inline-flex;align-items:center;gap:0.45rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:600;color:#fff;text-decoration:none}
+.footer-bottom-bar{border-top:2px solid var(--line);padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.25rem;font-family:'JetBrains Mono',monospace;font-size:0.72rem}
+.footer-copy-text{color:#8da4d4}
+.footer-ticker{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.back-to-top-btn{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(14,23,46,0.9);border:1px solid rgba(0,229,163,0.4);color:var(--accent);font-size:0.76rem;font-weight:700;padding:0.45rem 0.9rem;border-radius:4px;cursor:pointer}
+@media (max-width:992px){.footer-top-grid{grid-template-columns:1fr 1fr;gap:2rem}.footer-brand-pane{grid-column:span 2}}
+@media (max-width:768px){.footer-top-grid{grid-template-columns:1fr;gap:1.75rem}.footer-brand-pane{grid-column:span 1}.footer-bottom-bar{flex-direction:column;align-items:flex-start}}
+@media(max-width:980px){.hero,.sdk{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}.pill{display:none}.btn.s{margin:12px 0 0}.split{grid-template-columns:1fr}.gpus{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.stats{grid-template-columns:1fr}.gpus{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 `;
 
@@ -174,8 +186,6 @@ function Nav() {
           <a href="#platform">Platform</a>
           <a href="#sdk">SDK</a>
           <a href="#roadmap">Roadmap</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
           <a href="#contact">Contact us</a>
         </nav>
         <a href="#sdk" className="badge">⚡ Get the SDK</a>
@@ -391,56 +401,124 @@ function Roadmap() {
   );
 }
 
-function Pricing() {
-  const plans = [
-    ["Starter", "For one GPU cluster", ["GPU & VRAM telemetry", "Python SDK", "Community support"]],
-    ["Enterprise", "For production AI fleets", ["Triton & LLM observability", "Cost & TCO analytics", "Single sign-on and SDK keys", "Guardrails & anomaly alerts"], true],
-    ["Hybrid & HPC", "For multi-cloud and on-prem", ["Fleet governance", "Edge L4 / L40S nodes", "Dedicated onboarding"]],
-  ];
+
+function Contact() {
   return (
-    <section id="pricing" className="sec alt">
+    <section id="contact" className="sec alt cta">
       <div className="wrap">
-        <h2 className="px">Pricing</h2>
-        <p className="lead">Pricing is quoted per fleet. Tell us about your clusters and we will send a plan.</p>
-        <div className="price">
-          {plans.map(([n, d, items, f]) => (
-            <div className={"card" + (f ? " f" : "")} key={n}>
-              <h3 className="px">{n}</h3>
-              <p>{d}</p>
-              <ul>{items.map((i) => <li key={i}>{i}</li>)}</ul>
-            </div>
-          ))}
+        <h2 className="px">Run your AI fleet with full visibility</h2>
+        <p className="lead" style={{ margin: "0 auto 30px" }}>
+          Request access to the dashboards, API endpoints and SDK demo environment. Access is provided through enterprise single sign-on.
+        </p>
+        <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
+          <a className="btn p" href="dashboard.html" target="_blank" rel="noreferrer">Launch Dashboard</a>
+          <a className="btn s" href="mailto:contact@marvean.net" style={{ marginLeft: 0 }}>Request access</a>
+          <a className="btn d" href="index.html" style={{ marginLeft: 0 }}>Visit marvean.net</a>
         </div>
       </div>
     </section>
   );
 }
 
-function Faq() {
+function Footer() {
   return (
-    <section id="faq" className="sec">
-      <div className="wrap faq">
-        <h2 className="px" style={{ marginBottom: 28 }}>FAQ</h2>
-        {faq.map(([q, a]) => (
-          <details open key={q}><summary>{q}</summary><p>{a}</p></details>
-        ))}
+    <footer className="site-footer">
+      <div className="wrap">
+        <div className="footer-top-grid">
+          <div className="footer-brand-pane">
+            <a href="index.html#hero" className="footer-brand-logo-link" aria-label="Return to MARVEAN home">
+              <img src="Logo.svg" alt="MARVEAN" className="footer-brand-logo" />
+            </a>
+            <p>
+              Centralize market intelligence, track competitive movements, connect research evidence, and turn emerging signals into strategic business insights.
+            </p>
+            <div className="footer-social-wrap">
+              <span className="social-header-label">// OFFICIAL CHANNELS</span>
+              <div className="footer-social-links">
+                <a href="https://www.linkedin.com/company/marvean/" target="_blank" rel="noopener noreferrer" className="social-badge-btn" title="LinkedIn">IN</a>
+                <a href="https://medium.com/@marvean.net" target="_blank" rel="noopener noreferrer" className="social-badge-btn" title="Medium">M</a>
+                <a href="https://www.youtube.com/@Marvean-s2y" target="_blank" rel="noopener noreferrer" className="social-badge-btn" title="YouTube">YT</a>
+                <a href="https://www.facebook.com/Marvean1/" target="_blank" rel="noopener noreferrer" className="social-badge-btn" title="Facebook">FB</a>
+                <a href="https://www.f6s.com/marvean" target="_blank" rel="noopener noreferrer" className="social-badge-btn" title="F6S">F6S</a>
+                <a href="https://www.crunchbase.com/organization/marvean" target="_blank" rel="noopener noreferrer" className="social-badge-btn" title="Crunchbase">CB</a>
+              </div>
+            </div>
+          </div>
+          <div className="footer-col">
+            <h4>// PLATFORM</h4>
+            <ul className="footer-links">
+              <li><a href="index.html#registry">Competitor Registry &amp; Profiles</a></li>
+              <li><a href="index.html#signals">Commercial Signals Radar</a></li>
+              <li><a href="index.html#governance">Research Governance &amp; Chains</a></li>
+              <li><a href="index.html#pricing">Transparent Pricing Plans</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h4>// CAPABILITIES</h4>
+            <ul className="footer-links">
+              <li><a href="index.html#signals">Pricing Shifts &amp; Launch Alerts</a></li>
+              <li><a href="index.html#signals">Patent &amp; Regulatory Radar</a></li>
+              <li><a href="index.html#registry">Competitor Dossier Deep Dives</a></li>
+              <li><a href="index.html#governance">Cryptographic Evidence Chains</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h4>// TRUST &amp; COMPLIANCE</h4>
+            <ul className="footer-links">
+              <li><a href="terms-and-conditions.html">Terms &amp; Conditions</a></li>
+              <li><a href="privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="index.html#governance">Enterprise Security Architecture</a></li>
+              <li><a href="index.html#governance">SOC-2 Type II Audit Standards</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h4>// GLOBAL HUBS</h4>
+            <div className="footer-office-card">
+              <div className="office-country-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="office-pin-svg" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>USA HEADQUARTERS</span>
+              </div>
+              <div className="office-address">
+                <a href="https://maps.google.com/?q=700+S+Grand+Avenue,+Los+Angeles,+CA+90017" target="_blank" rel="noopener noreferrer" className="office-map-link">
+                  700 S Grand Avenue, Los Angeles, CA 90017, USA
+                </a>
+              </div>
+              <a href="tel:+12135550106" className="office-tel-link">+1 213-555-0106</a>
+            </div>
+            <div className="footer-office-card">
+              <div className="office-country-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="office-pin-svg" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>SRI LANKA HUB</span>
+              </div>
+              <div className="office-address">
+                <a href="https://maps.google.com/?q=No.+24,+Palm+Court,+Mount+Lavinia,+Sri+Lanka" target="_blank" rel="noopener noreferrer" className="office-map-link">
+                  No. 24, Palm Court, Mount Lavinia, Sri Lanka
+                </a>
+              </div>
+              <a href="tel:+94110001206" className="office-tel-link">+94 11 000 1206</a>
+            </div>
+          </div>
+        </div>
+        <div className="footer-bottom-bar">
+          <div className="footer-copy-text">
+            <span>&copy; 2026 MARVEAN. ALL RIGHTS RESERVED. AI MARKET &amp; COMPETITIVE INTELLIGENCE.</span>
+          </div>
+          <div className="footer-ticker">
+            <span>INDEXED SIGNALS: <strong>148,290</strong></span>
+            <span>SYSTEM HEALTH: NOMINAL</span>
+          </div>
+          <button type="button" className="back-to-top-btn" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            ▲ BACK TO TOP
+          </button>
+        </div>
       </div>
-    </section>
-  );
-}
-
-function Contact() {
-  return (
-    <section id="contact" className="sec alt">
-      <div className="wrap cta">
-        <h2 className="px">Run your AI fleet with full visibility</h2>
-        <p className="lead" style={{ margin: "0 auto 30px" }}>
-          Request access to the dashboards, API endpoints and SDK demo environment. Access is provided through enterprise single sign-on.
-        </p>
-        <a className="btn p" href="https://marvean.net">Request access</a>
-        <a className="btn s" href="https://marvean.net">Visit marvean.net</a>
-      </div>
-    </section>
+    </footer>
   );
 }
 
@@ -455,15 +533,8 @@ export default function MarveanPage() {
       <Deployment />
       <Sdk />
       <Roadmap />
-      <Pricing />
-      <Faq />
       <Contact />
-      <footer className="foot">
-        <div className="wrap">
-          <span>© 2026 Marvean · AI Infrastructure & Application Intelligence</span>
-          <span>Document v1.0 · October 5, 2026 · NVIDIA Inception technical profile</span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

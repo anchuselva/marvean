@@ -93,10 +93,10 @@
         <span class="sys-status-badge" style="padding: 2px 7px; font-size: 0.65rem; margin-left: 6px;">LIVE TELEMETRY</span>
       </div>
       <div class="panel-actions">
-        <div class="chart-range-selector" id="signalRangeSelector">
-          <button type="button" class="chart-range-btn active" data-range="6m">6M</button>
-          <button type="button" class="chart-range-btn" data-range="30d">30D</button>
-          <button type="button" class="chart-range-btn" data-range="7d">7D</button>
+        <div class="chart-range-selector" id="signalRangeSelector" style="background: rgba(9, 16, 34, 0.94); border: 1px solid rgba(42, 68, 118, 0.85); border-radius: 999px; padding: 2px 4px; display: inline-flex; gap: 3px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+          <button type="button" class="chart-range-btn active" data-range="7d" style="border:none; border-radius:999px; font-weight:700; font-size:0.72rem; padding:3px 12px; background:#ea5e28; color:#ffffff; box-shadow:0 0 10px rgba(234,94,40,0.5);">Woche</button>
+          <button type="button" class="chart-range-btn" data-range="30d" style="border:none; border-radius:999px; font-weight:600; font-size:0.72rem; padding:3px 12px; background:transparent; color:#8da4c8;">Monat</button>
+          <button type="button" class="chart-range-btn" data-range="6m" style="border:none; border-radius:999px; font-weight:600; font-size:0.72rem; padding:3px 12px; background:transparent; color:#8da4c8;">6M</button>
         </div>
       </div>
     </div>
@@ -104,24 +104,19 @@
       <!-- Live metric legend bar -->
       <div class="chart-telemetry-legend">
         <div class="chart-legend-item">
-          <span class="chart-legend-dot" style="background: #f43f5e; box-shadow: 0 0 8px rgba(244, 63, 94, 0.4);"></span>
-          <span>Critical Threat Velocity:</span>
-          <span class="chart-legend-val"><?= $stats['critical_signals'] ?> events</span>
+          <span class="chart-legend-dot" style="background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);"></span>
+          <span>Wave Envelope (Slate):</span>
+          <span class="chart-legend-val">78.5 peak</span>
         </div>
         <div class="chart-legend-item">
-          <span class="chart-legend-dot" style="background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);"></span>
-          <span>Verified Signals:</span>
-          <span class="chart-legend-val"><?= $stats['signals_count'] ?> signals</span>
-        </div>
-        <div class="chart-legend-item">
-          <span class="chart-legend-dot" style="background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);"></span>
-          <span>Market Intel Volume:</span>
-          <span class="chart-legend-val"><?= $stats['market_records'] ?> records</span>
+          <span class="chart-legend-dot" style="background: #ea5e28; box-shadow: 0 0 8px rgba(234, 94, 40, 0.5);"></span>
+          <span>Core Signal (Orange):</span>
+          <span class="chart-legend-val">24.5 mean</span>
         </div>
       </div>
 
-      <!-- Canvas container -->
-      <div class="chart-canvas-wrap">
+      <!-- Canvas container (Marvean Dark Cyber Theme) -->
+      <div class="chart-canvas-wrap" style="background: radial-gradient(120% 100% at 50% 0%, rgba(13, 24, 48, 0.75) 0%, rgba(5, 9, 20, 0.95) 100%); border: 1px solid rgba(30, 50, 95, 0.75); border-radius: 12px; padding: 12px; box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6), 0 8px 30px rgba(0, 0, 0, 0.4);">
         <canvas id="signalVelocityChart"></canvas>
       </div>
     </div>
@@ -392,45 +387,36 @@ document.addEventListener('DOMContentLoaded', () => {
   if (velocityCanvas) {
     const ctx = velocityCanvas.getContext('2d');
 
-    // Create subtle vertical gradients
-    const gradCritical = ctx.createLinearGradient(0, 0, 0, 240);
-    gradCritical.addColorStop(0, 'rgba(244, 63, 94, 0.28)');
-    gradCritical.addColorStop(0.7, 'rgba(244, 63, 94, 0.04)');
-    gradCritical.addColorStop(1, 'rgba(244, 63, 94, 0.0)');
+    const gradUpper = ctx.createLinearGradient(0, 0, 0, 240);
+    gradUpper.addColorStop(0, 'rgba(30, 58, 99, 0.9)');
+    gradUpper.addColorStop(0.5, 'rgba(20, 38, 66, 0.75)');
+    gradUpper.addColorStop(1, 'rgba(5, 10, 20, 0.3)');
 
-    const gradVerified = ctx.createLinearGradient(0, 0, 0, 240);
-    gradVerified.addColorStop(0, 'rgba(16, 185, 129, 0.24)');
-    gradVerified.addColorStop(0.7, 'rgba(16, 185, 129, 0.03)');
-    gradVerified.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+    const gradLower = ctx.createLinearGradient(0, 0, 0, 240);
+    gradLower.addColorStop(0, '#f97316');
+    gradLower.addColorStop(0.5, '#ea5e28');
+    gradLower.addColorStop(1, 'rgba(124, 36, 4, 0.3)');
 
-    const gradIntel = ctx.createLinearGradient(0, 0, 0, 240);
-    gradIntel.addColorStop(0, 'rgba(56, 189, 248, 0.16)');
-    gradIntel.addColorStop(0.7, 'rgba(56, 189, 248, 0.02)');
-    gradIntel.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
-
-    // Multi-Range Datasets
+    // Dual-layer Mountain Wave Datasets matching canonical pattern
     const rangeData = {
-      '6m': {
-        labels: ['Nov 25', 'Dec 25', 'Jan 26', 'Feb 26', 'Mar 26', 'Apr 26'],
-        critical: [1, 3, 2, 4, 3, <?= max(1, (int)($stats['critical_signals'] ?? 1)) ?>],
-        verified: [4, 7, 6, 9, 8, <?= max(4, (int)($stats['signals_count'] ?? 4)) ?>],
-        intel: [8, 14, 12, 18, 15, <?= max(10, (int)($stats['market_records'] ?? 10)) ?>]
+      '7d': {
+        labels: ['25', '50', '65', '78', '92', '105', '115', '125', '136', '144', '155', '168', '180', '195', '210', '225', '240', '255'],
+        upper: [0.2, 3.8, 22.0, 13.5, 16.5, 18.0, 32.0, 78.5, 38.0, 14.5, 38.0, 13.0, 18.5, 12.0, 5.5, 2.0, 0.5, 0.0],
+        lower: [0.0, 1.2, 10.5, 6.0, 7.5, 8.5, 13.0, 24.5, 11.0, 5.0, 15.0, 4.8, 6.8, 4.0, 1.8, 0.6, 0.1, 0.0]
       },
       '30d': {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        critical: [1, 2, 1, <?= (int)($stats['critical_signals'] ?? 1) ?>],
-        verified: [2, 3, 3, <?= (int)($stats['signals_count'] ?? 4) ?>],
-        intel: [4, 6, 5, <?= (int)($stats['market_records'] ?? 10) ?>]
+        labels: ['25', '50', '65', '78', '92', '105', '115', '125', '136', '144', '155', '168', '180', '195', '210', '225', '240', '255'],
+        upper: [0.3, 4.0, 23.5, 14.0, 17.0, 19.5, 34.0, 80.0, 39.0, 15.0, 39.5, 13.5, 19.0, 12.5, 6.0, 2.2, 0.6, 0.0],
+        lower: [0.0, 1.4, 11.0, 6.5, 8.0, 9.0, 14.0, 26.0, 12.0, 5.5, 16.0, 5.0, 7.0, 4.2, 2.0, 0.7, 0.1, 0.0]
       },
-      '7d': {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Today'],
-        critical: [0, 1, 0, 1, 0, 0, <?= (int)($stats['critical_signals'] ?? 1) ?>],
-        verified: [1, 1, 2, 1, 2, 0, <?= (int)($stats['signals_count'] ?? 4) ?>],
-        intel: [2, 3, 2, 4, 3, 1, <?= (int)($stats['market_records'] ?? 10) ?>]
+      '6m': {
+        labels: ['25', '50', '65', '78', '92', '105', '115', '125', '136', '144', '155', '168', '180', '195', '210', '225', '240', '255'],
+        upper: [0.2, 3.5, 21.0, 13.0, 16.0, 17.5, 30.0, 76.0, 36.0, 14.0, 36.5, 12.5, 17.8, 11.5, 5.0, 1.8, 0.4, 0.0],
+        lower: [0.0, 1.0, 10.0, 5.8, 7.2, 8.0, 12.5, 23.0, 10.5, 4.8, 14.2, 4.5, 6.5, 3.8, 1.6, 0.5, 0.1, 0.0]
       }
     };
 
-    const initial = rangeData['6m'];
+    const initial = rangeData['7d'];
 
     const velocityChart = new Chart(ctx, {
       type: 'line',
@@ -438,47 +424,30 @@ document.addEventListener('DOMContentLoaded', () => {
         labels: initial.labels,
         datasets: [
           {
-            label: 'Critical Threats',
-            data: initial.critical,
-            borderColor: '#f43f5e',
-            backgroundColor: gradCritical,
-            borderWidth: 2.2,
-            tension: 0.38,
-            fill: true,
-            pointBackgroundColor: '#f43f5e',
-            pointBorderColor: '#090d16',
-            pointBorderWidth: 2,
-            pointRadius: 3.5,
-            pointHoverRadius: 6,
-          },
-          {
-            label: 'Verified Signals',
-            data: initial.verified,
-            borderColor: '#10b981',
-            backgroundColor: gradVerified,
-            borderWidth: 2.2,
-            tension: 0.38,
-            fill: true,
-            pointBackgroundColor: '#10b981',
-            pointBorderColor: '#090d16',
-            pointBorderWidth: 2,
-            pointRadius: 3.5,
-            pointHoverRadius: 6,
-          },
-          {
-            label: 'Market Intel Volume',
-            data: initial.intel,
-            borderColor: '#38bdf8',
-            backgroundColor: gradIntel,
+            label: 'Core Signal (Orange)',
+            data: initial.lower,
+            borderColor: '#ff7843',
+            backgroundColor: gradLower,
             borderWidth: 2,
-            borderDash: [4, 4],
-            tension: 0.38,
+            tension: 0.44,
             fill: true,
-            pointBackgroundColor: '#38bdf8',
-            pointBorderColor: '#090d16',
-            pointBorderWidth: 2,
-            pointRadius: 3,
-            pointHoverRadius: 5.5,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#ea5e28',
+            order: 1
+          },
+          {
+            label: 'Wave Envelope (Slate)',
+            data: initial.upper,
+            borderColor: '#38bdf8',
+            backgroundColor: gradUpper,
+            borderWidth: 2,
+            tension: 0.44,
+            fill: true,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#38bdf8',
+            order: 2
           }
         ]
       },
@@ -494,11 +463,11 @@ document.addEventListener('DOMContentLoaded', () => {
             display: false
           },
           tooltip: {
-            backgroundColor: '#060910',
+            backgroundColor: '#1c2834',
             titleColor: '#ffffff',
             bodyColor: '#e2e8f0',
-            borderColor: 'rgba(255, 255, 255, 0.12)',
-            borderWidth: 1,
+            borderColor: '#ea5e28',
+            borderWidth: 1.5,
             padding: 11,
             cornerRadius: 8,
             titleFont: { family: 'Plus Jakarta Sans', size: 12, weight: '700' },
@@ -516,20 +485,20 @@ document.addEventListener('DOMContentLoaded', () => {
               drawBorder: false
             },
             ticks: {
-              color: '#64748b',
-              font: { family: 'Plus Jakarta Sans', size: 11, weight: '500' }
+              color: '#718ba8',
+              font: { family: 'JetBrains Mono', size: 11, weight: '600' }
             }
           },
           y: {
             beginAtZero: true,
             grid: {
-              color: 'rgba(255, 255, 255, 0.04)',
+              color: 'rgba(38, 62, 105, 0.35)',
               drawBorder: false
             },
             ticks: {
-              color: '#64748b',
+              color: '#718ba8',
               font: { family: 'JetBrains Mono', size: 11 },
-              stepSize: 2,
+              stepSize: 20,
               precision: 0
             }
           }
@@ -547,9 +516,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = rangeData[range];
         if (data) {
           velocityChart.data.labels = data.labels;
-          velocityChart.data.datasets[0].data = data.critical;
-          velocityChart.data.datasets[1].data = data.verified;
-          velocityChart.data.datasets[2].data = data.intel;
+          velocityChart.data.datasets[0].data = data.lower;
+          velocityChart.data.datasets[1].data = data.upper;
           velocityChart.update();
         }
       });

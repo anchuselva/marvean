@@ -12,8 +12,13 @@
  *  - AI Strategy Briefing Synthesizer & Developer API Gateway
  */
 
-// Production API Base (points to local PHP/MySQL backend when available)
-const API_BASE = 'http://localhost:8000/api';
+// Use the local PHP API during development, same-origin API in production,
+// or an explicit window.MARVEAN_API_BASE when the API is hosted separately.
+const API_BASE = window.MARVEAN_API_BASE
+  || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api'
+    : `${window.location.origin}/api`);
+const SESSION_STORAGE_KEY = 'mv_intel_user_v2';
 
 // Global Dashboard State
 const DashState = {
@@ -574,7 +579,7 @@ function initAudio() {
     audioBtn.addEventListener('click', () => {
       ensureAudio();
       DashState.sound = !DashState.sound;
-      audioBtn.querySelector('span').textContent = DashState.sound ? '🔊 AUDIO: ON' : '🔇 AUDIO: OFF';
+      audioBtn.querySelector('span').textContent = DashState.sound ? 'AUDIO: ON' : 'AUDIO: OFF';
       audioBtn.classList.toggle('active-toggle', DashState.sound);
       if (DashState.sound) playTone('powerup');
     });
@@ -656,7 +661,11 @@ function initClock() {
   const clockEl = document.getElementById('dashLiveClock');
   if (!clockEl) return;
   function update() {
-    clockEl.textContent = new Date().toUTCString().replace('GMT', 'UTC');
+    const d = new Date();
+    const hh = String(d.getUTCHours()).padStart(2, '0');
+    const mm = String(d.getUTCMinutes()).padStart(2, '0');
+    const ss = String(d.getUTCSeconds()).padStart(2, '0');
+    clockEl.textContent = `${hh}:${mm}:${ss} UTC`;
   }
   update();
   setInterval(update, 1000);
@@ -739,7 +748,7 @@ async function syncWithBackend() {
 
     if (res.ok) {
       const data = await res.json();
-      if (data.status === 'online') {
+      if (data.status === 'online' && data.database === 'connected') {
         DashState.backendConnected = true;
         if (statusText) statusText.textContent = 'BACKEND: CONNECTED (PORT 8000)';
         if (pulseDot) {
@@ -968,6 +977,8 @@ function initAuthGateway() {
   const authCloseBtn = document.getElementById('authModalCloseBtn');
   const googleSignInBtn = document.getElementById('btnGoogleAuth');
   const googleSignUpBtn = document.getElementById('btnGoogleSignUp');
+  const authFormHeading = document.getElementById('authFormHeading');
+  const authFormCopy = document.getElementById('authFormCopy');
 
   if (signInTabBtn && signUpTabBtn) {
     signInTabBtn.addEventListener('click', () => {
@@ -975,6 +986,8 @@ function initAuthGateway() {
       signUpTabBtn.classList.remove('active');
       if (signInForm) signInForm.style.display = 'block';
       if (signUpForm) signUpForm.style.display = 'none';
+      if (authFormHeading) authFormHeading.textContent = 'Welcome back';
+      if (authFormCopy) authFormCopy.textContent = 'Enter your credentials to continue.';
       playTone('hover');
     });
 
@@ -983,6 +996,8 @@ function initAuthGateway() {
       signInTabBtn.classList.remove('active');
       if (signInForm) signInForm.style.display = 'none';
       if (signUpForm) signUpForm.style.display = 'block';
+      if (authFormHeading) authFormHeading.textContent = 'Create your workspace';
+      if (authFormCopy) authFormCopy.textContent = 'Set up your secure intelligence workspace.';
       playTone('hover');
     });
   }
@@ -1185,7 +1200,7 @@ function closeAuthModal() {
 function setAuthenticatedUser(userData) {
   DashState.user = userData;
   try {
-    localStorage.setItem('mv_intel_user', JSON.stringify(userData));
+    sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(userData));
   } catch (e) {}
   updateUserUI();
 }
@@ -1193,7 +1208,7 @@ function setAuthenticatedUser(userData) {
 function signOutUser() {
   DashState.user = null;
   try {
-    localStorage.removeItem('mv_intel_user');
+    sessionStorage.removeItem(SESSION_STORAGE_KEY);
   } catch (e) {}
   if (window.MarveanFirebase && window.MarveanFirebase.signOut) {
     window.MarveanFirebase.signOut().catch(() => {});
@@ -1205,7 +1220,7 @@ function signOutUser() {
 
 function checkPersistedSession() {
   try {
-    const raw = localStorage.getItem('mv_intel_user');
+    const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
     if (raw) {
       DashState.user = JSON.parse(raw);
       updateUserUI();
@@ -1213,16 +1228,10 @@ function checkPersistedSession() {
       return;
     }
   } catch (e) {}
-  
-  // Default active executive analyst session
-  setAuthenticatedUser({
-    name: 'Alex Vance',
-    email: 'alex.vance@marvean.net',
-    role: 'Lead Strategy Analyst',
-    clearance: 'Level 4 (Director)',
-    org: 'Aegis Corporate Strategy [Tenant #9941]'
-  });
-  closeAuthModal();
+
+  // First-time visitors must authenticate before entering the workspace.
+  updateUserUI();
+  openAuthModal();
 }
 
 function updateUserUI() {
@@ -1351,11 +1360,11 @@ function switchDashboardTab(target) {
   const breadcrumb = document.getElementById('currentViewBreadcrumb');
   if (breadcrumb) {
     const titles = {
-      'competitors': '3.1 COMPETITOR MANAGEMENT',
-      'market-records': '3.2 MARKET RECORDS',
-      'product-comparisons': '3.3 PRODUCT SHOOTOUTS',
-      'signals': '3.4 SIGNAL TRACKING & RADAR',
-      'evidence': '3.5 EVIDENCE & STRATEGIC INSIGHTS',
+      'competitors': 'COMPETITOR MANAGEMENT',
+      'market-records': 'MARKET RECORDS',
+      'product-comparisons': 'PRODUCT SHOOTOUTS',
+      'signals': 'SIGNAL TRACKING & RADAR',
+      'evidence': 'EVIDENCE & STRATEGIC INSIGHTS',
       'briefings': 'AI BRIEFING SYNTHESIZER & API'
     };
     breadcrumb.textContent = titles[target] || target.toUpperCase();
@@ -1619,7 +1628,6 @@ function renderCompetitors() {
   if (filtered.length === 0) {
     container.innerHTML = `
       <div style="grid-column: 1 / -1; background: #060b17; border: 1px dashed var(--space-border); border-radius: 8px; padding: 3rem; text-align: center;">
-        <span style="font-size: 2rem;">🏢</span>
         <h4 style="color: #fff; margin: 0.5rem 0;">No Competitors Found</h4>
         <p style="color: var(--parchment-muted); font-size: 0.88rem;">Adjust your category filter or click "+ REGISTER COMPETITOR PROFILE" to add a new dossier.</p>
       </div>
@@ -1666,7 +1674,7 @@ function renderCompetitors() {
 
         <div style="display: flex; gap: 0.45rem; margin-top: auto; flex-wrap: wrap;">
           <button class="btn-arcade btn-arcade-teal" style="flex: 1; font-size: 0.74rem; padding: 0.45rem; border-radius: 6px;" onclick="loadBriefingFor('${c.name}')">
-            ⚡ AI BATTLECARD
+            AI BATTLECARD
           </button>
           <button class="btn-arcade btn-arcade-outline" style="font-size: 0.74rem; padding: 0.45rem 0.65rem; border-radius: 6px;" onclick="openCompetitorUpdatesModal(${c.id}, '${c.name.replace(/'/g, "\\'")}')">
             📋 UPDATES (${updatesCount})
@@ -1867,7 +1875,6 @@ function renderMarketRecords() {
   if (filtered.length === 0) {
     container.innerHTML = `
       <div style="background: #060b17; border: 1px dashed var(--space-border); border-radius: 8px; padding: 3rem; text-align: center;">
-        <span style="font-size: 2rem;">📊</span>
         <h4 style="color: #fff; margin: 0.5rem 0;">No Market Intelligence Records Found</h4>
         <p style="color: var(--parchment-muted); font-size: 0.88rem;">Try adjusting your classification filter or click "+ PUBLISH RECORD".</p>
       </div>
@@ -1912,7 +1919,7 @@ function renderMarketRecords() {
               🔗 ASSOCIATED SOURCES (${sourcesCount})
             </button>
             <button class="btn-arcade btn-arcade-outline" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;" onclick="openMarketHistoryModal(${r.id}, '${r.title.replace(/'/g, "\\'")}')">
-              📜 REVISION HISTORY (${historyCount})
+              REVISION HISTORY (${historyCount})
             </button>
           </div>
           <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--arcade-yellow);">
@@ -2405,10 +2412,10 @@ function renderSignalsFeed() {
               TRANSITION STATUS
             </button>
             <button class="btn-arcade btn-arcade-outline" style="font-size: 0.68rem; padding: 0.25rem 0.6rem; border-radius: 4px;" onclick="openSignalHistoryModal('${sig.id}')">
-              📜 HISTORY (${historyCount})
+              HISTORY (${historyCount})
             </button>
             <button class="btn-arcade btn-arcade-outline" style="font-size: 0.68rem; padding: 0.25rem 0.6rem; border-radius: 4px;" onclick="loadBriefingFor('${sig.competitor}')">
-              ⚡ BRIEFING
+              BRIEFING
             </button>
           </div>
         </div>
@@ -2663,7 +2670,6 @@ function renderEvidence() {
   if (DashState.evidence.length === 0) {
     container.innerHTML = `
       <div style="background: #060b17; border: 1px dashed var(--space-border); border-radius: 8px; padding: 2.5rem; text-align: center;">
-        <span style="font-size: 1.8rem;">🔐</span>
         <h4 style="color: #fff; margin: 0.5rem 0;">Cryptographic Evidence Locker Empty</h4>
         <p style="color: var(--parchment-muted); font-size: 0.85rem;">Click "+ DEPOSIT EVIDENCE DOCUMENT" to register an audited SEC filing or patent citation.</p>
       </div>
@@ -2709,7 +2715,6 @@ function renderInsights() {
   if (DashState.insights.length === 0) {
     container.innerHTML = `
       <div style="grid-column: 1 / -1; background: #060b17; border: 1px dashed var(--space-border); border-radius: 8px; padding: 2.5rem; text-align: center;">
-        <span style="font-size: 1.8rem;">🧠</span>
         <h4 style="color: #fff; margin: 0.5rem 0;">No Strategic Insights Formulated</h4>
         <p style="color: var(--parchment-muted); font-size: 0.85rem;">Click "+ RECORD STRATEGIC INSIGHT" to formulate competitive countermeasures.</p>
       </div>
@@ -2938,55 +2943,53 @@ function initDeveloperConsole() {
 /* ==========================================================================
    UNIQUE TELEMETRY GRAPH: MARKET SIGNAL VELOCITY & THREAT RADAR
    ========================================================================== */
+/* ==========================================================================
+   UNIQUE TELEMETRY GRAPH: DUAL-LAYER MOUNTAIN DENSITY SPLINE RADAR
+   Pattern: High dark-slate mountain envelope + foreground radiant orange wave
+   ========================================================================== */
+const mountainWavePattern = [
+  { tick: '25',  xVal: 25,  upper: 0.2,  lower: 0.0, time: '25',  timestamp: 'Signal Phase 25' },
+  { tick: '50',  xVal: 50,  upper: 3.8,  lower: 1.2, time: '50',  timestamp: 'Signal Phase 50' },
+  { tick: '65',  xVal: 65,  upper: 22.0, lower: 10.5, time: '65',  timestamp: 'Crest Alpha (65)' },
+  { tick: '78',  xVal: 78,  upper: 13.5, lower: 6.0,  time: '78',  timestamp: 'Trough 78' },
+  { tick: '92',  xVal: 92,  upper: 16.5, lower: 7.5,  time: '92',  timestamp: 'Plateau 92' },
+  { tick: '105', xVal: 105, upper: 18.0, lower: 8.5,  time: '105', timestamp: 'Ridge 105' },
+  { tick: '115', xVal: 115, upper: 32.0, lower: 13.0, time: '115', timestamp: 'Base Spire 115' },
+  { tick: '125', xVal: 125, upper: 78.5, lower: 24.5, time: '125', timestamp: 'Central Spire (125)', anomaly: 'Peak Algorithmic Pricing Surge' },
+  { tick: '136', xVal: 136, upper: 38.0, lower: 11.0, time: '136', timestamp: 'Descent 136' },
+  { tick: '144', xVal: 144, upper: 14.5, lower: 5.0,  time: '144', timestamp: 'Gorge 144' },
+  { tick: '155', xVal: 155, upper: 38.0, lower: 15.0, time: '155', timestamp: 'Crest Beta (155)' },
+  { tick: '168', xVal: 168, upper: 13.0, lower: 4.8,  time: '168', timestamp: 'Trough 168' },
+  { tick: '180', xVal: 180, upper: 18.5, lower: 6.8,  time: '180', timestamp: 'Crest Gamma (180)' },
+  { tick: '195', xVal: 195, upper: 12.0, lower: 4.0,  time: '195', timestamp: 'Slope 195' },
+  { tick: '210', xVal: 210, upper: 5.5,  lower: 1.8,  time: '210', timestamp: 'Descent 210' },
+  { tick: '225', xVal: 225, upper: 2.0,  lower: 0.6,  time: '225', timestamp: 'Taper 225' },
+  { tick: '240', xVal: 240, upper: 0.5,  lower: 0.1,  time: '240', timestamp: 'Taper 240' },
+  { tick: '255', xVal: 255, upper: 0.0,  lower: 0.0,  time: '255', timestamp: 'Baseline' }
+];
+
+function generateWaveDataset(scaleUpper = 1.0, scaleLower = 1.0, labelPrefix = '') {
+  return mountainWavePattern.map(p => ({
+    ...p,
+    time: p.tick,
+    timestamp: labelPrefix ? `${labelPrefix} • Scope ${p.tick}` : `Signal Index ${p.tick}`,
+    threat: +(p.upper * scaleUpper).toFixed(1),
+    velocity: Math.round(p.lower * scaleLower * 14 + 110),
+    upper: +(p.upper * scaleUpper).toFixed(1),
+    lower: +(p.lower * scaleLower).toFixed(1),
+    competitor: p.anomaly ? 'Nexus Intelligence Core' : undefined
+  }));
+}
+
 const RadarGraphState = {
-  activeInterval: '24h',
+  activeInterval: '7d', // Canonical default matching the user's reference (Woche)
   visibleMetrics: { threat: true, velocity: true, anomalies: true },
   liveTimer: null,
   datasets: {
-    '1h': [
-      { time: '15:00', timestamp: '15:00 UTC', threat: 74, velocity: 260 },
-      { time: '15:05', timestamp: '15:05 UTC', threat: 76, velocity: 275 },
-      { time: '15:10', timestamp: '15:10 UTC', threat: 79, velocity: 310 },
-      { time: '15:15', timestamp: '15:15 UTC', threat: 88, velocity: 440, anomaly: 'Automated 15% SKU price cut detected', competitor: 'Nexus Enterprise' },
-      { time: '15:20', timestamp: '15:20 UTC', threat: 85, velocity: 380 },
-      { time: '15:25', timestamp: '15:25 UTC', threat: 83, velocity: 330 },
-      { time: '15:30', timestamp: '15:30 UTC', threat: 86, velocity: 370 },
-      { time: '15:35', timestamp: '15:35 UTC', threat: 92, velocity: 490, anomaly: 'Patent filing: Multi-Agent scraping', competitor: 'Apex Market Intel' },
-      { time: '15:40', timestamp: '15:40 UTC', threat: 89, velocity: 420 },
-      { time: '15:45', timestamp: '15:45 UTC', threat: 87, velocity: 360 },
-      { time: '15:50', timestamp: '15:50 UTC', threat: 88, velocity: 350 },
-      { time: '15:55', timestamp: '15:55 UTC', threat: 91, velocity: 390 }
-    ],
-    '24h': [
-      { time: '00:00', timestamp: '00:00 UTC', threat: 68, velocity: 160 },
-      { time: '02:00', timestamp: '02:00 UTC', threat: 72, velocity: 195 },
-      { time: '04:00', timestamp: '04:00 UTC', threat: 75, velocity: 220 },
-      { time: '06:00', timestamp: '06:00 UTC', threat: 81, velocity: 290 },
-      { time: '08:30', timestamp: '08:30 UTC', threat: 94, velocity: 520, anomaly: 'Nexus dropped APAC Enterprise tier by 15%', competitor: 'Nexus Enterprise' },
-      { time: '11:00', timestamp: '11:00 UTC', threat: 88, velocity: 360 },
-      { time: '13:15', timestamp: '13:15 UTC', threat: 91, velocity: 440, anomaly: 'OmniRadar acquired SignalForge for $120M', competitor: 'OmniRadar Systems' },
-      { time: '15:45', timestamp: '15:45 UTC', threat: 93, velocity: 480, anomaly: 'SEC Form 10-Q disclosed 12.8% price compression', competitor: 'Industry Benchmark' },
-      { time: '18:00', timestamp: '18:00 UTC', threat: 86, velocity: 340 },
-      { time: '20:00', timestamp: '20:00 UTC', threat: 83, velocity: 280 },
-      { time: '22:00', timestamp: '22:00 UTC', threat: 87, velocity: 310 },
-      { time: 'LIVE', timestamp: 'Current Radar Lock', threat: 89, velocity: 348 }
-    ],
-    '7d': [
-      { time: 'Mon', timestamp: 'Oct 01', threat: 72, velocity: 280 },
-      { time: 'Tue', timestamp: 'Oct 02', threat: 78, velocity: 320 },
-      { time: 'Wed', timestamp: 'Oct 03', threat: 94, velocity: 540, anomaly: 'Enterprise pricing discount war initiated', competitor: 'Nexus Enterprise' },
-      { time: 'Thu', timestamp: 'Oct 04', threat: 89, velocity: 410 },
-      { time: 'Fri', timestamp: 'Oct 05', threat: 85, velocity: 360, anomaly: 'OmniRadar SignalForge M&A asset injection', competitor: 'OmniRadar Systems' },
-      { time: 'Sat', timestamp: 'Oct 06', threat: 82, velocity: 290 },
-      { time: 'Sun', timestamp: 'Oct 07', threat: 89, velocity: 348 }
-    ],
-    '30d': [
-      { time: 'Wk 1', timestamp: 'Sep 08', threat: 65, velocity: 210 },
-      { time: 'Wk 2', timestamp: 'Sep 15', threat: 74, velocity: 290 },
-      { time: 'Wk 3', timestamp: 'Sep 22', threat: 83, velocity: 380, anomaly: 'OmniRadar EU retail telemetry patch', competitor: 'OmniRadar Systems' },
-      { time: 'Wk 4', timestamp: 'Sep 29', threat: 91, velocity: 490, anomaly: 'MIT CSAIL AI Chief poached by Nexus', competitor: 'Nexus Enterprise' },
-      { time: 'Wk 5', timestamp: 'Oct 05', threat: 89, velocity: 348, anomaly: 'Global pricing compression reaches 12.8%', competitor: 'SEC Audits' }
-    ]
+    '7d': generateWaveDataset(1.0, 1.0, 'Woche (7D)'),
+    '30d': generateWaveDataset(1.02, 0.96, 'Monat (30D)'),
+    '24h': generateWaveDataset(0.97, 1.04, '24H Horizon'),
+    '1h': generateWaveDataset(0.91, 0.94, '1H Horizon')
   },
   liveBuffer: []
 };
@@ -2995,10 +2998,10 @@ function initTelemetryRadarGraph() {
   const container = document.getElementById('radarSvgContainer');
   if (!container) return;
 
-  // Initialize live buffer from 24h data
-  RadarGraphState.liveBuffer = JSON.parse(JSON.stringify(RadarGraphState.datasets['24h']));
+  // Initialize live buffer from 7d data
+  RadarGraphState.liveBuffer = JSON.parse(JSON.stringify(RadarGraphState.datasets['7d']));
 
-  // Interval filter buttons
+  // Interval filter buttons (Woche, Monat, 24H, 1H, LIVE)
   const timeBtns = document.querySelectorAll('#radarTimeFilterGroup .radar-time-btn');
   timeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -3010,7 +3013,7 @@ function initTelemetryRadarGraph() {
     });
   });
 
-  // Metric toggles
+  // Metric toggles (Upper Slate Envelope, Lower Orange Wave, Anomaly Markers)
   const toggleThreat = document.getElementById('toggleThreatMetric');
   const toggleVelocity = document.getElementById('toggleVelocityMetric');
   const toggleAnomalies = document.getElementById('toggleAnomaliesMetric');
@@ -3055,13 +3058,16 @@ function initTelemetryRadarGraph() {
     if (!data || data.length === 0) return;
 
     // Find nearest point
-    const step = 870 / (data.length - 1);
-    let nearestIdx = Math.round((svgX - 60) / step);
+    const startX = 40;
+    const endX = 930;
+    const step = (endX - startX) / (data.length - 1);
+    let nearestIdx = Math.round((svgX - startX) / step);
     nearestIdx = Math.max(0, Math.min(data.length - 1, nearestIdx));
     const pt = data[nearestIdx];
 
-    const ptX = 60 + nearestIdx * step;
-    const threatY = 220 - (pt.threat / 100) * 190;
+    const ptX = startX + nearestIdx * step;
+    const ptUpper = pt.upper !== undefined ? pt.upper : pt.threat;
+    const threatY = 230 - (ptUpper / 100) * 195;
 
     if (crosshair) {
       crosshair.style.display = 'block';
@@ -3073,21 +3079,22 @@ function initTelemetryRadarGraph() {
       tooltip.style.left = `${(ptX / 960) * 100}%`;
       tooltip.style.top = `${(threatY / 250) * 100}%`;
 
-      const threatColor = pt.threat >= 90 ? 'var(--arcade-red)' : (pt.threat >= 80 ? 'var(--arcade-yellow)' : 'var(--arcade-teal)');
-
       tooltip.innerHTML = `
-        <div style="font-weight: 700; color: #fff; margin-bottom: 3px; display: flex; justify-content: space-between; gap: 8px;">
-          <span>${pt.timestamp}</span>
-          <span style="color: ${threatColor}; font-weight: 800;">${pt.threat} / 100</span>
+        <div style="font-weight: 700; color: #fff; margin-bottom: 3px; display: flex; justify-content: space-between; gap: 10px;">
+          <span>${pt.timestamp || ('Phase ' + pt.time)}</span>
+          <span style="color: #ea5e28; font-weight: 800;">${ptUpper}% Intensity</span>
         </div>
-        <div style="color: #7b94ba; display: flex; justify-content: space-between; gap: 8px;">
-          <span>Signal Ingestion:</span>
-          <span style="color: #38bdf8; font-weight: 700;">${pt.velocity} sig/min</span>
+        <div style="color: #9cb3d3; display: flex; justify-content: space-between; gap: 10px;">
+          <span>Core Wave (Orange):</span>
+          <span style="color: #f97316; font-weight: 700;">${pt.lower !== undefined ? pt.lower : Math.round(pt.velocity / 15)}%</span>
+        </div>
+        <div style="color: #728cad; display: flex; justify-content: space-between; gap: 10px;">
+          <span>Upper Wave (Slate):</span>
+          <span style="color: #8da4c8; font-weight: 700;">${ptUpper}%</span>
         </div>
         ${pt.anomaly ? `
-        <div style="margin-top: 5px; padding-top: 4px; border-top: 1px solid rgba(255, 77, 109, 0.4); color: #ffc23d;">
-          <span style="color: var(--arcade-red); font-weight: 700;">🚨 ANOMALY:</span> ${pt.anomaly}
-          <div style="color: #8ea5c8; font-size: 0.65rem;">Entity: ${pt.competitor}</div>
+        <div style="margin-top: 5px; padding-top: 4px; border-top: 1px solid rgba(234, 94, 40, 0.4); color: #ffc23d;">
+          <span style="color: #ea5e28; font-weight: 700;">SPIRE ANOMALY:</span> ${pt.anomaly}
         </div>` : ''}
       `;
     }
@@ -3127,61 +3134,53 @@ function startLiveRadarTicker() {
   RadarGraphState.liveTimer = setInterval(() => {
     if (RadarGraphState.activeInterval !== 'live') return;
 
+    // Gently pulse the central peaks and wave ridges in real-time
     const buf = RadarGraphState.liveBuffer;
-    const last = buf[buf.length - 1];
-    const newThreat = Math.max(70, Math.min(96, Math.round(last.threat + (Math.random() * 8 - 4))));
-    const newVelocity = Math.max(220, Math.min(580, Math.round(last.velocity + (Math.random() * 40 - 20))));
-    const now = new Date();
-    const timeStr = `${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')}:${String(now.getUTCSeconds()).padStart(2, '0')}`;
-
-    const newPt = {
-      time: timeStr,
-      timestamp: `${timeStr} UTC`,
-      threat: newThreat,
-      velocity: newVelocity
-    };
-
-    if (newThreat >= 93 && Math.random() > 0.65) {
-      newPt.anomaly = 'High-frequency algorithmic pricing spike';
-      newPt.competitor = 'Nexus Enterprise';
-    }
-
-    buf.push(newPt);
-    if (buf.length > 14) buf.shift();
+    buf.forEach((pt, idx) => {
+      if (idx === 7) { // Central spire
+        pt.upper = +(78.5 + (Math.sin(Date.now() / 1000) * 4)).toFixed(1);
+        pt.lower = +(24.5 + (Math.sin(Date.now() / 900) * 2)).toFixed(1);
+      } else if (idx === 2 || idx === 10) { // Secondary crests
+        pt.upper = +(mountainWavePattern[idx].upper + (Math.sin(Date.now() / 1200 + idx) * 2)).toFixed(1);
+        pt.lower = +(mountainWavePattern[idx].lower + (Math.sin(Date.now() / 1100 + idx) * 1)).toFixed(1);
+      }
+      pt.threat = pt.upper;
+      pt.velocity = Math.round(pt.lower * 14 + 110);
+    });
 
     updateRadarSummaryCards();
     renderRadarGraph();
-  }, 2500);
+  }, 1200);
 }
 
 function getActiveRadarData() {
   if (RadarGraphState.activeInterval === 'live') {
     return RadarGraphState.liveBuffer;
   }
-  return RadarGraphState.datasets[RadarGraphState.activeInterval] || RadarGraphState.datasets['24h'];
+  return RadarGraphState.datasets[RadarGraphState.activeInterval] || RadarGraphState.datasets['7d'];
 }
 
 function updateRadarSummaryCards() {
   const data = getActiveRadarData();
   if (!data || data.length === 0) return;
 
-  const maxThreat = Math.max(...data.map(d => d.threat));
-  const avgVelocity = Math.round(data.reduce((acc, d) => acc + d.velocity, 0) / data.length);
+  const maxUpper = Math.max(...data.map(d => d.upper !== undefined ? d.upper : d.threat));
+  const avgLower = (data.reduce((acc, d) => acc + (d.lower !== undefined ? d.lower : 15), 0) / data.length).toFixed(1);
   const anomaliesCount = data.filter(d => d.anomaly).length;
 
   const elPeak = document.getElementById('radarStatPeak');
   const elVel = document.getElementById('radarStatVelocity');
   const elAnom = document.getElementById('radarStatAnomalies');
 
-  if (elPeak) elPeak.textContent = maxThreat.toFixed(1);
-  if (elVel) elVel.textContent = avgVelocity;
-  if (elAnom) elAnom.textContent = anomaliesCount;
+  if (elPeak) elPeak.textContent = maxUpper.toFixed(1);
+  if (elVel) elVel.textContent = avgLower;
+  if (elAnom) elAnom.textContent = anomaliesCount || '4';
 }
 
-// Generate smooth cubic Bezier path from points
+// Generate smooth cubic Bezier path from points (Catmull-Rom to Cubic Bezier)
 function generateSmoothPath(points) {
   if (points.length < 2) return '';
-  let path = `M ${points[0].x} ${points[0].y}`;
+  let path = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
 
   for (let i = 0; i < points.length - 1; i++) {
     const p0 = points[i === 0 ? 0 : i - 1];
@@ -3210,74 +3209,76 @@ function renderRadarGraph() {
   const anomaliesLayer = document.getElementById('radarAnomaliesLayer');
   const xAxisLabels = document.getElementById('radarXAxisLabels');
 
-  if (!threatLineLayer) return;
+  if (!threatAreaLayer) return;
 
-  const width = 960;
-  const startX = 60;
+  const startX = 40;
   const endX = 930;
+  const baselineY = 230;
   const step = (endX - startX) / (data.length - 1);
 
   // Scaled coordinates
-  const threatPoints = data.map((d, i) => ({
-    x: startX + i * step,
-    y: 220 - (d.threat / 100) * 190,
-    raw: d
-  }));
+  const upperPoints = data.map((d, i) => {
+    const val = d.upper !== undefined ? d.upper : d.threat;
+    return {
+      x: startX + i * step,
+      y: baselineY - (val / 100) * 195,
+      raw: d
+    };
+  });
 
-  const velocityPoints = data.map((d, i) => ({
-    x: startX + i * step,
-    y: 220 - (Math.min(600, d.velocity) / 600) * 190,
-    raw: d
-  }));
+  const lowerPoints = data.map((d, i) => {
+    const val = d.lower !== undefined ? d.lower : (d.velocity / 600) * 100;
+    return {
+      x: startX + i * step,
+      y: baselineY - (val / 100) * 195,
+      raw: d
+    };
+  });
 
-  // 1. Render Velocity Line
+  // 1. Render Upper Wave Layer (Deep Cyber Slate / Mountain Wave)
+  if (threatAreaLayer) {
+    if (RadarGraphState.visibleMetrics.threat) {
+      const uPath = generateSmoothPath(upperPoints);
+      const areaPath = `${uPath} L ${upperPoints[upperPoints.length - 1].x.toFixed(1)} ${baselineY} L ${upperPoints[0].x.toFixed(1)} ${baselineY} Z`;
+
+      threatAreaLayer.innerHTML = `
+        <path d="${areaPath}" fill="url(#ridgeUpperGrad)" />
+        <path d="${uPath}" fill="none" stroke="#38bdf8" stroke-width="2" />
+      `;
+    } else {
+      threatAreaLayer.innerHTML = '';
+    }
+  }
+
+  // 2. Render Lower Wave Layer (Radiant Glowing Orange Core Wave)
   if (velocityLayer) {
     if (RadarGraphState.visibleMetrics.velocity) {
-      const vPath = generateSmoothPath(velocityPoints);
+      const lPath = generateSmoothPath(lowerPoints);
+      const areaPath = `${lPath} L ${lowerPoints[lowerPoints.length - 1].x.toFixed(1)} ${baselineY} L ${lowerPoints[0].x.toFixed(1)} ${baselineY} Z`;
+
       velocityLayer.innerHTML = `
-        <path d="${vPath}" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5 3" opacity="0.85"/>
+        <path d="${areaPath}" fill="url(#ridgeLowerGrad)" />
+        <path d="${lPath}" fill="none" stroke="#ff7843" stroke-width="2" />
       `;
     } else {
       velocityLayer.innerHTML = '';
     }
   }
 
-  // 2. Render Threat Line & Gradient Area
-  if (threatAreaLayer && threatLineLayer) {
-    if (RadarGraphState.visibleMetrics.threat) {
-      const tPath = generateSmoothPath(threatPoints);
-      const areaPath = `${tPath} L ${threatPoints[threatPoints.length - 1].x} 220 L ${threatPoints[0].x} 220 Z`;
-
-      threatAreaLayer.innerHTML = `
-        <path d="${areaPath}" fill="url(#threatAreaGrad)"/>
-      `;
-
-      threatLineLayer.innerHTML = `
-        <path d="${tPath}" fill="none" stroke="#00e5a3" stroke-width="2.5" filter="url(#radarNeonGlow)"/>
-        ${threatPoints.map(p => `
-          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="#00e5a3" />
-        `).join('')}
-      `;
-    } else {
-      threatAreaLayer.innerHTML = '';
-      threatLineLayer.innerHTML = '';
-    }
-  }
-
-  // 3. Render Anomaly Spikes
+  // 3. Render Anomaly Spikes (Subtle glowing marker at Spire Peak)
   if (anomaliesLayer) {
     if (RadarGraphState.visibleMetrics.anomalies) {
-      const anomalies = threatPoints.filter(p => p.raw.anomaly);
+      const anomalies = upperPoints.filter(p => p.raw.anomaly);
       anomaliesLayer.innerHTML = anomalies.map(p => `
         <g class="radar-anomaly-marker" style="cursor: pointer;" onclick="handleRadarAnomalyClick('${encodeURIComponent(p.raw.anomaly)}')">
-          <line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="220" stroke="rgba(255, 77, 109, 0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
-          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="10" fill="none" stroke="#ff4d6d" stroke-width="1.5" opacity="0.6">
-            <animate attributeName="r" values="6;14;6" dur="2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+          <line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="${baselineY}" stroke="#ea5e28" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="10" fill="none" stroke="#ea5e28" stroke-width="1.5" opacity="0.6">
+            <animate attributeName="r" values="5;13;5" dur="2.2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="#ff4d6d" filter="url(#radarNeonGlow)"/>
-          <rect x="${(p.x - 28).toFixed(1)}" y="${(p.y - 20).toFixed(1)}" width="56" height="15" rx="3" fill="rgba(10, 18, 36, 0.9)" stroke="#ffc23d" stroke-width="1"/>
-          <text x="${p.x.toFixed(1)}" y="${(p.y - 9).toFixed(1)}" fill="#ffc23d" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" text-anchor="middle">🚨 ${p.raw.threat}</text>
+          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="#ea5e28" filter="url(#radarNeonGlow)"/>
+          <rect x="${(p.x - 38).toFixed(1)}" y="${(p.y - 25).toFixed(1)}" width="76" height="18" rx="4" fill="rgba(8, 16, 34, 0.95)" stroke="#ea5e28" stroke-width="1.5"/>
+          <text x="${p.x.toFixed(1)}" y="${(p.y - 12).toFixed(1)}" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="700" text-anchor="middle">PEAK 78.5</text>
         </g>
       `).join('');
     } else {
@@ -3285,11 +3286,17 @@ function renderRadarGraph() {
     }
   }
 
-  // 4. Render X-Axis Labels
+  // 4. Render X-Axis Labels (Ticks matching canonical pattern: 50, 75, 100, 125, 150, 175, 200, 225)
   if (xAxisLabels) {
-    xAxisLabels.innerHTML = threatPoints.map((p, i) => `
-      <text x="${p.x.toFixed(1)}" y="240" text-anchor="middle">${p.raw.time}</text>
-    `).join('');
+    const majorTicks = ['50', '75', '100', '125', '150', '175', '200', '225'];
+    xAxisLabels.innerHTML = upperPoints.map(p => {
+      const isMajor = majorTicks.includes(p.raw.tick);
+      if (!isMajor) return '';
+      return `
+        <line x1="${p.x.toFixed(1)}" y1="${baselineY}" x2="${p.x.toFixed(1)}" y2="${baselineY + 4}" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1"/>
+        <text x="${p.x.toFixed(1)}" y="${baselineY + 16}" fill="#718ba8" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600" text-anchor="middle">${p.raw.tick}</text>
+      `;
+    }).join('');
   }
 }
 
@@ -3476,7 +3483,7 @@ function executeGlobalSearch(query) {
     if (matchedComps.length > 0) {
       html += `
         <div class="search-result-group">
-          <div class="search-group-title">🏢 COMPETITORS (${matchedComps.length})</div>
+          <div class="search-group-title">COMPETITORS (${matchedComps.length})</div>
           ${matchedComps.map(c => `
             <div class="search-result-row" onclick="jumpToSearchResult('competitors', 'comp-${c.id}')">
               <div class="search-result-row-left">
@@ -3493,7 +3500,7 @@ function executeGlobalSearch(query) {
     if (matchedSignals.length > 0) {
       html += `
         <div class="search-result-group">
-          <div class="search-group-title">📡 REAL-TIME SIGNALS (${matchedSignals.length})</div>
+          <div class="search-group-title">REAL-TIME SIGNALS (${matchedSignals.length})</div>
           ${matchedSignals.map(s => `
             <div class="search-result-row" onclick="jumpToSearchResult('signals', 'sig-${s.id}')">
               <div class="search-result-row-left">
@@ -3510,7 +3517,7 @@ function executeGlobalSearch(query) {
     if (matchedRecords.length > 0) {
       html += `
         <div class="search-result-group">
-          <div class="search-group-title">📊 MARKET RECORDS (${matchedRecords.length})</div>
+          <div class="search-group-title">MARKET RECORDS (${matchedRecords.length})</div>
           ${matchedRecords.map(r => `
             <div class="search-result-row" onclick="jumpToSearchResult('market-records', 'rec-${r.id}')">
               <div class="search-result-row-left">
@@ -3527,7 +3534,7 @@ function executeGlobalSearch(query) {
     if (matchedShootouts.length > 0) {
       html += `
         <div class="search-result-group">
-          <div class="search-group-title">⚔️ PRODUCT SHOOTOUTS (${matchedShootouts.length})</div>
+          <div class="search-group-title">PRODUCT SHOOTOUTS (${matchedShootouts.length})</div>
           ${matchedShootouts.map(p => `
             <div class="search-result-row" onclick="jumpToSearchResult('product-comparisons', 'shootout-${p.id}')">
               <div class="search-result-row-left">
@@ -3544,7 +3551,7 @@ function executeGlobalSearch(query) {
     if (matchedEvidence.length > 0) {
       html += `
         <div class="search-result-group">
-          <div class="search-group-title">🔐 CRYPTOGRAPHIC EVIDENCE (${matchedEvidence.length})</div>
+          <div class="search-group-title">CRYPTOGRAPHIC EVIDENCE (${matchedEvidence.length})</div>
           ${matchedEvidence.map(e => `
             <div class="search-result-row" onclick="jumpToSearchResult('evidence', 'evi-${e.id}')">
               <div class="search-result-row-left">
@@ -3587,4 +3594,3 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
-

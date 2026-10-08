@@ -23,7 +23,7 @@ function initAudioEngine() {
       ensureAudioContext();
       soundEnabled = !soundEnabled;
       audioBtn.classList.toggle('active-toggle', soundEnabled);
-      audioBtn.querySelector('span').textContent = soundEnabled ? '🔊 AUDIO: ON' : '🔇 AUDIO: OFF';
+      audioBtn.querySelector('span').textContent = soundEnabled ? 'AUDIO: ON' : 'AUDIO: OFF';
       if (soundEnabled) playSound('powerup');
     });
   }
