@@ -25,7 +25,7 @@
   font-family: var(--font-tech);
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Background Cyber Grid */
@@ -1692,8 +1692,10 @@
   flex-direction: column;
   transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 95;
-  position: sticky;
+  position: fixed;
   top: 64px;
+  left: 0;
+  bottom: 0;
   height: calc(100vh - 64px);
   max-height: calc(100vh - 64px);
   overflow-y: auto;
@@ -1933,12 +1935,21 @@
   justify-content: center;
 }
 
-/* Main Content Pane Beside Slidebar */
+/* Main Content Pane Beside Frozen Slidebar */
 .dash-content-pane {
   flex: 1;
   min-width: 0;
+  margin-left: 260px;
+  width: calc(100% - 260px);
   padding: 1.75rem clamp(1rem, 2.5vw, 2.5rem) 4rem;
-  overflow-y: auto;
+  transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1), width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dash-slidebar.collapsed ~ .dash-content-pane,
+.dash-slidebar.collapsed + .dash-content-pane,
+body.slidebar-is-collapsed .dash-content-pane {
+  margin-left: 76px;
+  width: calc(100% - 76px);
 }
 
 /* Mobile Slidebar Bar & Hamburger */
@@ -2023,6 +2034,8 @@
   }
 
   .dash-content-pane {
+    margin-left: 0 !important;
+    width: 100% !important;
     padding: 1.25rem clamp(0.85rem, 2vw, 1.5rem) 3rem;
   }
 
@@ -2618,18 +2631,6 @@
     var(--space-black);
 }
 
-.dash-slidebar {
-  width: 260px;
-  min-width: 260px;
-  background: rgba(6, 11, 23, 0.98);
-  position: sticky;
-  top: 64px;
-  height: calc(100vh - 64px);
-  max-height: calc(100vh - 64px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  flex-shrink: 0;
-}
 
 .slidebar-nav {
   padding: 0.85rem 0.7rem;

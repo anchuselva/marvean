@@ -1406,6 +1406,7 @@ function initSlidebar() {
     const isCollapsed = localStorage.getItem('mv_slidebar_collapsed') === 'true';
     if (isCollapsed && slidebar) {
       slidebar.classList.add('collapsed');
+      document.body.classList.add('slidebar-is-collapsed');
       if (toggleIcon) toggleIcon.textContent = '▶';
     }
   } catch (e) {}
@@ -1413,6 +1414,7 @@ function initSlidebar() {
   function toggleDesktopCollapse() {
     if (!slidebar) return;
     const collapsed = slidebar.classList.toggle('collapsed');
+    document.body.classList.toggle('slidebar-is-collapsed', collapsed);
     if (toggleIcon) toggleIcon.textContent = collapsed ? '▶' : '◀';
     try {
       localStorage.setItem('mv_slidebar_collapsed', collapsed ? 'true' : 'false');
@@ -1424,12 +1426,14 @@ function initSlidebar() {
     if (!slidebar) return;
     const isOpen = slidebar.classList.toggle('mobile-open');
     if (backdrop) backdrop.classList.toggle('active', isOpen);
+    document.body.classList.toggle('slidebar-mobile-locked', isOpen);
     playTone('select');
   }
 
   function closeMobileSlidebar() {
     if (slidebar) slidebar.classList.remove('mobile-open');
     if (backdrop) backdrop.classList.remove('active');
+    document.body.classList.remove('slidebar-mobile-locked');
   }
   window.closeMobileSlidebar = closeMobileSlidebar;
 
