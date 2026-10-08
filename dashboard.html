@@ -462,13 +462,13 @@
         <div class="radar-header">
           <div class="radar-title-group">
             <div class="radar-eyebrow">
-              <span class="radar-live-badge"><span class="radar-live-dot"></span> LIVE SIGINT</span>
-              <span>// MULTI-VECTOR RADAR TELEMETRY</span>
+              <span class="radar-live-badge" id="radarLiveBadge"><span class="radar-live-dot"></span> <span id="radarLiveBadgeText">LIVE SIGINT</span></span>
+              <span id="radarEyebrowText">// MULTI-VECTOR RADAR TELEMETRY</span>
             </div>
-            <h2 class="radar-main-title">
+            <h2 class="radar-main-title" id="radarMainTitle">
               Market Signal Velocity &amp; Competitive Threat Radar
             </h2>
-            <p class="radar-sub-desc">
+            <p class="radar-sub-desc" id="radarSubDesc">
               Real-time algorithmic threat index aggregation, pricing disruption anomaly spikes, and commercial signal ingestion telemetry.
             </p>
           </div>
@@ -476,14 +476,14 @@
           <div class="radar-controls-toolbar">
             <!-- Metric Visibility Toggles -->
             <div class="radar-metric-toggles">
-              <button class="radar-metric-chip metric-threat active" id="toggleThreatMetric" data-metric="threat" title="Slate Envelope Wave">
-                <span style="color: #38bdf8; font-size: 1.1em;">■</span> Upper Envelope (Slate)
+              <button class="radar-metric-chip metric-threat active" id="toggleThreatMetric" data-metric="threat" title="Upper Envelope Wave">
+                <span style="color: #38bdf8; font-size: 1.1em;">■</span> <span id="labelThreatMetric">Upper Envelope (Slate)</span>
               </button>
               <button class="radar-metric-chip metric-velocity active" id="toggleVelocityMetric" data-metric="velocity" title="Radiant Orange Core Wave">
-                <span style="color: #ea5e28; font-size: 1.1em;">■</span> Core Signal (Orange)
+                <span style="color: #ea5e28; font-size: 1.1em;">■</span> <span id="labelVelocityMetric">Core Signal (Orange)</span>
               </button>
               <button class="radar-metric-chip metric-anomalies active" id="toggleAnomaliesMetric" data-metric="anomalies" title="Algorithmic Anomaly Spikes">
-                <span style="color: #ffc23d;">●</span> Anomaly Spikes
+                <span style="color: #ffc23d;">●</span> <span id="labelAnomaliesMetric">Anomaly Spikes</span>
               </button>
             </div>
           </div>
@@ -492,31 +492,31 @@
         <!-- Telemetry Key Metrics Mini-Ribbon -->
         <div class="radar-stats-ribbon">
           <div class="radar-stat-box">
-            <span class="radar-stat-label">Peak Spire Intensity</span>
+            <span class="radar-stat-label" id="radarStatLabelPeak">Peak Spire Intensity</span>
             <div class="radar-stat-val text-red">
               <span id="radarStatPeak">78.5</span>
-              <span style="font-size: 0.65rem; color: #ea5e28;">SPIRE [MAX]</span>
+              <span id="radarStatSubPeak" style="font-size: 0.65rem; color: #ea5e28;">SPIRE [MAX]</span>
             </div>
           </div>
           <div class="radar-stat-box">
-            <span class="radar-stat-label">Core Signal Mean</span>
+            <span class="radar-stat-label" id="radarStatLabelVelocity">Core Signal Mean</span>
             <div class="radar-stat-val text-cyan">
               <span id="radarStatVelocity">24.5</span>
-              <span style="font-size: 0.65rem; color: #f97316;">ORANGE WAVE</span>
+              <span id="radarStatSubVelocity" style="font-size: 0.65rem; color: #f97316;">ORANGE WAVE</span>
             </div>
           </div>
           <div class="radar-stat-box">
-            <span class="radar-stat-label">Tracked Anomaly Spikes</span>
+            <span class="radar-stat-label" id="radarStatLabelAnomalies">Tracked Anomaly Spikes</span>
             <div class="radar-stat-val text-yellow">
               <span id="radarStatAnomalies">4</span>
-              <span style="font-size: 0.65rem; color: var(--arcade-yellow);">PEAK EVENTS</span>
+              <span id="radarStatSubAnomalies" style="font-size: 0.65rem; color: var(--arcade-yellow);">PEAK EVENTS</span>
             </div>
           </div>
           <div class="radar-stat-box">
-            <span class="radar-stat-label">Horizon Status</span>
+            <span class="radar-stat-label" id="radarStatLabelHorizon">Horizon Status</span>
             <div class="radar-stat-val text-teal">
               <span id="radarStatHorizon">OPTIMAL</span>
-              <span style="font-size: 0.65rem; color: var(--arcade-teal);">99.4% CONF</span>
+              <span id="radarStatSubHorizon" style="font-size: 0.65rem; color: var(--arcade-teal);">99.4% CONF</span>
             </div>
           </div>
         </div>

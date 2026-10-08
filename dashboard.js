@@ -1370,6 +1370,11 @@ function switchDashboardTab(target) {
     breadcrumb.textContent = titles[target] || target.toUpperCase();
   }
 
+  // Update topic-specific radar telemetry graph
+  if (typeof applyTopicRadar === 'function') {
+    applyTopicRadar(target);
+  }
+
   // Auto-close mobile slidebar if open
   closeMobileSlidebar();
 
@@ -2947,6 +2952,11 @@ function initDeveloperConsole() {
    UNIQUE TELEMETRY GRAPH: DUAL-LAYER MOUNTAIN DENSITY SPLINE RADAR
    Pattern: High dark-slate mountain envelope + foreground radiant orange wave
    ========================================================================== */
+/* ==========================================================================
+   UNIQUE TELEMETRY GRAPH: MULTI-TOPIC DYNAMIC DUAL-SPLINE RADAR
+   Pattern: High dark-slate mountain envelope + foreground radiant orange wave
+   Each slidebar topic dynamically drives the radar graphics, metrics, and peaks!
+   ========================================================================== */
 const mountainWavePattern = [
   { tick: '25',  xVal: 25,  upper: 0.2,  lower: 0.0, time: '25',  timestamp: 'Signal Phase 25' },
   { tick: '50',  xVal: 50,  upper: 3.8,  lower: 1.2, time: '50',  timestamp: 'Signal Phase 50' },
@@ -2968,38 +2978,342 @@ const mountainWavePattern = [
   { tick: '255', xVal: 255, upper: 0.0,  lower: 0.0,  time: '255', timestamp: 'Baseline' }
 ];
 
-function generateWaveDataset(scaleUpper = 1.0, scaleLower = 1.0, labelPrefix = '') {
-  return mountainWavePattern.map(p => ({
-    ...p,
-    time: p.tick,
-    timestamp: labelPrefix ? `${labelPrefix} • Scope ${p.tick}` : `Signal Index ${p.tick}`,
-    threat: +(p.upper * scaleUpper).toFixed(1),
-    velocity: Math.round(p.lower * scaleLower * 14 + 110),
-    upper: +(p.upper * scaleUpper).toFixed(1),
-    lower: +(p.lower * scaleLower).toFixed(1),
-    competitor: p.anomaly ? 'Nexus Intelligence Core' : undefined
-  }));
-}
+const TopicRadarConfigs = {
+  'competitors': {
+    badge: 'COMPETITOR INTEL',
+    eyebrow: '// TIER-1 DIRECT & EMERGING THREAT TRAJECTORY',
+    title: 'Competitor Threat Index & Market Share Radar',
+    description: 'Algorithmic threat index aggregation across Tier-1 Direct, Challengers, and Emerging competitive profiles (Nexus, OmniRadar, Apex, QuantEdge).',
+    labels: {
+      threat: 'Threat Severity (Slate)',
+      velocity: 'Market Presence (Orange)',
+      anomalies: 'M&A / Price Disruption'
+    },
+    stats: {
+      peakLabel: 'Peak Threat Intensity',
+      peakVal: '94.2',
+      peakSub: 'NEXUS [CRITICAL]',
+      velocityLabel: 'Market Presence Mean',
+      velocityVal: '76.8',
+      velocitySub: 'ORANGE WAVE',
+      anomaliesLabel: 'Tracked Competitors',
+      anomaliesVal: '4',
+      anomaliesSub: 'ACTIVE PROFILES',
+      horizonLabel: 'Surveillance Status',
+      horizonVal: 'TIER-1 ACTIVE',
+      horizonSub: '99.2% SURVEILLANCE'
+    },
+    wavePattern: [
+      { tick: '25',  xVal: 25,  upper: 12.0, lower: 8.0,  time: 'NXUS', timestamp: 'Nexus Base Rate' },
+      { tick: '50',  xVal: 50,  upper: 24.0, lower: 14.5, time: 'NXUS', timestamp: 'Nexus Enterprise Expansion' },
+      { tick: '65',  xVal: 65,  upper: 55.0, lower: 28.0, time: 'NXUS', timestamp: 'Nexus Cloud Disruption' },
+      { tick: '78',  xVal: 78,  upper: 42.0, lower: 22.0, time: 'OMRD', timestamp: 'OmniRadar Signal Baseline' },
+      { tick: '92',  xVal: 92,  upper: 48.0, lower: 26.0, time: 'OMRD', timestamp: 'OmniRadar Scraper Telemetry' },
+      { tick: '105', xVal: 105, upper: 62.0, lower: 34.0, time: 'OMRD', timestamp: 'OmniRadar Retail Pressure' },
+      { tick: '115', xVal: 115, upper: 74.0, lower: 42.0, time: 'NXUS', timestamp: 'Nexus APAC Price Drop Warning' },
+      { tick: '125', xVal: 125, upper: 94.2, lower: 56.0, time: 'NXUS', timestamp: 'Nexus Enterprise (Critical Threat)', anomaly: 'Nexus APAC 15% Price Reduction Alert' },
+      { tick: '136', xVal: 136, upper: 68.0, lower: 38.0, time: 'OMRD', timestamp: 'OmniRadar SignalForge M&A', anomaly: 'OmniRadar $120M SignalForge Acquisition' },
+      { tick: '144', xVal: 144, upper: 38.0, lower: 20.0, time: 'APEX', timestamp: 'Apex Market Intel Seed' },
+      { tick: '155', xVal: 155, upper: 52.0, lower: 29.0, time: 'APEX', timestamp: 'Apex Patent Radar Ingestion' },
+      { tick: '168', xVal: 168, upper: 34.0, lower: 18.0, time: 'QED',  timestamp: 'QuantEdge Financial Signals' },
+      { tick: '180', xVal: 180, upper: 44.0, lower: 24.0, time: 'QED',  timestamp: 'QuantEdge B2B Data Pivot' },
+      { tick: '195', xVal: 195, upper: 28.0, lower: 15.0, time: 'APEX', timestamp: 'Apex Sovereign Fund Expansion' },
+      { tick: '210', xVal: 210, upper: 16.0, lower: 9.0,  time: 'NXUS', timestamp: 'Nexus Post-Drop Stabilization' },
+      { tick: '225', xVal: 225, upper: 8.0,  lower: 4.5,  time: 'ALL',  timestamp: 'Global Market Consolidation' },
+      { tick: '240', xVal: 240, upper: 3.0,  lower: 1.5,  time: 'ALL',  timestamp: 'Dossier Telemetry Steady' },
+      { tick: '255', xVal: 255, upper: 0.5,  lower: 0.2,  time: 'ALL',  timestamp: 'Baseline Horizon' }
+    ]
+  },
+  'market-records': {
+    badge: 'MARKET INTEL',
+    eyebrow: '// OBSERVATION VECTORS & INDUSTRY TRENDS',
+    title: 'Market Telemetry & Industry Disruption Velocity Radar',
+    description: 'Cross-border commerce pricing compression, satellite AIS trade routes, and USPTO patent landscape sentiment extraction across 14,000 SKU endpoints.',
+    labels: {
+      threat: 'Disruption Intensity (Slate)',
+      velocity: 'Observation Velocity (Orange)',
+      anomalies: 'Price Compression Spikes'
+    },
+    stats: {
+      peakLabel: 'Price Compression Delta',
+      peakVal: '12.8%',
+      peakSub: 'Q3/Q4 AUDIT',
+      velocityLabel: 'Observation Confidence',
+      velocityVal: '98.8%',
+      velocitySub: 'ORANGE WAVE',
+      anomaliesLabel: 'Published Records',
+      anomaliesVal: '3',
+      anomaliesSub: 'DISRUPTION AUDITS',
+      horizonLabel: 'AIS Telemetry Latency',
+      horizonVal: '< 15m',
+      horizonSub: 'CONTINUOUS FEED'
+    },
+    wavePattern: [
+      { tick: '25',  xVal: 25,  upper: 4.0,  lower: 2.0,  time: 'Q1', timestamp: 'Baseline SKU Pricing' },
+      { tick: '50',  xVal: 50,  upper: 16.0, lower: 8.0,  time: 'Q2', timestamp: 'APAC Route Ingestion' },
+      { tick: '65',  xVal: 65,  upper: 38.0, lower: 18.0, time: 'Q2', timestamp: 'Satellite AIS Disruption' },
+      { tick: '78',  xVal: 78,  upper: 28.0, lower: 14.0, time: 'Q3', timestamp: 'Freight Rate Dynamic Shift' },
+      { tick: '92',  xVal: 92,  upper: 46.0, lower: 24.0, time: 'Q3', timestamp: 'Vendor Discounting Detection' },
+      { tick: '105', xVal: 105, upper: 58.0, lower: 31.0, time: 'Q3', timestamp: 'SEC 10-Q Disclosures Peak' },
+      { tick: '115', xVal: 115, upper: 76.0, lower: 44.0, time: 'Q3', timestamp: '14,000 SKU Audit Run' },
+      { tick: '125', xVal: 125, upper: 88.5, lower: 52.0, time: 'Q3', timestamp: 'Global Enterprise SaaS Compression', anomaly: '12.8% Enterprise License Compression Spire' },
+      { tick: '136', xVal: 136, upper: 64.0, lower: 36.0, time: 'Q4', timestamp: 'Singapore Port Authority AIS Feed', anomaly: 'Autonomous AIS Satellite Telemetry Surge' },
+      { tick: '144', xVal: 144, upper: 32.0, lower: 18.0, time: 'Q4', timestamp: 'Patent NLP Sentiment Extraction' },
+      { tick: '155', xVal: 155, upper: 60.0, lower: 35.0, time: 'Q4', timestamp: '32 USPTO Transformer NLP Patents', anomaly: '32 USPTO AI Patents Granted' },
+      { tick: '168', xVal: 168, upper: 35.0, lower: 19.0, time: 'Q4', timestamp: 'SEC Form 8-K Autonomous Scraper' },
+      { tick: '180', xVal: 180, upper: 42.0, lower: 22.0, time: 'Q4', timestamp: 'Cross-Border Tariff Telemetry' },
+      { tick: '195', xVal: 195, upper: 24.0, lower: 12.0, time: 'Q4', timestamp: 'E-Commerce Rate Card Index' },
+      { tick: '210', xVal: 210, upper: 14.0, lower: 7.0,  time: 'Q4', timestamp: 'Batch ETL Blind Spot Audit' },
+      { tick: '225', xVal: 225, upper: 6.0,  lower: 3.0,  time: 'Q4', timestamp: 'Telemetry Ingestion Steady' },
+      { tick: '240', xVal: 240, upper: 2.0,  lower: 1.0,  time: 'Q4', timestamp: 'Market Baseline Horizon' },
+      { tick: '255', xVal: 255, upper: 0.5,  lower: 0.2,  time: 'Q4', timestamp: 'Final Quorum' }
+    ]
+  },
+  'product-comparisons': {
+    badge: 'SHOOTOUT RADAR',
+    eyebrow: '// MARVEAN VS NEXUS & OMNIRADAR BENCHMARK MATRIX',
+    title: 'Competitive Shootout Advantage & Feature Latency Radar',
+    description: 'Head-to-head feature matrix and benchmark results: Marvean sub-15m continuous stream vs competitor 4-12h batch ETL and unverified web scraping.',
+    labels: {
+      threat: 'Latency Advantage (Slate)',
+      velocity: 'Attribute Score (Orange)',
+      anomalies: 'Win Decisive Factors'
+    },
+    stats: {
+      peakLabel: 'Latency Advantage Delta',
+      peakVal: '84%',
+      peakSub: 'SUB-15M STREAM',
+      velocityLabel: 'Shootout Win Ratio',
+      velocityVal: '5/5',
+      velocitySub: 'ALL ATTRIBUTES',
+      anomaliesLabel: 'Verified Shootouts',
+      anomaliesVal: '2',
+      anomaliesSub: 'DIRECT MATRICES',
+      horizonLabel: 'Decision Standard',
+      horizonVal: 'AI AUTONOMOUS',
+      horizonSub: 'SHA-256 AUDITED'
+    },
+    wavePattern: [
+      { tick: '25',  xVal: 25,  upper: 10.0, lower: 6.0,  time: 'P1',  timestamp: 'Catalog Intelligence Baseline' },
+      { tick: '50',  xVal: 50,  upper: 25.0, lower: 15.0, time: 'P2',  timestamp: 'Pricing Tier Flat vs Per-Seat' },
+      { tick: '65',  xVal: 65,  upper: 48.0, lower: 30.0, time: 'P3',  timestamp: 'Multi-Source Signal Ingestion' },
+      { tick: '78',  xVal: 78,  upper: 38.0, lower: 22.0, time: 'P4',  timestamp: 'SEC EDGAR Automated Extraction' },
+      { tick: '92',  xVal: 92,  upper: 62.0, lower: 38.0, time: 'P5',  timestamp: 'Evidence Governance Validation' },
+      { tick: '105', xVal: 105, upper: 72.0, lower: 46.0, time: 'P6',  timestamp: 'USPTO Claim Verification' },
+      { tick: '115', xVal: 115, upper: 85.0, lower: 55.0, time: 'P7',  timestamp: 'Decision Matrix AI Automation' },
+      { tick: '125', xVal: 125, upper: 96.0, lower: 68.0, time: 'P8',  timestamp: 'Sub-15m Ingestion vs 12h Batch ETL', anomaly: 'Latency Shootout: <15m vs 12h Batch ETL (84% Faster)' },
+      { tick: '136', xVal: 136, upper: 78.0, lower: 48.0, time: 'P9',  timestamp: 'Predictable Flat Pricing ($3,500/mo)', anomaly: 'Flat Enterprise Tier ($3.5k) vs Competitor ($12.5k+)' },
+      { tick: '144', xVal: 144, upper: 44.0, lower: 26.0, time: 'P10', timestamp: 'OmniRadar Real-Time Comparison' },
+      { tick: '155', xVal: 155, upper: 66.0, lower: 40.0, time: 'P11', timestamp: 'Court & Antitrust Synthesis' },
+      { tick: '168', xVal: 168, upper: 40.0, lower: 24.0, time: 'P12', timestamp: 'Executive Takeout Briefing Matrix' },
+      { tick: '180', xVal: 180, upper: 50.0, lower: 30.0, time: 'P13', timestamp: 'Cryptographic Provenance Score' },
+      { tick: '195', xVal: 195, upper: 30.0, lower: 18.0, time: 'P14', timestamp: 'Fortune 500 Win Benchmark' },
+      { tick: '210', xVal: 210, upper: 18.0, lower: 10.0, time: 'P15', timestamp: 'Review Signoff by Chief Analyst' },
+      { tick: '225', xVal: 225, upper: 8.0,  lower: 4.5,  time: 'P16', timestamp: 'Quarterly Matrix Refresh' },
+      { tick: '240', xVal: 240, upper: 3.0,  lower: 1.5,  time: 'P17', timestamp: 'Active Comparison Steady' },
+      { tick: '255', xVal: 255, upper: 0.5,  lower: 0.2,  time: 'P18', timestamp: 'Matrix Ready' }
+    ]
+  },
+  'signals': {
+    badge: 'LIVE SIGINT',
+    eyebrow: '// MULTI-VECTOR RADAR TELEMETRY',
+    title: 'Market Signal Velocity & Competitive Threat Radar',
+    description: 'Real-time algorithmic threat index aggregation, pricing disruption anomaly spikes, and commercial signal ingestion telemetry.',
+    labels: {
+      threat: 'Upper Envelope (Slate)',
+      velocity: 'Core Signal (Orange)',
+      anomalies: 'Anomaly Spikes'
+    },
+    stats: {
+      peakLabel: 'Peak Spire Intensity',
+      peakVal: '78.5',
+      peakSub: 'SPIRE [MAX]',
+      velocityLabel: 'Core Signal Mean',
+      velocityVal: '24.5',
+      velocitySub: 'ORANGE WAVE',
+      anomaliesLabel: 'Tracked Anomaly Spikes',
+      anomaliesVal: '4',
+      anomaliesSub: 'PEAK EVENTS',
+      horizonLabel: 'Horizon Status',
+      horizonVal: 'OPTIMAL',
+      horizonSub: '99.4% CONF'
+    },
+    wavePattern: mountainWavePattern
+  },
+  'evidence': {
+    badge: 'SHA-256 AUDIT',
+    eyebrow: '// CRYPTOGRAPHIC EVIDENCE CHAINS & STRATEGIC BRIEFS',
+    title: 'Cryptographic Evidence Provenance & Strategic Impact Radar',
+    description: 'Cryptographic SHA-256 hash validation across SEC EDGAR 10-Q filings, USPTO patents, and immediate tactical counter-moves.',
+    labels: {
+      threat: 'Strategic Impact (Slate)',
+      velocity: 'Provenance Trust (Orange)',
+      anomalies: 'Verified Proofs'
+    },
+    stats: {
+      peakLabel: 'Hash Verification Rate',
+      peakVal: '100%',
+      peakSub: 'SHA-256 MATCH',
+      velocityLabel: 'Strategic Horizon',
+      velocityVal: 'Tactical (1-6mo)',
+      velocitySub: 'ORANGE WAVE',
+      anomaliesLabel: 'Cryptographic Proofs',
+      anomaliesVal: '3',
+      anomaliesSub: 'ACTIVE BRIEFS',
+      horizonLabel: 'Audit Integrity',
+      horizonVal: 'AUDITED',
+      horizonSub: 'SOC-2 TYPE II'
+    },
+    wavePattern: [
+      { tick: '25',  xVal: 25,  upper: 8.0,  lower: 5.0,  time: 'E1',  timestamp: 'Audit Genesis Block' },
+      { tick: '50',  xVal: 50,  upper: 22.0, lower: 14.0, time: 'E2',  timestamp: 'Raw HTTP Header Cert Check' },
+      { tick: '65',  xVal: 65,  upper: 45.0, lower: 28.0, time: 'E3',  timestamp: 'TLS Handshake Signature Log' },
+      { tick: '78',  xVal: 78,  upper: 32.0, lower: 20.0, time: 'E4',  timestamp: 'USPTO Patent Claim Verification' },
+      { tick: '92',  xVal: 92,  upper: 55.0, lower: 34.0, time: 'E5',  timestamp: 'Patent US-1189420-B2 Audit' },
+      { tick: '105', xVal: 105, upper: 68.0, lower: 42.0, time: 'E6',  timestamp: 'SEC EDGAR Form 10-Q Fetch' },
+      { tick: '115', xVal: 115, upper: 82.0, lower: 52.0, time: 'E7',  timestamp: 'Nexus 18% Churn Disclosure' },
+      { tick: '125', xVal: 125, upper: 92.4, lower: 64.0, time: 'E8',  timestamp: 'Cryptographic SHA-256 Manifest Locked', anomaly: 'SHA-256 Hash Matched: e3b0c442... Nexus 10-Q Provenance' },
+      { tick: '136', xVal: 136, upper: 72.0, lower: 45.0, time: 'E9',  timestamp: 'Strategic Brief 01: Value-Guaranteed Lock', anomaly: 'Immediate (0-30d) Action Brief Delivered' },
+      { tick: '144', xVal: 144, upper: 38.0, lower: 24.0, time: 'E10', timestamp: 'Direct Pricing HTTP Audit Stream' },
+      { tick: '155', xVal: 155, upper: 64.0, lower: 38.0, time: 'E11', timestamp: 'Patent Continuation Counter-Filing', anomaly: 'USPTO Continuation Defense Initiated' },
+      { tick: '168', xVal: 168, upper: 36.0, lower: 22.0, time: 'E12', timestamp: 'Open Benchmark Defense 99.4%' },
+      { tick: '180', xVal: 180, upper: 48.0, lower: 28.0, time: 'E13', timestamp: 'Executive Brief Distribution' },
+      { tick: '195', xVal: 195, upper: 26.0, lower: 16.0, time: 'E14', timestamp: 'SOC-2 Cryptographic Chain Audit' },
+      { tick: '210', xVal: 210, upper: 15.0, lower: 9.0,  time: 'E15', timestamp: 'Peer Review Analyst Signoff' },
+      { tick: '225', xVal: 225, upper: 7.0,  lower: 4.0,  time: 'E16', timestamp: 'Archived Audit Integrity' },
+      { tick: '240', xVal: 240, upper: 2.5,  lower: 1.2,  time: 'E17', timestamp: 'Audit Chain Finalized' },
+      { tick: '255', xVal: 255, upper: 0.5,  lower: 0.2,  time: 'E18', timestamp: 'Provenance Clean' }
+    ]
+  },
+  'briefings': {
+    badge: 'AI SYNTHESIZER',
+    eyebrow: '// AUTONOMOUS BRIEFING ENGINE & REST GATEWAY TELEMETRY',
+    title: 'AI Strategy Synthesis Velocity & API Gateway Telemetry',
+    description: 'Autonomous executive briefing generation and high-throughput developer REST API / webhook event streams.',
+    labels: {
+      threat: 'NLP Synthesis Throughput (Slate)',
+      velocity: 'API Gateway Latency (Orange)',
+      anomalies: 'Briefing Dispatches'
+    },
+    stats: {
+      peakLabel: 'API Gateway Latency',
+      peakVal: '18ms',
+      peakSub: 'REST RESPONSE',
+      velocityLabel: 'NLP Generation Throughput',
+      velocityVal: '1,420 t/s',
+      velocitySub: 'ORANGE WAVE',
+      anomaliesLabel: 'Available Endpoints',
+      anomaliesVal: '14',
+      anomaliesSub: 'ENTERPRISE API',
+      horizonLabel: 'Gateway Availability',
+      horizonVal: '99.99%',
+      horizonSub: 'SLA OPTIMAL'
+    },
+    wavePattern: [
+      { tick: '25',  xVal: 25,  upper: 15.0, lower: 8.0,  time: 'API', timestamp: 'REST Gateway Handshake' },
+      { tick: '50',  xVal: 50,  upper: 30.0, lower: 16.0, time: 'API', timestamp: 'Auth Token Bearer Validation' },
+      { tick: '65',  xVal: 65,  upper: 52.0, lower: 28.0, time: 'NLP', timestamp: 'Gemini NLP Synthesis Pipeline' },
+      { tick: '78',  xVal: 78,  upper: 40.0, lower: 22.0, time: 'API', timestamp: '/api/competitors Query Stream' },
+      { tick: '92',  xVal: 92,  upper: 65.0, lower: 36.0, time: 'NLP', timestamp: 'Executive Brief Context Assembly' },
+      { tick: '105', xVal: 105, upper: 75.0, lower: 42.0, time: 'API', timestamp: '/api/signals Live Polling Pool' },
+      { tick: '115', xVal: 115, upper: 86.0, lower: 48.0, time: 'NLP', timestamp: 'Counter-Move Matrix Formulated' },
+      { tick: '125', xVal: 125, upper: 95.0, lower: 60.0, time: 'AI',  timestamp: 'Executive Briefing Packet Generated', anomaly: 'Executive Intelligence Briefing Dispatched to Subscribers' },
+      { tick: '136', xVal: 136, upper: 70.0, lower: 40.0, time: 'API', timestamp: 'Webhook Broadcaster Triggered', anomaly: 'Webhook Broadcast: Critical Signal Dispatched' },
+      { tick: '144', xVal: 144, upper: 35.0, lower: 20.0, time: 'API', timestamp: '/api/stats Metric Cache Hit' },
+      { tick: '155', xVal: 155, upper: 62.0, lower: 34.0, time: 'NLP', timestamp: 'Deep Analysis Formatter Engine' },
+      { tick: '168', xVal: 168, upper: 38.0, lower: 22.0, time: 'API', timestamp: 'Export CSV / JSON Payload' },
+      { tick: '180', xVal: 180, upper: 45.0, lower: 26.0, time: 'API', timestamp: 'Rate Limiter Window: Healthy' },
+      { tick: '195', xVal: 195, upper: 25.0, lower: 14.0, time: 'NLP', timestamp: 'Summary Token Compression' },
+      { tick: '210', xVal: 210, upper: 14.0, lower: 8.0,  time: 'API', timestamp: 'Heartbeat Health Ping: 200 OK' },
+      { tick: '225', xVal: 225, upper: 6.0,  lower: 3.5,  time: 'API', timestamp: 'Webhook Ack Received' },
+      { tick: '240', xVal: 240, upper: 2.0,  lower: 1.0,  time: 'API', timestamp: 'Queue Empty • Standby' },
+      { tick: '255', xVal: 255, upper: 0.5,  lower: 0.2,  time: 'API', timestamp: 'Gateway Ready' }
+    ]
+  }
+};
 
 const RadarGraphState = {
+  currentTopic: 'competitors',
   activeInterval: '7d', // Canonical default matching the user's reference (Woche)
   visibleMetrics: { threat: true, velocity: true, anomalies: true },
   liveTimer: null,
-  datasets: {
-    '7d': generateWaveDataset(1.0, 1.0, 'Woche (7D)'),
-    '30d': generateWaveDataset(1.02, 0.96, 'Monat (30D)'),
-    '24h': generateWaveDataset(0.97, 1.04, '24H Horizon'),
-    '1h': generateWaveDataset(0.91, 0.94, '1H Horizon')
-  },
   liveBuffer: []
 };
+
+function applyTopicRadar(target) {
+  const config = TopicRadarConfigs[target] || TopicRadarConfigs['competitors'];
+  RadarGraphState.currentTopic = target;
+
+  // 1. Update Eyebrow and Badges
+  const badgeText = document.getElementById('radarLiveBadgeText');
+  if (badgeText) badgeText.textContent = config.badge;
+
+  const eyebrowText = document.getElementById('radarEyebrowText');
+  if (eyebrowText) eyebrowText.textContent = config.eyebrow;
+
+  // 2. Update Main Title and Description
+  const mainTitle = document.getElementById('radarMainTitle');
+  if (mainTitle) mainTitle.textContent = config.title;
+
+  const subDesc = document.getElementById('radarSubDesc');
+  if (subDesc) subDesc.textContent = config.description;
+
+  // 3. Update Metric Toggle Labels
+  const lblThreat = document.getElementById('labelThreatMetric');
+  if (lblThreat) lblThreat.textContent = config.labels.threat;
+
+  const lblVelocity = document.getElementById('labelVelocityMetric');
+  if (lblVelocity) lblVelocity.textContent = config.labels.velocity;
+
+  const lblAnomalies = document.getElementById('labelAnomaliesMetric');
+  if (lblAnomalies) lblAnomalies.textContent = config.labels.anomalies;
+
+  // 4. Update Stats Ribbon
+  const lblPeak = document.getElementById('radarStatLabelPeak');
+  if (lblPeak) lblPeak.textContent = config.stats.peakLabel;
+
+  const valPeak = document.getElementById('radarStatPeak');
+  if (valPeak) valPeak.textContent = config.stats.peakVal;
+
+  const subPeak = document.getElementById('radarStatSubPeak');
+  if (subPeak) subPeak.textContent = config.stats.peakSub;
+
+  const lblVel = document.getElementById('radarStatLabelVelocity');
+  if (lblVel) lblVel.textContent = config.stats.velocityLabel;
+
+  const valVel = document.getElementById('radarStatVelocity');
+  if (valVel) valVel.textContent = config.stats.velocityVal;
+
+  const subVel = document.getElementById('radarStatSubVelocity');
+  if (subVel) subVel.textContent = config.stats.velocitySub;
+
+  const lblAnom = document.getElementById('radarStatLabelAnomalies');
+  if (lblAnom) lblAnom.textContent = config.stats.anomaliesLabel;
+
+  const valAnom = document.getElementById('radarStatAnomalies');
+  if (valAnom) valAnom.textContent = config.stats.anomaliesVal;
+
+  const subAnom = document.getElementById('radarStatSubAnomalies');
+  if (subAnom) subAnom.textContent = config.stats.anomaliesSub;
+
+  const lblHor = document.getElementById('radarStatLabelHorizon');
+  if (lblHor) lblHor.textContent = config.stats.horizonLabel;
+
+  const valHor = document.getElementById('radarStatHorizon');
+  if (valHor) valHor.textContent = config.stats.horizonVal;
+
+  const subHor = document.getElementById('radarStatSubHorizon');
+  if (subHor) subHor.textContent = config.stats.horizonSub;
+
+  // 5. Update live buffer & re-render graph
+  RadarGraphState.liveBuffer = JSON.parse(JSON.stringify(getActiveRadarData()));
+  renderRadarGraph();
+}
+window.applyTopicRadar = applyTopicRadar;
 
 function initTelemetryRadarGraph() {
   const container = document.getElementById('radarSvgContainer');
   if (!container) return;
-
-  // Initialize live buffer from 7d data
-  RadarGraphState.liveBuffer = JSON.parse(JSON.stringify(RadarGraphState.datasets['7d']));
 
   // Interval filter buttons (Woche, Monat, 24H, 1H, LIVE)
   const timeBtns = document.querySelectorAll('#radarTimeFilterGroup .radar-time-btn');
@@ -3069,6 +3383,9 @@ function initTelemetryRadarGraph() {
     const ptUpper = pt.upper !== undefined ? pt.upper : pt.threat;
     const threatY = 230 - (ptUpper / 100) * 195;
 
+    const currentTopic = RadarGraphState.currentTopic || 'competitors';
+    const currentConfig = TopicRadarConfigs[currentTopic] || TopicRadarConfigs['competitors'];
+
     if (crosshair) {
       crosshair.style.display = 'block';
       crosshair.style.left = `${(ptX / 960) * 100}%`;
@@ -3079,22 +3396,25 @@ function initTelemetryRadarGraph() {
       tooltip.style.left = `${(ptX / 960) * 100}%`;
       tooltip.style.top = `${(threatY / 250) * 100}%`;
 
+      const upperLabel = (currentConfig.labels && currentConfig.labels.threat) || 'Upper Wave';
+      const coreLabel = (currentConfig.labels && currentConfig.labels.velocity) || 'Core Wave';
+
       tooltip.innerHTML = `
-        <div style="font-weight: 700; color: #fff; margin-bottom: 3px; display: flex; justify-content: space-between; gap: 10px;">
+        <div style="font-weight: 700; color: #fff; margin-bottom: 4px; display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid rgba(56, 189, 248, 0.25); padding-bottom: 3px;">
           <span>${pt.timestamp || ('Phase ' + pt.time)}</span>
-          <span style="color: #ea5e28; font-weight: 800;">${ptUpper}% Intensity</span>
+          <span style="color: #ea5e28; font-weight: 800;">${ptUpper}%</span>
         </div>
-        <div style="color: #9cb3d3; display: flex; justify-content: space-between; gap: 10px;">
-          <span>Core Wave (Orange):</span>
+        <div style="color: #9cb3d3; display: flex; justify-content: space-between; gap: 10px; margin-top: 2px;">
+          <span>${coreLabel}:</span>
           <span style="color: #f97316; font-weight: 700;">${pt.lower !== undefined ? pt.lower : Math.round(pt.velocity / 15)}%</span>
         </div>
-        <div style="color: #728cad; display: flex; justify-content: space-between; gap: 10px;">
-          <span>Upper Wave (Slate):</span>
+        <div style="color: #728cad; display: flex; justify-content: space-between; gap: 10px; margin-top: 2px;">
+          <span>${upperLabel}:</span>
           <span style="color: #8da4c8; font-weight: 700;">${ptUpper}%</span>
         </div>
         ${pt.anomaly ? `
-        <div style="margin-top: 5px; padding-top: 4px; border-top: 1px solid rgba(234, 94, 40, 0.4); color: #ffc23d;">
-          <span style="color: #ea5e28; font-weight: 700;">SPIRE ANOMALY:</span> ${pt.anomaly}
+        <div style="margin-top: 6px; padding-top: 5px; border-top: 1px solid rgba(234, 94, 40, 0.4); color: #ffc23d; font-size: 0.72rem; line-height: 1.35;">
+          <span style="color: #ea5e28; font-weight: 800;">TRIGGER:</span> ${pt.anomaly}
         </div>` : ''}
       `;
     }
@@ -3105,9 +3425,8 @@ function initTelemetryRadarGraph() {
     if (tooltip) tooltip.style.display = 'none';
   });
 
-  // Initial draw
-  updateRadarSummaryCards();
-  renderRadarGraph();
+  // Apply default topic on startup
+  applyTopicRadar(DashState.currentTab || 'competitors');
 }
 
 function setRadarInterval(interval) {
@@ -3134,15 +3453,19 @@ function startLiveRadarTicker() {
   RadarGraphState.liveTimer = setInterval(() => {
     if (RadarGraphState.activeInterval !== 'live') return;
 
-    // Gently pulse the central peaks and wave ridges in real-time
+    const topic = RadarGraphState.currentTopic || 'competitors';
+    const cfg = TopicRadarConfigs[topic] || TopicRadarConfigs['competitors'];
+    const base = cfg.wavePattern || mountainWavePattern;
+
     const buf = RadarGraphState.liveBuffer;
     buf.forEach((pt, idx) => {
+      const basePt = base[idx] || pt;
       if (idx === 7) { // Central spire
-        pt.upper = +(78.5 + (Math.sin(Date.now() / 1000) * 4)).toFixed(1);
-        pt.lower = +(24.5 + (Math.sin(Date.now() / 900) * 2)).toFixed(1);
+        pt.upper = +(basePt.upper + (Math.sin(Date.now() / 1000) * 3)).toFixed(1);
+        pt.lower = +(basePt.lower + (Math.sin(Date.now() / 900) * 1.5)).toFixed(1);
       } else if (idx === 2 || idx === 10) { // Secondary crests
-        pt.upper = +(mountainWavePattern[idx].upper + (Math.sin(Date.now() / 1200 + idx) * 2)).toFixed(1);
-        pt.lower = +(mountainWavePattern[idx].lower + (Math.sin(Date.now() / 1100 + idx) * 1)).toFixed(1);
+        pt.upper = +(basePt.upper + (Math.sin(Date.now() / 1200 + idx) * 2)).toFixed(1);
+        pt.lower = +(basePt.lower + (Math.sin(Date.now() / 1100 + idx) * 1)).toFixed(1);
       }
       pt.threat = pt.upper;
       pt.velocity = Math.round(pt.lower * 14 + 110);
@@ -3154,16 +3477,45 @@ function startLiveRadarTicker() {
 }
 
 function getActiveRadarData() {
+  const topic = RadarGraphState.currentTopic || 'competitors';
+  const cfg = TopicRadarConfigs[topic] || TopicRadarConfigs['competitors'];
+  const base = cfg.wavePattern || mountainWavePattern;
+
   if (RadarGraphState.activeInterval === 'live') {
+    if (!RadarGraphState.liveBuffer || RadarGraphState.liveBuffer.length === 0) {
+      RadarGraphState.liveBuffer = JSON.parse(JSON.stringify(base));
+    }
     return RadarGraphState.liveBuffer;
   }
-  return RadarGraphState.datasets[RadarGraphState.activeInterval] || RadarGraphState.datasets['7d'];
+
+  const scaleMap = {
+    '7d': [1.0, 1.0],
+    '30d': [1.03, 0.96],
+    '24h': [0.97, 1.04],
+    '1h': [0.91, 0.94]
+  };
+  const [sUpper, sLower] = scaleMap[RadarGraphState.activeInterval] || [1.0, 1.0];
+
+  return base.map(p => ({
+    ...p,
+    time: p.tick,
+    timestamp: p.timestamp || `${topic.toUpperCase()} • Scope ${p.tick}`,
+    threat: +(p.upper * sUpper).toFixed(1),
+    velocity: Math.round(p.lower * sLower * 14 + 110),
+    upper: +(p.upper * sUpper).toFixed(1),
+    lower: +(p.lower * sLower).toFixed(1),
+    competitor: p.anomaly ? p.timestamp : undefined
+  }));
 }
 
 function updateRadarSummaryCards() {
   const data = getActiveRadarData();
   if (!data || data.length === 0) return;
 
+  const topic = RadarGraphState.currentTopic || 'competitors';
+  const cfg = TopicRadarConfigs[topic] || TopicRadarConfigs['competitors'];
+
+  // If in standard intervals, retain the customized topic stats or scale them
   const maxUpper = Math.max(...data.map(d => d.upper !== undefined ? d.upper : d.threat));
   const avgLower = (data.reduce((acc, d) => acc + (d.lower !== undefined ? d.lower : 15), 0) / data.length).toFixed(1);
   const anomaliesCount = data.filter(d => d.anomaly).length;
@@ -3172,9 +3524,15 @@ function updateRadarSummaryCards() {
   const elVel = document.getElementById('radarStatVelocity');
   const elAnom = document.getElementById('radarStatAnomalies');
 
-  if (elPeak) elPeak.textContent = maxUpper.toFixed(1);
-  if (elVel) elVel.textContent = avgLower;
-  if (elAnom) elAnom.textContent = anomaliesCount || '4';
+  if (RadarGraphState.activeInterval === 'live') {
+    if (elPeak) elPeak.textContent = maxUpper.toFixed(1);
+    if (elVel) elVel.textContent = avgLower;
+    if (elAnom) elAnom.textContent = anomaliesCount || cfg.stats.anomaliesVal;
+  } else {
+    if (elPeak) elPeak.textContent = cfg.stats.peakVal;
+    if (elVel) elVel.textContent = cfg.stats.velocityVal;
+    if (elAnom) elAnom.textContent = cfg.stats.anomaliesVal;
+  }
 }
 
 // Generate smooth cubic Bezier path from points (Catmull-Rom to Cubic Bezier)
@@ -3265,11 +3623,14 @@ function renderRadarGraph() {
     }
   }
 
-  // 3. Render Anomaly Spikes (Subtle glowing marker at Spire Peak)
+  // 3. Render Anomaly Spikes (Subtle glowing marker at Spire Peak with dynamic value)
   if (anomaliesLayer) {
     if (RadarGraphState.visibleMetrics.anomalies) {
       const anomalies = upperPoints.filter(p => p.raw.anomaly);
-      anomaliesLayer.innerHTML = anomalies.map(p => `
+      anomaliesLayer.innerHTML = anomalies.map(p => {
+        const peakText = p.raw.upper ? `PEAK ${p.raw.upper}` : 'ANOMALY';
+        const boxWidth = Math.max(76, peakText.length * 8);
+        return `
         <g class="radar-anomaly-marker" style="cursor: pointer;" onclick="handleRadarAnomalyClick('${encodeURIComponent(p.raw.anomaly)}')">
           <line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="${baselineY}" stroke="#ea5e28" stroke-width="1.5" stroke-dasharray="3 3"/>
           <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="10" fill="none" stroke="#ea5e28" stroke-width="1.5" opacity="0.6">
@@ -3277,10 +3638,11 @@ function renderRadarGraph() {
             <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.2s" repeatCount="indefinite"/>
           </circle>
           <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="#ea5e28" filter="url(#radarNeonGlow)"/>
-          <rect x="${(p.x - 38).toFixed(1)}" y="${(p.y - 25).toFixed(1)}" width="76" height="18" rx="4" fill="rgba(8, 16, 34, 0.95)" stroke="#ea5e28" stroke-width="1.5"/>
-          <text x="${p.x.toFixed(1)}" y="${(p.y - 12).toFixed(1)}" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="700" text-anchor="middle">PEAK 78.5</text>
+          <rect x="${(p.x - boxWidth / 2).toFixed(1)}" y="${(p.y - 25).toFixed(1)}" width="${boxWidth}" height="18" rx="4" fill="rgba(8, 16, 34, 0.95)" stroke="#ea5e28" stroke-width="1.5"/>
+          <text x="${p.x.toFixed(1)}" y="${(p.y - 12).toFixed(1)}" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" text-anchor="middle">${peakText}</text>
         </g>
-      `).join('');
+      `;
+      }).join('');
     } else {
       anomaliesLayer.innerHTML = '';
     }
@@ -3302,11 +3664,33 @@ function renderRadarGraph() {
 
 window.handleRadarAnomalyClick = function(encodedAnomaly) {
   const anomalyText = decodeURIComponent(encodedAnomaly);
-  switchDashboardTab('signals');
-  const searchInput = document.getElementById('signalSearchInput');
-  if (searchInput) {
-    searchInput.value = anomalyText.split(' ')[0];
-    renderSignalsFeed();
+  const currentTopic = RadarGraphState.currentTopic || 'competitors';
+
+  if (currentTopic === 'competitors') {
+    switchDashboardTab('competitors');
+    const searchInput = document.getElementById('competitorSearchInput');
+    if (searchInput) {
+      searchInput.value = anomalyText.split(' ')[0];
+      renderCompetitors();
+    }
+  } else if (currentTopic === 'market-records') {
+    switchDashboardTab('market-records');
+    const searchInput = document.getElementById('marketSearchInput');
+    if (searchInput) {
+      searchInput.value = anomalyText.split(' ')[0];
+      renderMarketRecords();
+    }
+  } else if (currentTopic === 'product-comparisons') {
+    switchDashboardTab('product-comparisons');
+  } else if (currentTopic === 'evidence') {
+    switchDashboardTab('evidence');
+  } else {
+    switchDashboardTab('signals');
+    const searchInput = document.getElementById('signalSearchInput');
+    if (searchInput) {
+      searchInput.value = anomalyText.split(' ')[0];
+      renderSignalsFeed();
+    }
   }
   playTone('alert');
 };
